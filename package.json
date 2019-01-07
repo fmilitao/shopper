@@ -1,7 +1,9 @@
 {
-  "name": "shopper-ts",
+  "name": "shopper",
   "version": "1.0.0",
-  "description": "to be determined",
+  "description": "Shopper - Progressive Web App",
+  "repository": "https://github.com/fmilitao/shopper",
+  "license": "MIT",
   "scripts": {
     "start": "node build/app/app.js",
     "build": "tsc",
