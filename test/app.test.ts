@@ -6,8 +6,7 @@ describe('app testing', () => {
     const oldReadFileSync = fs.readFileSync;
 
     function mockReadFileSyncPath(testPath: string, result: Buffer | Error) {
-        // @ts-ignore
-        fs.readFileSync = (path, options) => {
+        fs.readFileSync = ((path: string, options: any) => {
             if (path === testPath) {
                 if (result instanceof Error) {
                     throw result;
@@ -17,7 +16,7 @@ describe('app testing', () => {
             } else {
                 return oldReadFileSync(path, options);
             }
-        };
+        }) as (typeof oldReadFileSync);
     }
 
     beforeEach(() => {
@@ -40,11 +39,6 @@ describe('app testing', () => {
         const magicPath = 'test-path-for-error';
         mockReadFileSyncPath(magicPath, new Error('File not found'));
 
-        try {
-            await app.loadCredentialsFile(magicPath);
-            fail('Expected call to throw error');
-        } catch (error) {
-            expect(error).toBeInstanceOf(app.NestedError);
-        }
+        await expect(app.loadCredentialsFile(magicPath)).rejects.toBeInstanceOf(app.NestedError);
     });
 });
