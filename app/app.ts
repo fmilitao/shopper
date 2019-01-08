@@ -179,6 +179,7 @@ if (!module.parent) {
 }
 
 export {
+    NestedError,
     loadCredentialsFile,
     authorize,
     useSheets,
