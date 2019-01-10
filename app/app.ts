@@ -108,54 +108,126 @@ async function getNewToken(oAuth2Client: OAuth2Client): Promise<OAuth2Client> {
  * Spreadsheet playground.
  */
 
-//@ts-ignore
-async function createSheet(sheets: sheets_v4.Sheets, title: string) {
-    const sheet = await sheets.spreadsheets.create({
-        requestBody: { properties: { title } }
-    });
-    console.log(sheet);
+class Sheet {
+    constructor(
+        private readonly spreadsheet: Spreadsheet,
+        private readonly sheetTitle: string
+    ) {
+        // intentionally empty
+    }
+
+    async getValues(rangeOption?: string) {
+        return await this.spreadsheet.getValues(this.sheetTitle, rangeOption);
+    }
+
+    async setValues(rangeOption: string,values: any[][]) {
+        return await this.spreadsheet.setValues(this.sheetTitle, rangeOption, values);
+    }
+}
+
+class Spreadsheet {
+
+    constructor(
+        private readonly api: sheets_v4.Sheets,
+        private readonly data: sheets_v4.Schema$Spreadsheet,
+        private readonly spreadsheetId: string
+    ) {
+        // intentionally empty
+    }
+
+    getTitle(): string | null {
+        const properties = this.data.properties;
+        if (properties && properties.title) {
+            return properties.title;
+        } else {
+            return null;
+        }
+    }
+
+    getSheetsTitles(): string[] {
+        const sheets = this.data.sheets;
+        if (sheets) {
+            return sheets.map((sheet) => sheet!.properties!.title!);
+        } else {
+            return [];
+        }
+    }
+
+    getSheets(): Sheet[] {
+        const titles = this.getSheetsTitles();
+        return titles.map((title) => new Sheet(this, title));
+    }
+
+    getSheet(title: string): Sheet | null {
+        const sheetTitle = this.getSheetsTitles().filter((sheetTitle) => sheetTitle === title);
+        return sheetTitle.length > 0 ? new Sheet(this, sheetTitle[0]) : null;
+    }
+
+    async getValues(
+        sheet: string,
+        rangeOption?: string
+    ): Promise<any[][] | undefined> {
+        const range = rangeOption ? `${sheet}!${rangeOption}` : sheet;
+        const { data: { values } } = await this.api.spreadsheets.values.get({
+            spreadsheetId: this.spreadsheetId,
+            range,
+            valueRenderOption: 'FORMULA',
+        });
+        return values;
+    }
+
+    // https://developers.google.com/sheets/api/reference/rest/v4/ValueInputOption
+    async setValues(
+        sheet: string,
+        rangeOption: string,
+        values: any[][]
+    ): Promise<sheets_v4.Schema$UpdateValuesResponse> {
+        const range = `${sheet}!${rangeOption}`;
+        const { data } = await this.api.spreadsheets.values.update({
+            spreadsheetId: this.spreadsheetId,
+            range,
+            valueInputOption: 'USER_ENTERED',
+            requestBody: {
+                values
+            }
+        });
+        return data;
+    }
+
+    static async getExistingSpreadsheet(
+        api: sheets_v4.Sheets,
+        spreadsheetId: string
+    ): Promise<Spreadsheet> {
+        const { data } = await api.spreadsheets.get({ spreadsheetId });
+        return new Spreadsheet(api, data, spreadsheetId);
+    }
+
+    static async newSheet(
+        api: sheets_v4.Sheets,
+        title: string
+    ): Promise<Spreadsheet> {
+        const { data } = await api.spreadsheets.create({
+            requestBody: { properties: { title } }
+        });
+        return new Spreadsheet(api, data, data.spreadsheetId!);
+    }
 }
 
 async function useSheets(auth: OAuth2Client) {
-    const sheets = google.sheets({ version: 'v4', auth });
-
     try {
-        // READ
-        // const { data: { properties } } = await sheets.spreadsheets.get({
-        //     spreadsheetId: SPREAD_SHEET_ID
-        // });
+        const api = google.sheets({ version: 'v4', auth });
+        let spreadsheet: Spreadsheet;
 
-        // if (properties) {
-        //     console.log(`Title: ${properties.title}`);
-        // }
+        spreadsheet = await Spreadsheet.getExistingSpreadsheet(api, SPREAD_SHEET_ID);
+        console.log(spreadsheet.getTitle());
+        console.log(spreadsheet.getSheetsTitles());
+        console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));
+        console.log(await spreadsheet.setValues('Shopping List', 'A8', [[1234567]]));
 
-        // const { data: { values } } = await sheets.spreadsheets.values.get({
-        //     spreadsheetId: SPREAD_SHEET_ID,
-        //     range: 'Shopping List!A:F',
-        //     valueRenderOption: 'FORMULA',
-        // });
+        const sheet = spreadsheet.getSheet('Shopping List')!;
+        console.log(await sheet.getValues('A8'));
+        console.log(await sheet.setValues('A9', [['LEROY JENKINS!']]));
 
-        // if (values && values.length) {
-        //     console.log(values);
-        // } else {
-        //     console.log('No data found.');
-        // }
-
-        // WRITE
-        // https://developers.google.com/sheets/api/reference/rest/v4/ValueInputOption
-        const result = await sheets.spreadsheets.values.update({
-            spreadsheetId: SPREAD_SHEET_ID,
-            range: 'Shopping List!A5',
-            // valueInputOption: 'RAW',
-            valueInputOption: 'USER_ENTERED',
-            requestBody: {
-                values: [
-                    [6, 7, 'hello', 9, 10],
-                    [1, 2, 3, '=12*30', 5],
-                ]
-            }
-        });
-        console.log(result);
     } catch (error) {
         console.log('The API returned an error', error);
     }
