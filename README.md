@@ -5,6 +5,7 @@ The intention is for this project to be a re-imagining of `shopper-android` usin
 TODO:
  1. Compute diff from the 2 models
     * what was added, what was removed, what was modified
+    * maybe use: https://www.npmjs.com/package/deep-diff ?
 
 Goals:
  - [ ] Synchronize to Google Sheets:

@@ -120,7 +120,7 @@ class Sheet {
         return await this.spreadsheet.getValues(this.sheetTitle, rangeOption);
     }
 
-    async setValues(rangeOption: string,values: any[][]) {
+    async setValues(rangeOption: string, values: any[][]) {
         return await this.spreadsheet.setValues(this.sheetTitle, rangeOption, values);
     }
 }
@@ -194,6 +194,22 @@ class Spreadsheet {
         return data;
     }
 
+    async newSheet(
+        title: string
+    ): Promise<sheets_v4.Schema$BatchUpdateSpreadsheetResponse> {
+        const { data } = await this.api.spreadsheets.batchUpdate({
+            spreadsheetId: this.spreadsheetId,
+            requestBody: {
+                requests: [{
+                    addSheet: {
+                        properties: { title }
+                    }
+                }]
+            }
+        });
+        return data;
+    }
+
     static async getExistingSpreadsheet(
         api: sheets_v4.Sheets,
         spreadsheetId: string
@@ -221,12 +237,15 @@ async function useSheets(auth: OAuth2Client) {
         spreadsheet = await Spreadsheet.getExistingSpreadsheet(api, SPREAD_SHEET_ID);
         console.log(spreadsheet.getTitle());
         console.log(spreadsheet.getSheetsTitles());
-        console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));
-        console.log(await spreadsheet.setValues('Shopping List', 'A8', [[1234567]]));
 
-        const sheet = spreadsheet.getSheet('Shopping List')!;
-        console.log(await sheet.getValues('A8'));
-        console.log(await sheet.setValues('A9', [['LEROY JENKINS!']]));
+        console.log(await spreadsheet.newSheet('I shit you not'));
+
+        // console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));
+        // console.log(await spreadsheet.setValues('Shopping List', 'A8', [[1234567]]));
+
+        // const sheet = spreadsheet.getSheet('Shopping List')!;
+        // console.log(await sheet.getValues('A8'));
+        // console.log(await sheet.setValues('A9', [['LEROY JENKINS!']]));
 
     } catch (error) {
         console.log('The API returned an error', error);
