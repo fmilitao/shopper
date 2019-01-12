@@ -10,6 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "jsondiffpatch": "^0.3.11",
     "googleapis": "^36.0.0",
     "typescript": "^3.2.2"
   },
