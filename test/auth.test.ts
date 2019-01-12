@@ -1,8 +1,7 @@
-
 import fs from 'fs';
-import * as app from '../app/app';
+import { loadCredentialsFile, NestedError } from '../app/auth';
 
-describe('app testing', () => {
+describe('auth testing', () => {
     const oldReadFileSync = fs.readFileSync;
 
     function mockReadFileSyncPath(testPath: string, result: Buffer | Error) {
@@ -31,7 +30,7 @@ describe('app testing', () => {
         const magicPath = 'test-path-not-used-elsewhere';
         mockReadFileSyncPath(magicPath, Buffer.from('{}'));
 
-        const result = await app.loadCredentialsFile(magicPath);
+        const result = await loadCredentialsFile(magicPath);
         expect(result).toStrictEqual({});
     });
 
@@ -39,6 +38,6 @@ describe('app testing', () => {
         const magicPath = 'test-path-for-error';
         mockReadFileSyncPath(magicPath, new Error('File not found'));
 
-        await expect(app.loadCredentialsFile(magicPath)).rejects.toBeInstanceOf(app.NestedError);
+        await expect(loadCredentialsFile(magicPath)).rejects.toBeInstanceOf(NestedError);
     });
 });
