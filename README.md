@@ -28,3 +28,7 @@ Goals:
 * https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
 * https://developers.google.com/web/progressive-web-apps/checklist
 * https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
+
+## Notes on Speeding up TypeScript compilation
+
+You cannot, but you can instead use `tsc -w` to watch for changes. Incremental compilation is much faster than forcing to compile everything everytime.
