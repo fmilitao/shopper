@@ -12,7 +12,13 @@ async function useSheets(auth: AuthClient) {
     console.log(spreadsheet.getTitle());
     console.log(spreadsheet.getSheetsTitles());
 
-    // console.log(await spreadsheet.newSheet('I shit you not'));
+    // const newSheet = await spreadsheet.newSheet('I shit you not');
+    // console.log(newSheet);
+    const newSheet = await spreadsheet.getSheet('I shit you not');
+    console.log(await newSheet!.delete());
+
+    // const response = await spreadsheet.deleteSheet(832102146);
+    // console.log(response);
 
     // console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));
     // console.log(await spreadsheet.setValues('Shopping List', 'A8', [[1234567]]));

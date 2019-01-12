@@ -2,10 +2,15 @@ import { sheets_v4 } from 'googleapis';
 
 class Sheet {
     constructor(
-        private readonly spreadsheet: Spreadsheet,
-        private readonly sheetTitle: string
+        readonly spreadsheet: Spreadsheet,
+        readonly sheetTitle: string,
+        readonly sheetId: number
     ) {
         // intentionally empty
+    }
+
+    async delete() {
+        return await this.spreadsheet.deleteSheet(this.sheetId);
     }
 
     async getValues(rangeOption?: string) {
@@ -18,11 +23,10 @@ class Sheet {
 }
 
 class Spreadsheet {
-
     constructor(
-        private readonly api: sheets_v4.Sheets,
-        private readonly data: sheets_v4.Schema$Spreadsheet,
-        private readonly spreadsheetId: string
+        readonly api: sheets_v4.Sheets,
+        readonly data: sheets_v4.Schema$Spreadsheet,
+        readonly spreadsheetId: string
     ) {
         // intentionally empty
     }
@@ -46,13 +50,16 @@ class Spreadsheet {
     }
 
     getSheets(): Sheet[] {
-        const titles = this.getSheetsTitles();
-        return titles.map((title) => new Sheet(this, title));
+        return this.data.sheets!.map((sheet) => {
+            const title = sheet!.properties!.title!;
+            const id = sheet!.properties!.sheetId!;
+            return new Sheet(this, title, id);
+        });
     }
 
     getSheet(title: string): Sheet | null {
-        const sheetTitle = this.getSheetsTitles().filter((sheetTitle) => sheetTitle === title);
-        return sheetTitle.length > 0 ? new Sheet(this, sheetTitle[0]) : null;
+        const sheet = this.getSheets().filter((sheet) => sheet.sheetTitle === title);
+        return sheet.length > 0 ? sheet[0] : null;
     }
 
     async getValues(
@@ -86,9 +93,7 @@ class Spreadsheet {
         return data;
     }
 
-    async newSheet(
-        title: string
-    ): Promise<sheets_v4.Schema$BatchUpdateSpreadsheetResponse> {
+    async newSheet(title: string): Promise<Sheet> {
         const { data } = await this.api.spreadsheets.batchUpdate({
             spreadsheetId: this.spreadsheetId,
             requestBody: {
@@ -99,9 +104,30 @@ class Spreadsheet {
                 }]
             }
         });
+
+        // FIXME: needs to update main SpreadSheet, if successful! else throw error or return null?
+        const { title: sheetTitle, sheetId } = data.replies![0]!.addSheet!.properties!;
+        return new Sheet(this, sheetTitle!, sheetId!);
+    }
+
+    async deleteSheet(
+        sheetId: number
+    ): Promise<sheets_v4.Schema$BatchUpdateSpreadsheetResponse> {
+        const { data } = await this.api.spreadsheets.batchUpdate({
+            spreadsheetId: this.spreadsheetId,
+            requestBody: {
+                requests: [{
+                    deleteSheet: {
+                        sheetId
+                    }
+                }]
+            }
+        });
+        // FIXME: needs to update main SpreadSheet!
         return data;
     }
 
+    // FIXME: what about get by name? do I need DriveAPI permissions?
     static async getExistingSpreadsheet(
         api: sheets_v4.Sheets,
         spreadsheetId: string
@@ -119,6 +145,8 @@ class Spreadsheet {
         });
         return new Spreadsheet(api, data, data.spreadsheetId!);
     }
+
+    // FIXME: missing error handling (use NestedError to capture context)
 }
 
 export {

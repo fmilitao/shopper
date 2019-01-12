@@ -10,6 +10,7 @@ Goals:
     - [ ] Load existing model
     - [ ] Save model
     - [ ] Update model, including deletion
+    - [ ] What about open spreadsheet by name?
 
  - [ ] Save to local storage, so synchronization does not need to happen immediately
  - [ ] Simple list filtering to filter by store, category, or something else
@@ -17,7 +18,7 @@ Goals:
  - [ ] Price tracking
  - [ ] Make project public when MVP-ready
 
-This needs an API key or permission that I still need to figure out how to store.
+> This needs an API key or permission that I still need to figure out how to store. Could it be just locked to an URL?
 
 ## Useful Links
 
