@@ -4,16 +4,21 @@ const differ = new DiffPatcher({
     arrays: {
         detectMove: true,
         includeValueOnMove: true
-    },
-    // TODO: does not work yet
-    // textDiff: {
-    //     minLength: 1
-    // },
+    }
 });
 
-type DiffRemoveEdit<T> = {
+type DiffRemove<T> = {
     value: T,
-    operation: 'remove' | 'edit',
+    operation: 'remove',
+    position: {
+        row: number,
+        column: number
+    }
+};
+type DiffEdit<T> = {
+    value: T,
+    newValue: T,
+    operation: 'edit',
     position: {
         row: number,
         column: number
@@ -36,7 +41,7 @@ type DiffMove<T> = {
     }
     newPosition: { row: number, column: number }
 };
-type Diff<T = any> = DiffRemoveEdit<T> | DiffAdd<T> | DiffMove<T>;
+type Diff<T = any> = DiffRemove<T> | DiffEdit<T> | DiffAdd<T> | DiffMove<T>;
 
 function convertDiff(lineChanges: Delta): Diff[] {
     const result: Diff[] = [];
@@ -85,10 +90,15 @@ function convertDiff(lineChanges: Delta): Diff[] {
     return result;
 }
 
+function convertAddRemoveToEdit(diffs: Diff[]) {
+    // FIXME: do something about this!!
+    return diffs;
+}
+
 function diffSheets(newSheet: any[][], oldSheet: any[][]) {
     const diff = differ.diff(newSheet, oldSheet);
     if (diff) {
-        return convertDiff(diff);
+        return convertAddRemoveToEdit(convertDiff(diff));
     } else {
         return diff;
     }

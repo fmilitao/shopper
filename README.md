@@ -5,19 +5,13 @@ The intention is for this project to be a re-imagining of `shopper-android` usin
 ---
 
 Goals:
- - [ ] Synchronize to Google Sheets:
-    - [ ] Create new model
-    - [ ] Load existing model
-    - [ ] Save model
-    - [ ] Update model, including deletion
-    - [ ] What about open spreadsheet by name?
+ - Import/export to Google Sheets + Clipboard
+ - Save to local storage, so synchronization does not need to happen immediately
+ - Simple list filtering to filter by store, category, or something else
+ - Add price when marking as done, estimate the final cost of the list
+ - Price tracking?
 
- - [ ] Save to local storage, so synchronization does not need to happen immediately
- - [ ] Simple list filtering to filter by store, category, or something else
- - [ ] Add price when marking as done, estimate the final cost of the list
- - [ ] Price tracking
- - [ ] Make project public when MVP-ready
-
+> Make project public when MVP-ready
 > This needs an API key or permission that I still need to figure out how to store. Could it be just locked to an URL?
 
 ## Useful Links
