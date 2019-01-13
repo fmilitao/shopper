@@ -16,6 +16,7 @@ Goals:
 
 ## Useful Links
 
+* https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
 * https://www.npmjs.com/package/jsondiffpatch (for minimal array diffing)
 * https://stackoverflow.com/questions/43329654/android-back-button-on-a-progressive-web-application-closes-de-app
 * https://hackernoon.com/a-progressive-web-app-in-vue-tutorial-part-1-the-vue-app-f9231b032a0b

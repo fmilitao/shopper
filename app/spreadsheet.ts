@@ -164,6 +164,7 @@ class Spreadsheet {
     }
 
     // FIXME: missing error handling (use NestedError to capture context)
+    // FIXME: create new error kind instead, SpreadsheetError to not clash with others.
 }
 
 export {
