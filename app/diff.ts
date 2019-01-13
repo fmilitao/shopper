@@ -5,65 +5,96 @@ const differ = new DiffPatcher({
         detectMove: true,
         includeValueOnMove: true
     },
-    // TODO: does not work:
+    // TODO: does not work yet
     // textDiff: {
     //     minLength: 1
     // },
 });
 
-type Diff = {
-    operation: 'move' | 'add' | 'remove' | 'edit',
-    column: number,
-    row: number
+type DiffRemoveEdit<T> = {
+    value: T,
+    operation: 'remove' | 'edit',
+    position: {
+        row: number,
+        column: number
+    }
 };
+type DiffAdd<T> = {
+    value: T,
+    operation: 'add',
+    newPosition: {
+        row: number,
+        column: number
+    }
+};
+type DiffMove<T> = {
+    value: T,
+    operation: 'move',
+    position: {
+        row: number,
+        column: number
+    }
+    newPosition: { row: number, column: number }
+};
+type Diff<T = any> = DiffRemoveEdit<T> | DiffAdd<T> | DiffMove<T>;
 
-function convertDiff(changes: Delta): Diff[] {
+function convertDiff(lineChanges: Delta): Diff[] {
     const result: Diff[] = [];
+    const filterOutTypeField = (k: string) => k !== '_t';
 
-    // FIXME:
-    // Object.keys(changes)
-    //     .filter((k) => k !== '_t')
-    //     .forEach((lineNumber) => {
-    //         const rowChanges = changes[lineNumber];
-    //         Object.keys(rowChanges)
-    //             .filter((k) => k !== '_t')
-    //             .forEach((columnKey) => {
-    //                 if (columnKey.startsWith('_')) {
-    //                     const row = parseInt(lineNumber, 10);
-    //                     const column = parseInt(columnKey.substring(1), 10);
-    //                     const [value, to, code] = rowChanges[columnKey];
-    //                     if (code === 0) {
-    //                         result.push({
-    //                             value,
-    //                             operation: 'remove',
-    //                             column,
-    //                             row
-    //                         });
-    //                     }
-    //                     if (code === 3) {
-    //                         console.log(`Moved column ${column} to ${to}`);
-    //                     }
-    //                 } else {
-    //                     const [value] = row[columnKey];
-    //                     console.log(`Added '${value}' to column ${columnKey}`);
-    //                 }
-    //             })
-    //     });
+    Object.keys(lineChanges)
+        .filter(filterOutTypeField)
+        .forEach((lineProperty) => {
+            const rowChanges = lineChanges[lineProperty];
+            Object.keys(rowChanges)
+                .filter(filterOutTypeField)
+                .forEach((columnProperty) => {
+                    const row = parseInt(lineProperty, 10);
+                    const [value, to, code] = rowChanges[columnProperty];
+                    const isAddition = !columnProperty.startsWith('_');
+                    const column = parseInt(columnProperty.startsWith('_') ? columnProperty.substring(1) : columnProperty, 10);
+
+                    if (isAddition) {
+                        result.push({
+                            value,
+                            operation: 'add',
+                            newPosition: { row, column }
+                        });
+                    } else {
+                        if (code === 0) {
+                            result.push({
+                                value,
+                                operation: 'remove',
+                                position: { row, column }
+                            });
+                        }
+                        if (code === 3) {
+                            result.push({
+                                value,
+                                operation: 'move',
+                                position: { row, column },
+                                newPosition: {
+                                    row,
+                                    column: to
+                                }
+                            });
+                        }
+                    }
+                })
+        });
     return result;
 }
 
-function computeDiff(newSheet: any[][], oldSheet: any[][]) {
-    return differ.diff(newSheet, oldSheet);
+function diffSheets(newSheet: any[][], oldSheet: any[][]) {
+    const diff = differ.diff(newSheet, oldSheet);
+    if (diff) {
+        return convertDiff(diff);
+    } else {
+        return diff;
+    }
 }
 
-const test1 = [
-    [2, 1],
-    ['hello worl']
-];
-const test2 = [
-    [1, 2],
-    ['hello world']
-];
-
-const changes = computeDiff(test1, test2);
-console.log(changes);
+export {
+    diffSheets,
+    Diff
+};
