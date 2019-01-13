@@ -8,7 +8,15 @@ async function useSheets(auth: AuthClient) {
     const api = getSheetsApiClient(auth);
     let spreadsheet: Spreadsheet;
 
-    spreadsheet = await Spreadsheet.getExistingSpreadsheet(api, SPREAD_SHEET_ID);
+    const id = 'fake-id';
+    const nullableSpreadsheet = await Spreadsheet.getExistingSpreadsheet(api, SPREAD_SHEET_ID);
+
+    if (nullableSpreadsheet === null) {
+        console.log(`Id: ${id} not found`);
+        return;
+    }
+    spreadsheet = nullableSpreadsheet;
+
     console.log(spreadsheet.getTitle());
     console.log(spreadsheet.getSheetsTitles());
 

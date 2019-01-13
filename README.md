@@ -31,4 +31,5 @@ Goals:
 
 ## Notes on Speeding up TypeScript compilation
 
-You cannot, but you can instead use `tsc -w` to watch for changes. Incremental compilation is much faster than forcing to compile everything everytime.
+Probably the easiest way to to run `npm run build-watch` to have incremental compilation, and then
+use the `jest` config that runs over the `build` directory with `npm run build-test`.

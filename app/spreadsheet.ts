@@ -1,4 +1,6 @@
 import { sheets_v4 } from 'googleapis';
+import { get } from 'lodash';
+import { NestedError } from './auth';
 
 class Sheet {
     constructor(
@@ -128,12 +130,27 @@ class Spreadsheet {
     }
 
     // FIXME: what about get by name? do I need DriveAPI permissions?
+
+    /**
+     * Gets an existing spreadsheet by id, or null if it does not exist.
+     * @param api - the Google API object
+     * @param spreadsheetId - the id to look for
+     */
     static async getExistingSpreadsheet(
         api: sheets_v4.Sheets,
         spreadsheetId: string
-    ): Promise<Spreadsheet> {
-        const { data } = await api.spreadsheets.get({ spreadsheetId });
-        return new Spreadsheet(api, data, spreadsheetId);
+    ): Promise<Spreadsheet | null> {
+        try {
+            const { data } = await api.spreadsheets.get({ spreadsheetId });
+            return new Spreadsheet(api, data, spreadsheetId);
+        } catch (error) {
+            const status = get(error, 'response.status', null);
+            if (status === 404) {
+                return null;
+            }
+            // some unexpected error
+            throw new NestedError(`Attempting to get existing spreadsheet with id ${spreadsheetId}`, error);
+        }
     }
 
     static async newSheet(
