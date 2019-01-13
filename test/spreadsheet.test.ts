@@ -1,7 +1,7 @@
+import nock from 'nock';
 import { Spreadsheet } from '../app/spreadsheet';
 import { sheets_v4 } from 'googleapis';
-import nock from 'nock';
-import { NestedError } from '../app/auth';
+import { NestedError } from '../app/utils';
 
 describe('spreadsheet testing', () => {
 

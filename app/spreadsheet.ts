@@ -1,6 +1,6 @@
 import { sheets_v4 } from 'googleapis';
 import { get } from 'lodash';
-import { NestedError } from './auth';
+import { NestedError } from './utils';
 
 class Sheet {
     constructor(

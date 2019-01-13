@@ -1,5 +1,6 @@
 import fs from 'fs';
-import { loadCredentialsFile, NestedError } from '../app/auth';
+import { loadCredentialsFile } from '../app/auth';
+import { NestedError } from '../app/utils';
 
 describe('auth testing', () => {
     const oldReadFileSync = fs.readFileSync;

@@ -3,6 +3,7 @@ import readline from 'readline';
 
 import { OAuth2Client } from 'google-auth-library';
 import { google } from 'googleapis';
+import { InstalledCredentials, NestedError } from './utils';
 
 // see other scopes at:
 // https://developers.google.com/sheets/api/guides/authorizing
@@ -16,25 +17,6 @@ const SCOPES = [
 const CREDENTIALS_PATH = 'resources/credentials.json';
 // user-specific
 const TOKEN_PATH = 'resources/token.json';
-
-
-type InstalledCredentials = {
-    installed: {
-        client_secret: string,
-        client_id: string,
-        redirect_uris: string[]
-    }
-};
-
-class NestedError extends Error {
-    constructor(
-        public where: string,
-        public error: any
-    ) {
-        super(where);
-    }
-}
-
 
 // Load client secrets from a local file.
 async function loadCredentialsFile(path = CREDENTIALS_PATH): Promise<InstalledCredentials> {
@@ -104,7 +86,6 @@ function getSheetsApiClient(auth: OAuth2Client) {
 
 export {
     OAuth2Client as AuthClient,
-    NestedError,
     loadCredentialsFile,
     authorize,
     getSheetsApiClient,
