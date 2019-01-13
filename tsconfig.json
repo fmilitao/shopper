@@ -4,7 +4,7 @@
     "target": "es2015",
     "module": "none",
     // "sourceMap": true, // for jest+js use "inlineSourceMap"
-    "inlineSourceMap": true,
+    "inlineSourceMap": true, // TODO: for development only! don't inline on live
     "outDir": "./build",
     "moduleResolution": "node",
     "esModuleInterop": true,
