@@ -3,7 +3,8 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "none",
-    "sourceMap": true,
+    // "sourceMap": true, // for jest+js use "inlineSourceMap"
+    "inlineSourceMap": true,
     "outDir": "./build",
     "moduleResolution": "node",
     "esModuleInterop": true,

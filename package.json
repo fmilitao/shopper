@@ -5,9 +5,11 @@
   "repository": "https://github.com/fmilitao/shopper",
   "license": "MIT",
   "scripts": {
-    "start": "node build/app/app.js",
     "build": "tsc --extendedDiagnostics",
-    "test": "jest"
+    "watch-build": "tsc --watch --extendedDiagnostics",
+    "test-build": "jest --config jest.config.after-build.js",
+    "start": "node build/app/app.js",
+    "test": "jest --config jest.config.js"
   },
   "dependencies": {
     "jsondiffpatch": "^0.3.11",
