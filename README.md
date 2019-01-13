@@ -3,6 +3,7 @@
 The intention is for this project to be a re-imagining of `shopper-android` using a progressive web app. This should enable easier updates, since the app should be small anyway, and hopefully simpler to build.
 
 ---
+FIXME: how to do incremental ts-jest compiling?
 
 Goals:
  - [ ] Synchronize to Google Sheets:

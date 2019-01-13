@@ -1,12 +1,64 @@
-import { diff } from 'jsondiffpatch';
+import { DiffPatcher, Delta } from 'jsondiffpatch';
+
+const differ = new DiffPatcher({
+    arrays: {
+        detectMove: true,
+        includeValueOnMove: true
+    },
+    // TODO: does not work:
+    // textDiff: {
+    //     minLength: 1
+    // },
+});
+
+type Diff = {
+    operation: 'move' | 'add' | 'remove' | 'edit',
+    column: number,
+    row: number
+};
+
+function convertDiff(changes: Delta): Diff[] {
+    const result: Diff[] = [];
+
+    // FIXME:
+    // Object.keys(changes)
+    //     .filter((k) => k !== '_t')
+    //     .forEach((lineNumber) => {
+    //         const rowChanges = changes[lineNumber];
+    //         Object.keys(rowChanges)
+    //             .filter((k) => k !== '_t')
+    //             .forEach((columnKey) => {
+    //                 if (columnKey.startsWith('_')) {
+    //                     const row = parseInt(lineNumber, 10);
+    //                     const column = parseInt(columnKey.substring(1), 10);
+    //                     const [value, to, code] = rowChanges[columnKey];
+    //                     if (code === 0) {
+    //                         result.push({
+    //                             value,
+    //                             operation: 'remove',
+    //                             column,
+    //                             row
+    //                         });
+    //                     }
+    //                     if (code === 3) {
+    //                         console.log(`Moved column ${column} to ${to}`);
+    //                     }
+    //                 } else {
+    //                     const [value] = row[columnKey];
+    //                     console.log(`Added '${value}' to column ${columnKey}`);
+    //                 }
+    //             })
+    //     });
+    return result;
+}
 
 function computeDiff(newSheet: any[][], oldSheet: any[][]) {
-    return diff(newSheet, oldSheet);
+    return differ.diff(newSheet, oldSheet);
 }
 
 const test1 = [
     [2, 1],
-    ['hello']
+    ['hello worl']
 ];
 const test2 = [
     [1, 2],
@@ -15,27 +67,3 @@ const test2 = [
 
 const changes = computeDiff(test1, test2);
 console.log(changes);
-
-if (changes) {
-    const lineNumbers = Object.keys(changes).filter((k) => k !== '_t');
-    lineNumbers.forEach((lineNumber) => {
-        const line = changes[lineNumber];
-        console.log(`On line ${lineNumber}:`);
-        const columnNumbers = Object.keys(line).filter((k) => k !== '_t');
-        columnNumbers.forEach((column) => {
-            if (column.startsWith('_')) {
-                const cleanedColumn = column.substring(1);
-                const [value, to, code] = line[column];
-                if (code === 0) {
-                    console.log(`Deleted '${value}' from column ${cleanedColumn}`);
-                }
-                if (code === 3) {
-                    console.log(`Moved column ${cleanedColumn} to ${to}`);
-                }
-            } else {
-                const [value] = line[column];
-                console.log(`Added '${value}' to column ${column}`);
-            }
-        })
-    })
-}
