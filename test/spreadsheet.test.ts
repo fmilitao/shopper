@@ -104,7 +104,6 @@ describe('spreadsheet testing', () => {
             }
         });
 
-
         test('returns true on success', async () => {
             const api = mockApi({
                 get: Promise.resolve({ data: 'ignore-me' }),
