@@ -22,10 +22,10 @@ async function useSheets(auth: AuthClient) {
 
     // const newSheet = await spreadsheet.newSheet('I shit you not');
     // console.log(newSheet);
-    const newSheet = await spreadsheet.getSheet('I shit you not');
-    console.log(await newSheet!.delete());
+    // const newSheet = await spreadsheet.getSheet('I shit you not');
+    // console.log(await newSheet!.delete());
 
-    // const response = await spreadsheet.deleteSheet(832102146);
+    // const response = await spreadsheet.deleteSheet(1076876425);
     // console.log(response);
 
     // console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));

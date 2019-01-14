@@ -25,6 +25,7 @@ List Manager:
  > copy list
  > delete list
  > move list up/down
+ > undo last operations?
 
 List:
  > create list (empty)

@@ -1,6 +1,14 @@
 import { sheets_v4 } from 'googleapis';
 import { get } from 'lodash';
-import { NestedError } from './utils';
+
+class SpreadsheetError extends Error {
+    constructor(
+        public where: string,
+        public error: any
+    ) {
+        super(where);
+    }
+}
 
 class Sheet {
     constructor(
@@ -114,19 +122,28 @@ class Spreadsheet {
 
     async deleteSheet(
         sheetId: number
-    ): Promise<sheets_v4.Schema$BatchUpdateSpreadsheetResponse> {
-        const { data } = await this.api.spreadsheets.batchUpdate({
-            spreadsheetId: this.spreadsheetId,
-            requestBody: {
-                requests: [{
-                    deleteSheet: {
-                        sheetId
-                    }
-                }]
+    ): Promise<boolean> {
+        try {
+            await this.api.spreadsheets.batchUpdate({
+                spreadsheetId: this.spreadsheetId,
+                requestBody: {
+                    requests: [{
+                        deleteSheet: {
+                            sheetId
+                        }
+                    }]
+                }
+            });
+            // FIXME: needs to update main SpreadSheet!
+            return true;
+        } catch (error) {
+            const status = get(error, 'response.status', null);
+            if (status === 400) {
+                return false;
             }
-        });
-        // FIXME: needs to update main SpreadSheet!
-        return data;
+            // some unexpected error
+            throw new SpreadsheetError(`Attempting to delete sheet with id ${sheetId}`, error);
+        }
     }
 
     // FIXME: what about get by name? do I need DriveAPI permissions?
@@ -149,7 +166,7 @@ class Spreadsheet {
                 return null;
             }
             // some unexpected error
-            throw new NestedError(`Attempting to get existing spreadsheet with id ${spreadsheetId}`, error);
+            throw new SpreadsheetError(`Attempting to get existing spreadsheet with id ${spreadsheetId}`, error);
         }
     }
 
@@ -163,11 +180,11 @@ class Spreadsheet {
         return new Spreadsheet(api, data, data.spreadsheetId!);
     }
 
-    // FIXME: missing error handling (use NestedError to capture context)
-    // FIXME: create new error kind instead, SpreadsheetError to not clash with others.
+    // FIXME: missing error handling (use SpreadsheetError to capture context)
 }
 
 export {
     Sheet,
-    Spreadsheet
+    Spreadsheet,
+    SpreadsheetError
 };
