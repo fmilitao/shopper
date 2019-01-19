@@ -24,6 +24,7 @@ Goals:
 * https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
 * https://developers.google.com/web/progressive-web-apps/checklist
 * https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
+* https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
 
 ## Notes on Speeding up TypeScript compilation
 
