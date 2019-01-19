@@ -6,11 +6,11 @@
   "repository": "https://github.com/fmilitao/shopper",
   "license": "MIT",
   "scripts": {
-    "build": "tsc --extendedDiagnostics",
-    "build-watch": "tsc --watch",
-    "build-test": "jest --config jest.config.after-build.js",
-    "build-start": "node build/app/app.js",
-    "test": "jest --config jest.config.js"
+    "cli-build": "tsc --extendedDiagnostics",
+    "cli-build-watch": "tsc --watch",
+    "cli-build-test": "jest --config jest.config.after-build.js",
+    "cli-build-start": "node build/app/app.js",
+    "cli-test": "jest --config jest.config.js"
   },
   "dependencies": {
     "googleapis": "^36.0.0",
