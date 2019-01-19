@@ -1,12 +1,12 @@
 {
-  "name": "shopper",
+  "name": "shopper-lib",
   "version": "1.0.0",
   "private": true,
   "description": "Shopper - Progressive Web App",
   "repository": "https://github.com/fmilitao/shopper",
   "license": "MIT",
-  "main": "./build/app/app.js",
-  "types": "./app/app.ts",
+  "main": "./build/app/index.js",
+  "types": "./app/index.ts",
   "scripts": {
     "build": "tsc --extendedDiagnostics",
     "build-watch": "tsc --watch",

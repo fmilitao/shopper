@@ -1,5 +1,5 @@
 import { loadCredentialsFile, authorize, getSheetsApiClient, AuthClient } from './auth';
-import { Spreadsheet } from './spreadsheet'
+import { Spreadsheet } from './spreadsheet';
 
 // test spreadsheet
 const SPREAD_SHEET_ID = '1QmnGVdEWAcD15DBAySn0-o7W1p3LW_LucyCkYMUHwSo';
@@ -62,5 +62,3 @@ if (!module.parent) {
 } else {
     // console.log('As test');
 }
-
-export const test = 'hello!';
