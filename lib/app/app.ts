@@ -62,3 +62,5 @@ if (!module.parent) {
 } else {
     // console.log('As test');
 }
+
+export const test = 'hello!';
