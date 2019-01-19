@@ -42,4 +42,13 @@ Item:
  > edit item
  > move item in list
  > copy/move item to list
+
+
+Pages:
+ * ListView for showing lists
+ * ListAdd page
+ * ListEdit page
+ * ItemView for showing items
+ * ItemAdd page
+ * ItemEdit page
 */

@@ -92,6 +92,7 @@ class Spreadsheet {
         values: any[][]
     ): Promise<sheets_v4.Schema$UpdateValuesResponse> {
         const range = `${sheet}!${rangeOption}`;
+        console.log(range);
         const { data } = await this.api.spreadsheets.values.update({
             spreadsheetId: this.spreadsheetId,
             range,
@@ -101,6 +102,56 @@ class Spreadsheet {
             }
         });
         return data;
+    }
+
+    // https://developers.google.com/sheets/api/samples/formatting
+    // https://developers.google.com/sheets/api/guides/formats
+    // https://developers.google.com/sheets/api/reference/rest/v4/spreadsheets/other#GridRange
+    async formatCellAsCurrency(range: sheets_v4.Schema$GridRange, unitSymbol: string = '£') {
+        return await this.api.spreadsheets.batchUpdate({
+            spreadsheetId: this.spreadsheetId,
+            requestBody: {
+                requests: [
+                    {
+                        repeatCell: {
+                            range,
+                            cell: {
+                                userEnteredFormat: {
+                                    numberFormat: {
+                                        type: 'NUMBER',
+                                        pattern: `${unitSymbol}#,##0.00`
+                                    }
+                                }
+                            },
+                            fields: 'userEnteredFormat.numberFormat'
+                        }
+                    }]
+            }
+        });
+    }
+
+    // pattern: 'dd/mm/yyyy'
+    async formatCellAsDate(range: sheets_v4.Schema$GridRange, pattern: string = 'yyyy/mm/dd') {
+        return await this.api.spreadsheets.batchUpdate({
+            spreadsheetId: this.spreadsheetId,
+            requestBody: {
+                requests: [
+                    {
+                        repeatCell: {
+                            range,
+                            cell: {
+                                userEnteredFormat: {
+                                    numberFormat: {
+                                        type: 'DATE',
+                                        pattern
+                                    }
+                                }
+                            },
+                            fields: 'userEnteredFormat.numberFormat'
+                        }
+                    }]
+            }
+        });
     }
 
     async newSheet(title: string): Promise<Sheet> {

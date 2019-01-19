@@ -20,6 +20,16 @@ async function useSheets(auth: AuthClient) {
     console.log(spreadsheet.getTitle());
     console.log(spreadsheet.getSheetsTitles());
 
+    const mainSheet = spreadsheet.getSheet('Shopping List')!;
+    await spreadsheet.formatCellAsDate(
+        {
+            sheetId: mainSheet.sheetId,
+            startRowIndex: 4,
+            endRowIndex: 13,
+            startColumnIndex: 1,
+            endColumnIndex: 2
+        });
+
     // const newSheet = await spreadsheet.newSheet('I shit you not');
     // console.log(newSheet);
     // const newSheet = await spreadsheet.getSheet('I shit you not');
@@ -29,7 +39,7 @@ async function useSheets(auth: AuthClient) {
     // console.log(response);
 
     // console.log(await spreadsheet.getValues('Shopping List', 'A1:B6'));
-    // console.log(await spreadsheet.setValues('Shopping List', 'A8', [[1234567]]));
+    // console.log(await spreadsheet.setValues('Shopping List', 'A10', [[101.123]]));
 
     // const sheet = spreadsheet.getSheet('Shopping List')!;
     // console.log(await sheet.getValues('A8'));
