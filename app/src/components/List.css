@@ -1,0 +1,9 @@
+.List-btn {
+  background-color: rgb(78, 93, 176);
+  border: none;
+  color: white;
+  padding: 10px;
+  text-align: center;
+  display: inline-block;
+  font-size: 20px;
+}

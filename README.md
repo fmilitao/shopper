@@ -16,6 +16,7 @@ Goals:
 
 ## Useful Links
 
+* https://medium.com/@joomiguelcunha/amazing-react-animation-with-react-pose-3b67d9eb6e07
 * https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
 * https://www.npmjs.com/package/jsondiffpatch (for minimal array diffing)
 * https://stackoverflow.com/questions/43329654/android-back-button-on-a-progressive-web-application-closes-de-app
