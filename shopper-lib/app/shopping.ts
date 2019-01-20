@@ -27,7 +27,7 @@ type Item = {
     name: string,
     price?: Price,
     quantity: Quantity,
-    comments: string,
+    comments?: string,
     done: boolean,
 };
 

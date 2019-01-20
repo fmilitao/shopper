@@ -1,9 +1,22 @@
 .List-btn {
   background-color: rgb(78, 93, 176);
-  border: none;
   color: white;
   padding: 10px;
+  margin: 10px;
   text-align: center;
-  display: inline-block;
+  border-radius: 10px;
+  border-width: 3px;
+  /* display: inline-block; */
   font-size: 20px;
+  outline: none;
+
+  position:fixed;
+  bottom:0;
+  right:0;
+  box-shadow: 2px 2px 3px 2px rgba(0, 0, 0, 0.5);
+}
+
+.List-header {
+  padding: 10px;
+  float: right;
 }

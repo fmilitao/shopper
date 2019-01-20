@@ -1,44 +1,59 @@
 import React, { Component } from 'react';
 import './List.css';
+import { model } from 'shopper-lib';
+import Item from './Item';
 
-type StateType = {
-    list: string[],
-    showOther: boolean,
+type ListPropType = {
+    list: model.List,
 };
 
-class List extends Component<{}, StateType> {
-    constructor(props: Readonly<{}>) {
+type ListStateType = {
+    items: model.Item[],
+};
+
+class List extends Component<ListPropType, ListStateType> {
+    constructor(props: Readonly<ListPropType>) {
         super(props);
         this.state = {
-            list: ['test'],
-            showOther: false,
+            items: props.list.items,
         };
     }
 
     onButtonPress() {
+        const sampleItem: model.Item = {
+            name: 'bananas',
+            quantity: {
+                amount: 5,
+                unit: 'banana'
+            },
+            comments: `i really don't know
+    what else to say, rather than blah
+    ok?`,
+            done: false,
+        };
+
         // TODO: or doing the atomic one?
         this.setState({
             ...this.state,
-            list: [...this.state.list, `ok!${this.state.list.length}`]
+            items: [...this.state.items, { ...sampleItem }]
         });
     }
 
-    onButtonPress2() {
+    // FIXME: horrible mess
+    updateItem() {
         this.setState({
-            ...this.state,
-            showOther: !this.state.showOther
+            ...this.state
         });
     }
 
     render() {
-        if (this.state.showOther) {
-            return (<div onClick={() => this.onButtonPress2()}>I am the other</div>);
-        }
+        const count = this.state.items.length;
+        const done = this.state.items.filter((item) => !item.done).length;
+
         return (<div className="List">
-            <button className="List-btn" onClick={() => this.onButtonPress2()}>other</button>
-            <button className="List-btn" onClick={() => this.onButtonPress()}>Test</button>
-            <div>List contents:</div>
-            {this.state.list.map((value, index) => (<div>{index}: {value}</div>))}
+            <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
+            <button className="List-btn" onClick={() => this.onButtonPress()}>Add Item</button>
+            {this.state.items.map((item) => (<Item item={item} inputChange={() => this.updateItem()}/>))}
         </div>);
     }
 }

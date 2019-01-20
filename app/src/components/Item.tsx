@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import './Item.css';
 import posed from 'react-pose';
+import './Item.css';
+import { model } from 'shopper-lib';
 
-type ItemPropType = {
-    name: string,
-    count: number,
-    unit: string,
-    comment: string,
-    category: string,
+// FIXME: how to manage the state?
+type ItemStateType = {
+    disabled: boolean,
 };
 
-type ItemStateType = {
-    disabled: boolean;
+type ItemPropsType = {
+    item: model.Item,
+    inputChange: () => void,
 };
 
 const ItemBox = posed.div({
@@ -29,35 +28,42 @@ const ItemBox = posed.div({
     }
 });
 
-class Item extends Component<ItemPropType, ItemStateType> {
-    constructor(props: Readonly<ItemPropType>) {
+class Item extends Component<ItemPropsType, ItemStateType> {
+    private item: model.Item;
+
+    constructor(props: Readonly<ItemPropsType>) {
         super(props);
 
+        this.item = props.item;
         this.state = {
-            disabled: false
+            disabled: this.item.done
         };
     }
 
     toggle() {
+        this.item.done = !this.item.done;
         this.setState({
-            disabled: !this.state.disabled
+            disabled: this.item.done
         });
+        this.props.inputChange();
     }
 
     render() {
+        const item = this.item;
+
         return (<ItemBox className='Item'
             pose={!this.state.disabled ? 'visible' : 'hidden'}
             onClick={() => this.toggle()}>
 
             <div className="Item-left-block">
-                <div className="Item-name">{this.props.name}</div>
+                <div className="Item-name">{item.name}</div>
 
-                <div className="Item-comment">{this.props.comment}</div>
+                {item.comments && <div className="Item-comment">{item.comments}</div>}
             </div>
 
             <div className="Item-right-block">
-                <div className="Item-count">{this.props.count}</div>
-                <div className="Item-unit">{this.props.unit}</div>
+                <div className="Item-count">{item.quantity.amount}</div>
+                <div className="Item-unit">{item.quantity.unit}</div>
             </div>
         </ItemBox>);
     }
