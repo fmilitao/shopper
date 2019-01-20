@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import List from './List';
-import * as test from 'shopper-lib';
+import { greeting } from 'shopper-lib';
 import Item from './Item';
 
 class App extends Component {

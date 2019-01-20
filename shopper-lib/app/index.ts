@@ -1,2 +1,4 @@
+import * as model from './shopping';
 
-export const test = 'Hello, Shopper!';
+export const greeting = 'Hello, Shopper!';
+export { model };
