@@ -14,17 +14,31 @@ type ItemPropsType = {
 };
 
 const ItemBox = posed.div({
+    // FIXME: issue with not being able to scroll!
+    // see: https://github.com/Popmotion/popmotion/pull/628
+    // draggable: 'x',
     visible: {
         transition: {
-            duration: 1000,
+            duration: 300,
         },
-        opacity: 1
+        x: 0,
+        opacity: 1,
+        scale: 1,
     },
     hidden: {
         transition: {
             duration: 100,
         },
-        opacity: 0.2
+        opacity: 0.2,
+        // scale: 0.95
+    },
+    initial: {
+        transition: {
+            duration: 500,
+        },
+        x: -200,
+        opacity: 0.2,
+        scale: 0.95
     }
 });
 
@@ -51,12 +65,13 @@ class Item extends Component<ItemPropsType, ItemStateType> {
     render() {
         const item = this.item;
 
-        return (<ItemBox className='Item'
+        return (<ItemBox {...this.props} className='Item'
             pose={!this.state.disabled ? 'visible' : 'hidden'}
-            onClick={() => this.toggle()}>
+            initialPose='initial'
+            onClick={() => this.toggle()} >
 
             <div className="Item-left-block">
-                <div className="Item-name">{item.name}</div>
+                <div className="Item-name">{item.name} {item.uuid}</div>
 
                 {item.comments && <div className="Item-comment">{item.comments}</div>}
             </div>

@@ -23,13 +23,20 @@ type Quantity = {
     unit: string,
 };
 
-type Item = {
-    name: string,
-    price?: Price,
-    quantity: Quantity,
-    comments?: string,
-    done: boolean,
-};
+class Item {
+    static counter = 0;
+
+    public uuid: number;
+    constructor(
+        public name: string,
+        public quantity: Quantity,
+        public done: boolean,
+        public comments?: string,
+        public price?: Price,
+    ) {
+        this.uuid = Item.counter++;
+    }
+}
 
 class List {
     public items: Item[] = [];
