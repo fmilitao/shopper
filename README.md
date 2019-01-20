@@ -16,6 +16,7 @@ Goals:
 
 ## Useful Links
 
+* https://hackernoon.com/animations-in-react-at-60fps-an-introduction-to-react-pose-6db5a1c1e0ae
 * https://medium.com/@joomiguelcunha/amazing-react-animation-with-react-pose-3b67d9eb6e07
 * https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
 * https://www.npmjs.com/package/jsondiffpatch (for minimal array diffing)

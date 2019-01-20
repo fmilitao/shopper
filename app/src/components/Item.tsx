@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Item.css';
+import posed, { PoseGroup } from 'react-pose';
 
 type ItemPropType = {
     name: string,
@@ -12,6 +13,22 @@ type ItemPropType = {
 type ItemStateType = {
     disabled: boolean;
 };
+
+
+const Box = posed.div({
+    visible: {
+        transition: {
+            duration: 1000,
+        },
+        opacity: 1
+    },
+    hidden: {
+        transition: {
+            duration: 100,
+        },
+        opacity: 0.2
+    }
+});
 
 class Item extends Component<ItemPropType, ItemStateType> {
     constructor(props: Readonly<ItemPropType>) {
@@ -29,12 +46,9 @@ class Item extends Component<ItemPropType, ItemStateType> {
     }
 
     render() {
-        let classNames = "Item";
-        if (this.state.disabled) {
-            classNames += " Item-disabled";
-        }
-            // <div className="Item-category">{this.props.category.substring(0, 3)}</div>
-        return (<div className={classNames} onClick={() => this.toggle()}>
+        return (<Box className='Item'
+            pose={!this.state.disabled ? 'visible' : 'hidden'}
+            onClick={() => this.toggle()}>
 
             <div className="Item-left-block">
                 <div className="Item-name">{this.props.name}</div>
@@ -46,7 +60,7 @@ class Item extends Component<ItemPropType, ItemStateType> {
                 <div className="Item-count">{this.props.count}</div>
                 <div className="Item-unit">{this.props.unit}</div>
             </div>
-        </div>);
+        </Box>);
     }
 }
 

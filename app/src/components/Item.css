@@ -12,10 +12,6 @@
   min-height: 50px;
 }
 
-.Item-disabled {
-  opacity: 0.2;
-}
-
 .Item-left-block {
   float: left;
 }
