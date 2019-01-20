@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import List from './List';
 import { greeting, model } from 'shopper-lib';
+import EditItem from './EditItem';
 
 class App extends Component {
   render() {
@@ -11,7 +12,8 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <div className="App-greeter">{greeting}</div>
-          <List list={sampleList} />
+          {/* <List list={sampleList} /> */}
+          <EditItem/>
         </header>
       </div>
     );

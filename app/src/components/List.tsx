@@ -64,6 +64,7 @@ class List extends Component<ListPropType, ListStateType> {
         const count = this.state.items.length;
         const done = this.state.items.filter((item) => !item.done).length;
 
+        // FIXME: would style 'this.handleChange = this.handleChange.bind(this);' simplify?
         return (<div className="List">
             <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
             <button className="List-btn" onClick={() => this.onButtonPress()}>Add Item</button>
