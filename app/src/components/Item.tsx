@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Item.css';
-import posed, { PoseGroup } from 'react-pose';
+import posed from 'react-pose';
 
 type ItemPropType = {
     name: string,
