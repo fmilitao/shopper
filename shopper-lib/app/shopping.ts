@@ -1,22 +1,56 @@
 // to avoid precision errors, make sure to use only
 // the integer part of `number`
 type Price = {
-    priceInCents: number;
+    priceInCents: number,
+    currency: Currency,
+};
+
+enum Currency {
+    POUND = '£',
+    EURO = '€',
+    DOLLAR = '$',
+};
+
+function newPrice(value: number, currency: Currency = Currency.POUND): Price {
+    return {
+        priceInCents: value,
+        currency
+    };
+}
+
+type Quantity = {
+    amount: number,
+    unit: string,
 };
 
 type Item = {
-    shop: string,
     name: string,
-    quantity: number,
-    quantityKind: string,
-    category: string,
+    price?: Price,
+    quantity: Quantity,
     comments: string,
-    price: Price,
     done: boolean,
 };
 
-type List = {
-    items: Item[],
+class List {
+    public items: Item[] = [];
+    constructor(
+        public name: string
+    ) {
+        // intentionally empty
+    }
+
+    addItem(item: Item) {
+        this.items.push(item);
+    }
+}
+
+export {
+    Price,
+    Currency,
+    Quantity,
+    newPrice,
+    Item,
+    List,
 };
 
 /*

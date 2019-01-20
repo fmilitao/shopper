@@ -14,8 +14,7 @@ type ItemStateType = {
     disabled: boolean;
 };
 
-
-const Box = posed.div({
+const ItemBox = posed.div({
     visible: {
         transition: {
             duration: 1000,
@@ -46,7 +45,7 @@ class Item extends Component<ItemPropType, ItemStateType> {
     }
 
     render() {
-        return (<Box className='Item'
+        return (<ItemBox className='Item'
             pose={!this.state.disabled ? 'visible' : 'hidden'}
             onClick={() => this.toggle()}>
 
@@ -60,7 +59,7 @@ class Item extends Component<ItemPropType, ItemStateType> {
                 <div className="Item-count">{this.props.count}</div>
                 <div className="Item-unit">{this.props.unit}</div>
             </div>
-        </Box>);
+        </ItemBox>);
     }
 }
 
