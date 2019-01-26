@@ -1,6 +1,43 @@
 .Edit {
   text-align: center;
+  display: inline-block;
   margin: 20px;
   padding: 20px;
-  border: solid 1px red;
+  border: solid 2px #2c67cd;
+  background-color: #3c5888;
+  min-width: 80%;
+  max-width: 80%;
+  font-size: 20px;
+}
+
+input[type=text],input[type=number], textarea {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: inherit;
+}
+
+textarea {
+  height: 150px;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #2c67cd;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: inherit;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
 }
