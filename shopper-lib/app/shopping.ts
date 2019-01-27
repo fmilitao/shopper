@@ -1,8 +1,12 @@
 // to avoid precision errors, make sure to use only
 // the integer part of `number`
-type Price = {
-    priceInCents: number,
-    currency: Currency,
+class Price {
+    constructor(
+        public priceInCents: number,
+        public currency: Currency,
+    ) {
+        // intentionally empty
+    }
 };
 
 enum Currency {
@@ -18,9 +22,13 @@ function newPrice(value: number, currency: Currency = Currency.POUND): Price {
     };
 }
 
-type Quantity = {
-    amount: number,
-    unit: string,
+class Quantity {
+    constructor(
+        public amount: number,
+        public unit: string
+    ) {
+        // intentionally empty
+    }
 };
 
 class Item {
@@ -30,9 +38,9 @@ class Item {
     constructor(
         public name: string,
         public quantity: Quantity,
-        public done: boolean,
         public comments?: string,
         public price?: Price,
+        public done: boolean = false,
     ) {
         this.uuid = Item.counter++;
     }

@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import './EditItem.css';
+import { model } from 'shopper-lib';
+
+type EditItemPropType = {
+    item: model.Item | null,
+    submit: (newItem: model.Item) => void,
+};
 
 type EditItemStateType = {
     name: string,
@@ -8,18 +14,29 @@ type EditItemStateType = {
     comments: string,
 };
 
-class EditItem extends Component<{}, EditItemStateType> {
+class EditItem extends Component<EditItemPropType, EditItemStateType> {
 
-    constructor(props: Readonly<{}>) {
+    constructor(props: Readonly<EditItemPropType>) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.state = {
-            name: 'Test',
-            quantity: '0',
-            unit: 'unit',
-            comments: 'no comments',
-        };
+
+        const item = props.item;
+        if (item) {
+            this.state = {
+                name: item.name,
+                quantity: item.quantity.amount.toString(),
+                unit: item.quantity.unit,
+                comments: item.comments || '',
+            };
+        } else {
+            this.state = {
+                name: 'Test',
+                quantity: '0',
+                unit: 'unit',
+                comments: 'no comments',
+            };
+        }
     }
 
     handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
@@ -32,21 +49,24 @@ class EditItem extends Component<{}, EditItemStateType> {
     }
 
     handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        alert('The value is: ' + JSON.stringify(this.state, null, 2));
         event.preventDefault();
+        const item = new model.Item(
+            this.state.name,
+            new model.Quantity(parseFloat(this.state.quantity), this.state.unit),
+            this.state.comments
+        );
+        this.props.submit(item);
     }
 
-    // FIXME: all broken follows:
-    // needs Item: name, quantity, unit, comments
     render() {
         return (
             <div className='Edit'>
-                <form id='usrform' onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     Name: <input type="text" name='name' value={this.state.name} onChange={this.handleChange} />
                     Quantity: <input type="number" step='any' name='quantity' value={this.state.quantity} onChange={this.handleChange} />
                     Unit: <input type="text" name='unit' value={this.state.unit} onChange={this.handleChange} />
                     Comments:
-                    <textarea form='usrform' name='comments' value={this.state.comments} onChange={this.handleChange} />
+                    <textarea name='comments' value={this.state.comments} onChange={this.handleChange} />
                     <input type="submit" value="Submit" />
                 </form>
             </div>

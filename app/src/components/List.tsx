@@ -2,58 +2,43 @@ import React, { Component } from 'react';
 import './List.css';
 import { model } from 'shopper-lib';
 import Item from './Item';
-import posed, { PoseGroup } from 'react-pose';
+import { PoseGroup } from 'react-pose';
 
 type ListPropType = {
     list: model.List,
+    add: (list: model.List) => void,
 };
 
 type ListStateType = {
     items: model.Item[],
 };
 
-const PosedDiv = posed.div();
+const sortFunction = (a: model.Item, b: model.Item) => {
+    if (a.done === b.done) {
+        return a.uuid - b.uuid;
+    }
+    if (!a.done) {
+        return -1;
+    }
+    return 1;
+};
 
 class List extends Component<ListPropType, ListStateType> {
     constructor(props: Readonly<ListPropType>) {
         super(props);
         this.state = {
-            items: props.list.items,
+            items: props.list.items.slice().sort(sortFunction),
         };
     }
 
     onButtonPress() {
-        const sampleItem: model.Item = new model.Item(
-            'bananas',
-            {
-                amount: 5,
-                unit: 'banana'
-            },
-            false,
-            `i really don't know
-    what else to say, rather than blah
-    ok?`
-        );
-
-        // TODO: or doing the atomic one?
-        this.setState({
-            ...this.state,
-            items: [...this.state.items, { ...sampleItem }]
-        });
+        this.props.add(this.props.list);
     }
 
     // FIXME: horrible mess
     updateItem() {
         const sorted = this.state.items.slice();
-        sorted.sort((a, b) => {
-            if (a.done === b.done) {
-                return a.uuid - b.uuid;
-            }
-            if (!a.done) {
-                return -1;
-            }
-            return 1;
-        });
+        sorted.sort(sortFunction);
         this.setState({
             ...this.state,
             items: sorted

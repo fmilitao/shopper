@@ -21,7 +21,7 @@ const ItemBox = posed.div({
         transition: {
             duration: 300,
         },
-        x: 0,
+        // x: 0,
         opacity: 1,
         scale: 1,
     },
@@ -29,14 +29,15 @@ const ItemBox = posed.div({
         transition: {
             duration: 100,
         },
+        // x: 0,
         opacity: 0.2,
-        // scale: 0.95
+        scale: 1,
     },
     initial: {
         transition: {
             duration: 500,
         },
-        x: -200,
+        // x: -200,
         opacity: 0.2,
         scale: 0.95
     }
