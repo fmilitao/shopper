@@ -10,6 +10,7 @@
   font-size: 20px;
 }
 
+/*
 input[type=text],input[type=number], textarea {
   width: 100%;
   padding: 12px 20px;
@@ -41,3 +42,4 @@ input[type=submit] {
 input[type=submit]:hover {
   background-color: #4981e0;
 }
+*/

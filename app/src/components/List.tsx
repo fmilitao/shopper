@@ -3,6 +3,7 @@ import './List.css';
 import { model } from 'shopper-lib';
 import Item from './Item';
 import { PoseGroup } from 'react-pose';
+import AddList from './AddList';
 
 type ListPropType = {
     list: model.List,
@@ -35,13 +36,19 @@ class List extends Component<ListPropType, ListStateType> {
         this.props.add(this.props.list);
     }
 
+    onButtonPress2(name: string) {
+        console.log(name);
+    }
+
     // FIXME: horrible mess
     updateItem() {
-        const sorted = this.state.items.slice();
-        sorted.sort(sortFunction);
-        this.setState({
-            ...this.state,
-            items: sorted
+        this.setState((prevState) => {
+            const sorted = prevState.items.slice();
+            sorted.sort(sortFunction);
+            return {
+                ...prevState,
+                items: sorted
+            };
         });
     }
 
@@ -49,13 +56,13 @@ class List extends Component<ListPropType, ListStateType> {
         const count = this.state.items.length;
         const done = this.state.items.filter((item) => !item.done).length;
 
-        // FIXME: would style 'this.handleChange = this.handleChange.bind(this);' simplify?
         return (<div className="List">
             <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
-            <button className="List-btn" onClick={() => this.onButtonPress()}>Add Item</button>
             <PoseGroup>
                 {this.state.items.map((item) => (<Item key={item.uuid} item={item} inputChange={() => this.updateItem()} />))}
             </PoseGroup>
+
+            <AddList onCreate={(name) => this.onButtonPress2(name)}/>
         </div>);
     }
 }

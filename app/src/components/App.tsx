@@ -1,8 +1,20 @@
 import React, { Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import { withStyles } from '@material-ui/core/styles';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
 import './App.css';
 import List from './List';
 import { greeting, model } from 'shopper-lib';
 import EditItem from './EditItem';
+
+
+const styles = {
+  root: {
+    flexGrow: 1,
+  },
+};
 
 type AppPropType = {};
 type AppStateType = {
@@ -56,7 +68,7 @@ class App extends Component<AppPropType, AppStateType> {
         }
       });
     } else {
-      alert('unexecpted app state!');
+      alert('unexpected app state!');
     }
   }
 
@@ -66,11 +78,21 @@ class App extends Component<AppPropType, AppStateType> {
       <EditItem item={this.state.view.item} submit={this.onSubmitNewItem}/>;
 
     return (
-      <div className="App">
+      <div>
+        <AppBar position='static'>
+          <Toolbar>
+            <Typography variant='h5' color='inherit'>
+              {greeting}
+            </Typography>
+          </Toolbar>
+        </AppBar>
+
+      {/* <div className="App">
         <header className="App-header">
-          <div className="App-greeter">{greeting}</div>
+          <div className="App-greeter"></div> */}
           {node}
-        </header>
+        {/* </header>
+      </div> */}
       </div>
     );
   }
