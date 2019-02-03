@@ -3,16 +3,6 @@ import './List.css';
 import { model } from 'shopper-lib';
 import Item from './Item';
 import { PoseGroup } from 'react-pose';
-import AddList from './AddList';
-
-type ListPropType = {
-  list: model.List,
-  add: (list: model.List) => void,
-};
-
-type ListStateType = {
-  items: model.Item[],
-};
 
 const sortFunction = (a: model.Item, b: model.Item) => {
   if (a.done === b.done) {
@@ -24,45 +14,45 @@ const sortFunction = (a: model.Item, b: model.Item) => {
   return 1;
 };
 
-class List extends Component<ListPropType, ListStateType> {
-  constructor(props: Readonly<ListPropType>) {
+
+type Props = {
+  list: model.List,
+};
+
+type State = {
+  list: model.List,
+};
+
+class List extends Component<Props, State> {
+  constructor(props: Readonly<Props>) {
     super(props);
     this.state = {
-      items: props.list.items.slice().sort(sortFunction),
+      list: props.list,
     };
-  }
-
-  onButtonPress() {
-    this.props.add(this.props.list);
-  }
-
-  onButtonPress2(name: string) {
-    console.log(name);
   }
 
   // FIXME: horrible mess
   updateItem() {
-    this.setState((prevState) => {
-      const sorted = prevState.items.slice();
-      sorted.sort(sortFunction);
-      return {
-        ...prevState,
-        items: sorted
-      };
-    });
+    // this.setState((prevState) => {
+    //   const sorted = prevState.items.slice();
+    //   sorted.sort(sortFunction);
+    //   return {
+    //     ...prevState,
+    //     items: sorted
+    //   };
+    // });
   }
 
   render() {
-    const count = this.state.items.length;
-    const done = this.state.items.filter((item) => !item.done).length;
+    const count = this.props.list.items.length;
+    const done = this.props.list.items.filter((item) => !item.done).length;
+    const items = this.props.list.items.slice().sort(sortFunction);
 
     return (<div className="List">
       <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
       <PoseGroup>
-        {this.state.items.map((item) => (<Item key={item.uuid} item={item} inputChange={() => this.updateItem()} />))}
+        {items.map((item) => (<Item key={item.uuid} item={item} inputChange={() => this.updateItem()} />))}
       </PoseGroup>
-
-      <AddList onCreate={(name) => this.onButtonPress2(name)} />
     </div>);
   }
 }

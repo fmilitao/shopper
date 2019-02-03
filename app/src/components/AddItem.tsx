@@ -10,27 +10,39 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 
 import { Theme, withStyles, createStyles } from '@material-ui/core';
+import { model } from 'shopper-lib';
 
 type Props = {
   // type of `fab` not really important, just to please typescript
   classes: { fab: any },
-  onCreate: (name: string) => void,
+  onCreate: (name: model.Item) => void,
 };
 
 type State = {
   open: boolean,
-  value: string
+  name: string,
+  quantity: string,
+  unit: string,
+  comments: string,
+};
+
+const EmptyState = {
+  name: '',
+  quantity: '',
+  unit: '',
+  comments: '',
 };
 
 /**
- * Add List Fab button and Dialog
+ * Add Item Fab button and Dialog
  */
-class AddList extends React.Component<Props, State> {
+class AddItem extends React.Component<Props, State> {
+
   constructor(props: Readonly<Props>) {
     super(props);
     this.state = {
       open: false,
-      value: '',
+      ...EmptyState
     };
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -43,35 +55,50 @@ class AddList extends React.Component<Props, State> {
     if (event.target.value === null || event.target.value === undefined) {
       return;
     }
-    this.setState({ value: event.target.value });
+    const key = event.target.name as keyof State;
+    // @ts-ignore Not TS clever enough to tell that the next line is safe
+    this.setState({ [key]: event.target.value });
   }
 
   handleOpen() {
-    this.setState({ open: true });
+    this.setState({
+      open: true,
+      ...EmptyState
+    });
   };
 
   handleCreate() {
-    const listName = this.state.value;
-    this.props.onCreate(listName);
-    this.setState({ open: false });
+    const { name, quantity, unit, comments } = this.state;
+
+    const item = new model.Item(
+      name,
+      new model.Quantity(parseFloat(quantity) || 1, unit),
+      comments
+    );
+    this.props.onCreate(item);
+
+    this.setState({
+      open: false,
+      ...EmptyState
+    });
   };
 
   handleCancel() {
     this.setState({
       open: false,
-      value: '',
+      ...EmptyState
     });
   };
 
   render() {
     const { classes } = this.props;
-    const cannotCreate = this.state.value.length <= 0;
+    const cannotCreate = this.state.name.length <= 0;
 
     return (
       <div>
         <Fab
           color='secondary'
-          title='Add List'
+          title='Add Item'
           className={classes.fab}
           onClick={this.handleOpen}
         >
@@ -82,19 +109,50 @@ class AddList extends React.Component<Props, State> {
           open={this.state.open}
           onClose={this.handleCancel}
         >
-          <DialogTitle>New List</DialogTitle>
+          <DialogTitle>New Item</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Create a new shopping list.
+              Create a new list item.
             </DialogContentText>
             <TextField
+              error={cannotCreate}
+              name='name'
               onChange={this.handleChange}
               autoFocus
               margin='dense'
-              label='List Name'
+              label='Item Name'
               type='text'
               placeholder='e.g. LIDL tuesday'
               fullWidth
+            />
+            <TextField
+              name='quantity'
+              onChange={this.handleChange}
+              margin='dense'
+              label='Quantity'
+              type='number'
+              placeholder='e.g. 1, 500, 1.5'
+              fullWidth
+            />
+            <TextField
+              name='unit'
+              onChange={this.handleChange}
+              margin='dense'
+              label='Unit'
+              type='text'
+              placeholder='e.g. package, kgs, box'
+              fullWidth
+            />
+            <TextField
+              name='comments'
+              onChange={this.handleChange}
+              margin='dense'
+              label='Comments'
+              type='text'
+              placeholder='any comment you would like'
+              fullWidth
+              multiline
+              rows='3'
             />
           </DialogContent>
 
@@ -116,6 +174,6 @@ const styles = (theme: Theme) => createStyles({
   }
 });
 
-const AddListWithStyle = withStyles(styles)(AddList);
+const AddItemWithStyle = withStyles(styles)(AddItem);
 
-export default AddListWithStyle;
+export default AddItemWithStyle;
