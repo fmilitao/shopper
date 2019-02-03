@@ -50,7 +50,7 @@ class List extends Component<Props, State> {
     const items = this.props.list.items.slice().sort(sortFunction);
 
     return (<div className='List'>
-      <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
+      <div className='List-header'>{done} / {count}</div>
       <PoseGroup>
         {items.map((item) => (<Item key={item.uuid} item={item} toggle={this.toggleItem} />))}
       </PoseGroup>

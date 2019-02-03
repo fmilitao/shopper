@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
+import Tooltip from '@material-ui/core/Tooltip';
 
 import { Theme, withStyles, createStyles } from '@material-ui/core';
 
@@ -69,14 +70,15 @@ class AddList extends React.Component<Props, State> {
 
     return (
       <div>
-        <Fab
-          color='secondary'
-          title='Add List'
-          className={classes.fab}
-          onClick={this.handleOpen}
-        >
-          <AddIcon />
-        </Fab>
+        <Tooltip title='Add List'>
+          <Fab
+            color='secondary'
+            className={classes.fab}
+            onClick={this.handleOpen}
+          >
+            <AddIcon />
+          </Fab>
+        </Tooltip>
 
         <Dialog
           open={this.state.open}

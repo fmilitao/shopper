@@ -34,13 +34,10 @@ class App extends Component<AppPropType, AppStateType> {
   }
 
   onCreateNewItem(item: model.Item) {
-    console.log(item);
     this.setState((prev) => {
-      const newList = new model.List('test list');
-      newList.items.push(item, ...prev.list.items);
-
-      console.log(newList);
-      return { list: newList };
+      // TODO: not ideal mutating state...
+      prev.list.items.push(item);
+      return prev;
     });
   }
 
@@ -49,9 +46,10 @@ class App extends Component<AppPropType, AppStateType> {
       <div>
         <AppBar position='static'>
           <Toolbar>
-            <Typography variant='h6' color='inherit'>
-              {greeting} ▶ {this.state.list.name}
+            <Typography variant='h6' color='inherit' style={{ flexGrow: 1 }}>
+              {greeting}
             </Typography>
+            {this.state.list.name}
           </Toolbar>
         </AppBar>
 
