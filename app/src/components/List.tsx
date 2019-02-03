@@ -5,12 +5,15 @@ import Item from './Item';
 import { PoseGroup } from 'react-pose';
 
 const sortFunction = (a: model.Item, b: model.Item) => {
+  // sort by uuid on same done status
   if (a.done === b.done) {
     return a.uuid - b.uuid;
   }
+  // not done first
   if (!a.done) {
     return -1;
   }
+  // else after
   return 1;
 };
 
@@ -29,18 +32,16 @@ class List extends Component<Props, State> {
     this.state = {
       list: props.list,
     };
+
+    this.toggleItem = this.toggleItem.bind(this);
   }
 
-  // FIXME: horrible mess
-  updateItem() {
-    // this.setState((prevState) => {
-    //   const sorted = prevState.items.slice();
-    //   sorted.sort(sortFunction);
-    //   return {
-    //     ...prevState,
-    //     items: sorted
-    //   };
-    // });
+  toggleItem(item: model.Item) {
+    this.setState((prev) => {
+      // FIXME: not ideal, how should this be done in react?
+      item.done = !item.done;
+      return prev;
+    });
   }
 
   render() {
@@ -48,10 +49,10 @@ class List extends Component<Props, State> {
     const done = this.props.list.items.filter((item) => !item.done).length;
     const items = this.props.list.items.slice().sort(sortFunction);
 
-    return (<div className="List">
+    return (<div className='List'>
       <div className='List-header'>{this.props.list.name}: {done} / {count}</div>
       <PoseGroup>
-        {items.map((item) => (<Item key={item.uuid} item={item} inputChange={() => this.updateItem()} />))}
+        {items.map((item) => (<Item key={item.uuid} item={item} toggle={this.toggleItem} />))}
       </PoseGroup>
     </div>);
   }
