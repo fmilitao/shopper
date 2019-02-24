@@ -14,13 +14,13 @@ import { Theme, withStyles, createStyles } from '@material-ui/core';
 
 type Props = {
   // type of `fab` not really important, just to please typescript
-  classes: { fab: any },
-  onCreate: (name: string) => void,
+  classes: { fab: any };
+  onCreate: (name: string) => void;
 };
 
 type State = {
-  open: boolean,
-  value: string
+  open: boolean;
+  value: string;
 };
 
 /**
@@ -40,7 +40,9 @@ class AddList extends React.Component<Props, State> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     if (event.target.value === null || event.target.value === undefined) {
       return;
     }
@@ -49,20 +51,20 @@ class AddList extends React.Component<Props, State> {
 
   handleOpen() {
     this.setState({ open: true });
-  };
+  }
 
   handleCreate() {
     const listName = this.state.value;
     this.props.onCreate(listName);
     this.setState({ open: false });
-  };
+  }
 
   handleCancel() {
     this.setState({
       open: false,
       value: '',
     });
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -80,15 +82,10 @@ class AddList extends React.Component<Props, State> {
           </Fab>
         </Tooltip>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleCancel}
-        >
+        <Dialog open={this.state.open} onClose={this.handleCancel}>
           <DialogTitle>New List</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Create a new shopping list.
-            </DialogContentText>
+            <DialogContentText>Create a new shopping list.</DialogContentText>
             <TextField
               onChange={this.handleChange}
               autoFocus
@@ -101,8 +98,16 @@ class AddList extends React.Component<Props, State> {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={this.handleCancel} color='primary'>Cancel</Button>
-            <Button onClick={this.handleCreate} disabled={cannotCreate} color='primary'>Create</Button>
+            <Button onClick={this.handleCancel} color='primary'>
+              Cancel
+            </Button>
+            <Button
+              onClick={this.handleCreate}
+              disabled={cannotCreate}
+              color='primary'
+            >
+              Create
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -110,13 +115,14 @@ class AddList extends React.Component<Props, State> {
   }
 }
 
-const styles = (theme: Theme) => createStyles({
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    fab: {
+      position: 'absolute',
+      bottom: theme.spacing.unit * 2,
+      right: theme.spacing.unit * 2,
+    },
+  });
 
 const AddListWithStyle = withStyles(styles)(AddList);
 

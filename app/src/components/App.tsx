@@ -9,10 +9,9 @@ import List from './List';
 import { greeting, model } from 'shopper-lib';
 import AddItem from './AddItem';
 
-
 type AppPropType = {};
 type AppStateType = {
-  list: model.List,
+  list: model.List;
 };
 
 class App extends Component<AppPropType, AppStateType> {
@@ -57,7 +56,7 @@ class App extends Component<AppPropType, AppStateType> {
           </Toolbar>
         </AppBar>
 
-        <List list={this.state.list}/>
+        <List list={this.state.list} />
         <AddItem onCreate={this.onCreateNewItem} />
       </div>
     );

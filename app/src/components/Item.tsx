@@ -29,16 +29,15 @@ const ItemBox = posed.div({
     },
     // x: -200,
     opacity: 0.2,
-    scale: 0.95
-  }
+    scale: 0.95,
+  },
 });
 
-type State = {
-};
+type State = {};
 
 type Props = {
-  item: model.Item,
-  toggle: (item: model.Item) => void,
+  item: model.Item;
+  toggle: (item: model.Item) => void;
 };
 
 class Item extends Component<Props, State> {
@@ -55,22 +54,28 @@ class Item extends Component<Props, State> {
   render() {
     const item = this.props.item;
 
-    return (<ItemBox {...this.props} className='Item'
-      pose={!item.done ? 'visible' : 'hidden'}
-      initialPose='initial'
-      onClick={this.toggle} >
+    return (
+      <ItemBox
+        {...this.props}
+        className='Item'
+        pose={!item.done ? 'visible' : 'hidden'}
+        initialPose='initial'
+        onClick={this.toggle}
+      >
+        <div className='Item-left-block'>
+          <div className='Item-name'>
+            {item.name} {item.uuid}
+          </div>
 
-      <div className='Item-left-block'>
-        <div className='Item-name'>{item.name} {item.uuid}</div>
+          {item.comments && <div className='Item-comment'>{item.comments}</div>}
+        </div>
 
-        {item.comments && <div className='Item-comment'>{item.comments}</div>}
-      </div>
-
-      <div className='Item-right-block'>
-        <div className='Item-count'>{item.quantity.amount}</div>
-        <div className='Item-unit'>{item.quantity.unit}</div>
-      </div>
-    </ItemBox>);
+        <div className='Item-right-block'>
+          <div className='Item-count'>{item.quantity.amount}</div>
+          <div className='Item-unit'>{item.quantity.unit}</div>
+        </div>
+      </ItemBox>
+    );
   }
 }
 

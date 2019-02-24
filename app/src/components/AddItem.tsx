@@ -15,16 +15,16 @@ import { model } from 'shopper-lib';
 
 type Props = {
   // type of `fab` not really important, just to please typescript
-  classes: { fab: any },
-  onCreate: (name: model.Item) => void,
+  classes: { fab: any };
+  onCreate: (name: model.Item) => void;
 };
 
 type State = {
-  open: boolean,
-  name: string,
-  quantity: string,
-  unit: string,
-  comments: string,
+  open: boolean;
+  name: string;
+  quantity: string;
+  unit: string;
+  comments: string;
 };
 
 const EmptyState = {
@@ -38,12 +38,11 @@ const EmptyState = {
  * Add Item Fab button and Dialog
  */
 class AddItem extends React.Component<Props, State> {
-
   constructor(props: Readonly<Props>) {
     super(props);
     this.state = {
       open: false,
-      ...EmptyState
+      ...EmptyState,
     };
 
     this.handleOpen = this.handleOpen.bind(this);
@@ -52,7 +51,9 @@ class AddItem extends React.Component<Props, State> {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleChange(event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
+  handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     if (event.target.value === null || event.target.value === undefined) {
       return;
     }
@@ -64,9 +65,9 @@ class AddItem extends React.Component<Props, State> {
   handleOpen() {
     this.setState({
       open: true,
-      ...EmptyState
+      ...EmptyState,
     });
-  };
+  }
 
   handleCreate() {
     const { name, quantity, unit, comments } = this.state;
@@ -80,16 +81,16 @@ class AddItem extends React.Component<Props, State> {
 
     this.setState({
       open: false,
-      ...EmptyState
+      ...EmptyState,
     });
-  };
+  }
 
   handleCancel() {
     this.setState({
       open: false,
-      ...EmptyState
+      ...EmptyState,
     });
-  };
+  }
 
   render() {
     const { classes } = this.props;
@@ -107,15 +108,10 @@ class AddItem extends React.Component<Props, State> {
           </Fab>
         </Tooltip>
 
-        <Dialog
-          open={this.state.open}
-          onClose={this.handleCancel}
-        >
+        <Dialog open={this.state.open} onClose={this.handleCancel}>
           <DialogTitle>New Item</DialogTitle>
           <DialogContent>
-            <DialogContentText>
-              Create a new list item.
-            </DialogContentText>
+            <DialogContentText>Create a new list item.</DialogContentText>
             <TextField
               error={cannotCreate}
               name='name'
@@ -159,8 +155,16 @@ class AddItem extends React.Component<Props, State> {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={this.handleCancel} color='primary'>Cancel</Button>
-            <Button onClick={this.handleCreate} disabled={cannotCreate} color='primary'>Create</Button>
+            <Button onClick={this.handleCancel} color='primary'>
+              Cancel
+            </Button>
+            <Button
+              onClick={this.handleCreate}
+              disabled={cannotCreate}
+              color='primary'
+            >
+              Create
+            </Button>
           </DialogActions>
         </Dialog>
       </div>
@@ -168,13 +172,14 @@ class AddItem extends React.Component<Props, State> {
   }
 }
 
-const styles = (theme: Theme) => createStyles({
-  fab: {
-    position: 'absolute',
-    bottom: theme.spacing.unit * 2,
-    right: theme.spacing.unit * 2,
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    fab: {
+      position: 'absolute',
+      bottom: theme.spacing.unit * 2,
+      right: theme.spacing.unit * 2,
+    },
+  });
 
 const AddItemWithStyle = withStyles(styles)(AddItem);
 

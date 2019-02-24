@@ -17,13 +17,12 @@ const sortFunction = (a: model.Item, b: model.Item) => {
   return 1;
 };
 
-
 type Props = {
-  list: model.List,
+  list: model.List;
 };
 
 type State = {
-  list: model.List,
+  list: model.List;
 };
 
 class List extends Component<Props, State> {
@@ -47,11 +46,15 @@ class List extends Component<Props, State> {
   render() {
     const items = this.props.list.items.slice().sort(sortFunction);
 
-    return (<div className='List'>
-      <PoseGroup>
-        {items.map((item) => (<Item key={item.uuid} item={item} toggle={this.toggleItem} />))}
-      </PoseGroup>
-    </div>);
+    return (
+      <div className='List'>
+        <PoseGroup>
+          {items.map((item) => (
+            <Item key={item.uuid} item={item} toggle={this.toggleItem} />
+          ))}
+        </PoseGroup>
+      </div>
+    );
   }
 }
 
