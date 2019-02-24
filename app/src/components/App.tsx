@@ -42,6 +42,10 @@ class App extends Component<AppPropType, AppStateType> {
   }
 
   render() {
+    const total = this.state.list.items.length;
+    const done = this.state.list.items.filter((item) => !item.done).length;
+    // FIXME: tight coupling and does not update on click!
+
     return (
       <div>
         <AppBar position='static'>
@@ -49,11 +53,11 @@ class App extends Component<AppPropType, AppStateType> {
             <Typography variant='h6' color='inherit' style={{ flexGrow: 1 }}>
               {greeting}
             </Typography>
-            {this.state.list.name}
+            {this.state.list.name}: {done} / {total}
           </Toolbar>
         </AppBar>
 
-        <List list={this.state.list} />
+        <List list={this.state.list}/>
         <AddItem onCreate={this.onCreateNewItem} />
       </div>
     );
