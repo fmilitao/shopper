@@ -1,35 +1,31 @@
 # Shopper - Progressive Web App
 
-The intention is for this project to be a re-imagining of `shopper-android` using a progressive web app. This should enable easier updates, since the app should be small anyway, and hopefully simpler to build.
+Rewrite of `shopper-android` using a progressive web app.
 
----
+- Run development server using (after initial `yarn install`):
 
-Goals:
- - Import/export to Google Sheets + Clipboard
- - Save to local storage, so synchronization does not need to happen immediately
- - Simple list filtering to filter by store, category, or something else
- - Add price when marking as done, estimate the final cost of the list
- - Price tracking?
+```
+yarn start
+```
 
-> Make project public when MVP-ready
-> This needs an API key or permission that I still need to figure out how to store. Could it be just locked to an URL?
+## Tasks
+
+- Edit/Remove items/list (https://material-ui.com/components/bottom-navigation/)?
+- Import/export Clipboard
+- Simple list sorting (not completed, alphabetically)
+- Enable service worker and pass PWA checks
 
 ## Useful Links
 
-* https://reactjs.org/docs/forms.html
-* https://github.com/mui-org/material-ui/tree/master/examples/create-react-app
-* https://hackernoon.com/animations-in-react-at-60fps-an-introduction-to-react-pose-6db5a1c1e0ae
-* https://medium.com/@joomiguelcunha/amazing-react-animation-with-react-pose-3b67d9eb6e07
-* https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
-* https://www.npmjs.com/package/jsondiffpatch (for minimal array diffing)
-* https://stackoverflow.com/questions/43329654/android-back-button-on-a-progressive-web-application-closes-de-app
-* https://hackernoon.com/a-progressive-web-app-in-vue-tutorial-part-1-the-vue-app-f9231b032a0b
-* https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
-* https://developers.google.com/web/progressive-web-apps/checklist
-* https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
-* https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
-
-## Notes on Speeding up TypeScript compilation
-
-Probably the easiest way to to run `npm run build-watch` to have incremental compilation, and then
-use the `jest` config that runs over the `build` directory with `npm run build-test`.
+- https://reactjs.org/docs/forms.html
+- https://github.com/mui-org/material-ui/tree/master/examples/create-react-app
+- https://hackernoon.com/animations-in-react-at-60fps-an-introduction-to-react-pose-6db5a1c1e0ae
+- https://medium.com/@joomiguelcunha/amazing-react-animation-with-react-pose-3b67d9eb6e07
+- https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API
+- https://www.npmjs.com/package/jsondiffpatch (for minimal array diffing)
+- https://stackoverflow.com/questions/43329654/android-back-button-on-a-progressive-web-application-closes-de-app
+- https://hackernoon.com/a-progressive-web-app-in-vue-tutorial-part-1-the-vue-app-f9231b032a0b
+- https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
+- https://developers.google.com/web/progressive-web-apps/checklist
+- https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
+- https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/
