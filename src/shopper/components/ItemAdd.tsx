@@ -1,24 +1,12 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/AddShoppingCart';
-import Dialog from './AddListDialog';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      margin: theme.spacing(1),
-      position: 'absolute',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-      zIndex: 1,
-    },
-  })
-);
+import AddIcon from '@material-ui/icons/Add';
+import Dialog from './ItemAddDialog';
 
 interface Props {
-  isValid(value: string): boolean;
-  onValue(value: string): void;
+  isValid(value: { name: string; quantity: number }): boolean;
+  onValue(value: { name: string; quantity: number }): void;
 }
 
 export default function (props: Props) {
@@ -29,7 +17,7 @@ export default function (props: Props) {
   return (
     <div className={classes.root}>
       <Fab
-        title="Add list"
+        title="Add item"
         color="secondary"
         aria-label="add"
         onClick={() => setOpen(true)}
@@ -49,3 +37,15 @@ export default function (props: Props) {
     </div>
   );
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      margin: theme.spacing(1),
+      position: 'absolute',
+      bottom: theme.spacing(2),
+      right: theme.spacing(2),
+      zIndex: 1,
+    },
+  })
+);

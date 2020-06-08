@@ -1,8 +1,8 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import Dialog from './AddItemDialog';
+import AddIcon from '@material-ui/icons/AddShoppingCart';
+import Dialog from './ShoppingListAddDialog';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 interface Props {
-  isValid(value: { name: string; quantity: number }): boolean;
-  onValue(value: { name: string; quantity: number }): void;
+  isValid(value: string): boolean;
+  onValue(value: string): void;
 }
 
 export default function (props: Props) {
@@ -29,7 +29,7 @@ export default function (props: Props) {
   return (
     <div className={classes.root}>
       <Fab
-        title="Add item"
+        title="Add list"
         color="secondary"
         aria-label="add"
         onClick={() => setOpen(true)}

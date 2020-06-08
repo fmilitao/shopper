@@ -5,7 +5,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from '@material-ui/core/IconButton';
-import type { Props } from './AppBarContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,21 +20,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface Props {
+  selectedList?: {
+    listName: string;
+    pendingItemCount: number;
+    totalItemCount: number;
+  };
+  deselectList: () => void;
+}
+
 export default function ButtonAppBar(props: Props) {
   const classes = useStyles();
-  const showBackButton = props.shopper.isListSelected;
 
   let title = 'Shopper';
-  if (props.shopper.isListSelected) {
-    const list = props.shopper.lists[props.shopper.selectedList!];
-    title = list.name;
-    if (list.items.length > 0) {
-      const done = list.items.reduce(
-        (prev, curr) => prev + Number(!curr.enabled),
-        0
-      );
-
-      title = `${title} (${done}/${list.items.length})`;
+  if (props.selectedList) {
+    const { listName, pendingItemCount, totalItemCount } = props.selectedList;
+    title = listName!;
+    if (totalItemCount! > 0) {
+      title = `${title} (${pendingItemCount}/${totalItemCount})`;
     }
   }
 
@@ -43,7 +45,7 @@ export default function ButtonAppBar(props: Props) {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          {showBackButton && (
+          {props.selectedList && (
             <IconButton
               edge="start"
               className={classes.menuButton}

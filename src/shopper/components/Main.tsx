@@ -1,9 +1,9 @@
 import { ConnectedProps, connect } from 'react-redux';
 import React from 'react';
-import AppBar from './AppBarContainer';
-import AddList from './AddListButtonContainer';
-import AddItem from './AddItemButtonContainer';
-import List from './ShoppingListContainer';
+import Component from './AppBarContainer';
+import AddList from './ShoppingListAddContainer';
+import AddItem from './ItemAddContainer';
+import List from './ShoppingList';
 import ItemList from './ItemListContainer';
 import { mapState } from '../redux/store';
 
@@ -23,7 +23,7 @@ function Main(props: Props) {
         height: '100%',
       }}
     >
-      <AppBar />
+      <Component />
       {isListView ? <ItemList /> : <List />}
       {isListView ? <AddItem /> : <AddList />}
     </div>

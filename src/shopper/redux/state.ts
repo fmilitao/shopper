@@ -42,7 +42,6 @@ const ListSchema = {
 
 export interface ShopperState {
   selectedList: number | undefined;
-  selectedItem: number | undefined;
   lists: List[];
 }
 
@@ -51,9 +50,6 @@ export const ShopperStateSchema = {
   type: 'object',
   properties: {
     selectedList: {
-      type: 'number',
-    },
-    selectedIndex: {
       type: 'number',
     },
     lists: {

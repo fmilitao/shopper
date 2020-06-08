@@ -7,14 +7,6 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      backgroundColor: theme.palette.background.default,
-    },
-  })
-);
-
 interface Props {
   lists: { name: string; comment: string; enabled?: boolean }[];
   onClick(index: number): void;
@@ -25,32 +17,16 @@ export default function SimpleList(props: Props) {
   const classes = useStyles();
 
   return (
-    <div
-      style={{
-        flex: '1',
-        height: '90vh',
-        border: '1px solid red',
-        display: 'flex',
-        flexDirection: 'column',
-      }}
-      className={classes.root}
-    >
-      <List
-        // component="nav"
-        style={{
-          overflow: 'scroll',
-          border: '1px solid blue',
-        }}
-      >
+    <div className={classes.root}>
+      <List component="nav" className={classes.list}>
         {props.lists.map(({ name, comment, enabled }, index) => {
           const show = enabled !== false;
 
           return (
             <ListItem
-              // FIXME: messy with the style above, but need to override the click focus/effect
+              // style override here so that ripple effect does not take priority
               style={{ backgroundColor: show ? 'white' : 'gray' }}
               key={index}
-              // ripple effect changes the bg color!
               button
               onClick={() => props.onClick(index)}
             >
@@ -72,5 +48,19 @@ export default function SimpleList(props: Props) {
   );
 }
 
-// long press?
-// https://stackoverflow.com/questions/48048957/react-long-press-event
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      backgroundColor: theme.palette.background.default,
+      flex: '1',
+      height: '90vh',
+      border: '1px solid red',
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    list: {
+      overflow: 'scroll',
+      border: '1px solid blue',
+    },
+  })
+);

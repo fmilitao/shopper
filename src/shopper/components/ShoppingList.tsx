@@ -1,4 +1,4 @@
-import { ConnectedProps, connect } from 'react-redux';
+import { connect } from 'react-redux';
 import { actions, RootState } from '../redux/store';
 import List from './List';
 
@@ -17,10 +17,5 @@ const dispatchToProps = {
 };
 
 const connector = connect(mapToListState, dispatchToProps);
-
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromArgs = {};
-
-export type Props = PropsFromRedux & PropsFromArgs;
 
 export default connector(List);

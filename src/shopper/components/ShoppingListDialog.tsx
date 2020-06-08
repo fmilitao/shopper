@@ -8,17 +8,20 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
+  value: string;
+  title: string;
+  okText: string;
+  descriptionText: string;
+  // internal
   isOpen: boolean;
   isValid: (value: string) => boolean;
   onClose: (value?: string) => void;
 }
 
-const initialValue = '';
-
 export default function (props: Props) {
-  const initialCheck = props.isValid(initialValue);
+  const initialCheck = props.isValid(props.value);
   const [isValidCheck, setValidCheck] = React.useState(initialCheck);
-  const [tmpValue, setTmpValue] = React.useState(initialValue);
+  const [tmpValue, setTmpValue] = React.useState(props.value);
 
   function handleClose(isSet: boolean) {
     if (isSet) {
@@ -26,7 +29,7 @@ export default function (props: Props) {
     } else {
       props.onClose();
     }
-    setTmpValue(initialValue);
+    setTmpValue(props.value);
   }
 
   function handleChange(event: any) {
@@ -38,11 +41,9 @@ export default function (props: Props) {
   return (
     <div>
       <Dialog open={props.isOpen} onClose={() => handleClose(false)}>
-        <DialogTitle>Create List</DialogTitle>
+        <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Pick the name for your new list.
-          </DialogContentText>
+          <DialogContentText>{props.descriptionText}</DialogContentText>
           <TextField
             error={!isValidCheck}
             autoFocus
@@ -63,7 +64,7 @@ export default function (props: Props) {
             color="primary"
             disabled={!isValidCheck}
           >
-            Create
+            {props.okText}
           </Button>
         </DialogActions>
       </Dialog>

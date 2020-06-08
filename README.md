@@ -10,7 +10,7 @@ yarn start
 
 ## Tasks
 
-- Edit/Remove items/list (https://material-ui.com/components/bottom-navigation/)?
+- Edit/Remove items/list (long press dialog generic for add/edit)
 - Import/export Clipboard
 - Simple list sorting (not completed, alphabetically)
 - Enable service worker and pass PWA checks

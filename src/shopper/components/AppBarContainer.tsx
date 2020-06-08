@@ -1,12 +1,31 @@
-import { ConnectedProps, connect } from 'react-redux';
-import { actions, mapState } from '../redux/store';
-import AppBar from './AppBar';
+import { connect } from 'react-redux';
+import type { RootState } from '../redux/store';
+import { actions } from '../redux/store';
+import Component from './AppBar';
 
-const connector = connect(mapState, actions);
+export const mapStateToProps = (state: RootState) => {
+  if (state.shopper.selectedList !== undefined) {
+    const list = state.shopper.lists[state.shopper.selectedList!];
+    const listName = list.name;
+    const totalItemCount = list.items.length;
+    const pendingItemCount = list.items.reduce(
+      (prev, curr) => prev + Number(!curr.enabled),
+      0
+    );
+    return {
+      selectedList: {
+        totalItemCount,
+        pendingItemCount,
+        listName,
+      },
+    };
+  }
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type PropsFromArgs = {};
+  return {
+    selectedList: undefined,
+  };
+};
 
-export type Props = PropsFromRedux & PropsFromArgs;
+const connector = connect(mapStateToProps, actions);
 
-export default connector(AppBar);
+export default connector(Component);
