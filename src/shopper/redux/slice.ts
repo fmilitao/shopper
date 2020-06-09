@@ -24,6 +24,9 @@ const defaultValue: ShopperState = {
 
 const initialState: ShopperState = load(defaultValue);
 
+const isInBounds = <T>(index: number, array: T[]) =>
+  index >= 0 && index < array.length;
+
 export const shopperSlice = createSlice({
   name: 'counter',
   initialState,
@@ -35,10 +38,16 @@ export const shopperSlice = createSlice({
       state,
       action: PayloadAction<{ index: number; name: string }>
     ) => {
-      state.lists[action.payload.index].name = action.payload.name;
+      const { index, name } = action.payload;
+      if (isInBounds(index, state.lists)) {
+        state.lists[index].name = name;
+      }
     },
     deleteList: (state, action: PayloadAction<number>) => {
-      state.lists.splice(action.payload, 1);
+      const index = action.payload;
+      if (isInBounds(index, state.lists)) {
+        state.lists.splice(index, 1);
+      }
     },
     selectList: (state, action: PayloadAction<number>) => {
       state.selectedList = action.payload;
@@ -50,15 +59,12 @@ export const shopperSlice = createSlice({
       state,
       action: PayloadAction<{ name: string; quantity: number }>
     ) => {
+      const { name, quantity } = action.payload;
       const listIndex = state.selectedList;
-      if (
-        listIndex !== undefined &&
-        listIndex >= 0 &&
-        listIndex < state.lists.length
-      ) {
+      if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
         state.lists[listIndex].items.push({
-          name: action.payload.name,
-          quantity: action.payload.quantity,
+          name,
+          quantity,
           enabled: true,
         });
       }
@@ -67,36 +73,39 @@ export const shopperSlice = createSlice({
       state,
       action: PayloadAction<{ index: number; name: string; quantity: number }>
     ) => {
+      const { index, name, quantity } = action.payload;
       const listIndex = state.selectedList;
+      const itemIndex = index;
       if (
         listIndex !== undefined &&
-        listIndex >= 0 &&
-        listIndex < state.lists.length
-        // TODO: bound check on index
+        isInBounds(listIndex, state.lists) &&
+        isInBounds(itemIndex, state.lists[listIndex].items)
       ) {
-        const item = state.lists[listIndex].items[action.payload.index];
-        item.name = action.payload.name;
-        item.quantity = action.payload.quantity;
+        const item = state.lists[listIndex].items[itemIndex];
+        item.name = name;
+        item.quantity = quantity;
       }
     },
     deleteItem: (state, action: PayloadAction<number>) => {
       const listIndex = state.selectedList;
+      const itemIndex = action.payload;
       if (
         listIndex !== undefined &&
-        listIndex >= 0 &&
-        listIndex < state.lists.length
+        isInBounds(listIndex, state.lists) &&
+        isInBounds(itemIndex, state.lists[listIndex].items)
       ) {
-        state.lists[listIndex].items.splice(action.payload, 1);
+        state.lists[listIndex].items.splice(itemIndex, 1);
       }
     },
     toggleItem: (state, action: PayloadAction<number>) => {
       const listIndex = state.selectedList;
+      const itemIndex = action.payload;
       if (
         listIndex !== undefined &&
-        listIndex >= 0 &&
-        listIndex < state.lists.length
+        isInBounds(listIndex, state.lists) &&
+        isInBounds(itemIndex, state.lists[listIndex].items)
       ) {
-        const item = state.lists[listIndex].items[action.payload];
+        const item = state.lists[listIndex].items[itemIndex];
         item.enabled = !item.enabled;
       }
     },

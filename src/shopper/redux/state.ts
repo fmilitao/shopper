@@ -41,7 +41,7 @@ const ListSchema = {
 };
 
 export interface ShopperState {
-  selectedList: number | undefined;
+  selectedList?: number;
   lists: List[];
 }
 

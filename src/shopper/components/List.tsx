@@ -19,30 +19,27 @@ export default function SimpleList(props: Props) {
   return (
     <div className={classes.root}>
       <List component="nav" className={classes.list}>
-        {props.lists.map(({ name, comment, enabled }, index) => {
-          const show = enabled !== false;
-
-          return (
-            <ListItem
-              // style override here so that ripple effect does not take priority
-              style={{ backgroundColor: show ? 'white' : 'gray' }}
-              key={index}
-              button
-              onClick={() => props.onClick(index)}
-            >
-              <ListItemText primary={name} secondary={comment} />
-              <ListItemSecondaryAction>
-                <IconButton
-                  edge="end"
-                  aria-label="delete"
-                  onClick={() => props.onDelete(index)}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          );
-        })}
+        {props.lists.map(({ name, comment, enabled }, index) => (
+          <ListItem
+            // style override here so that ripple effect does not take priority
+            // enabled is true or undefined: white, else: gray
+            style={{ backgroundColor: enabled !== false ? 'white' : 'gray' }}
+            key={index}
+            button
+            onClick={() => props.onClick(index)}
+          >
+            <ListItemText primary={name} secondary={comment} />
+            <ListItemSecondaryAction>
+              <IconButton
+                edge="end"
+                aria-label="delete"
+                onClick={() => props.onDelete(index)}
+              >
+                <DeleteIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
       </List>
     </div>
   );
