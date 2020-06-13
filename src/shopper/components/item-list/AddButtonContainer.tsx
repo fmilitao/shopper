@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { actions, mapState } from '../../redux/store';
-import Component from './ItemAdd';
+import Component from './AddButton';
 
 const connector = connect(mapState, {
   onValue: (value: { name: string; quantity: number }) =>

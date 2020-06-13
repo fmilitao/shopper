@@ -1,8 +1,8 @@
 import { ConnectedProps, connect } from 'react-redux';
 import React from 'react';
 import Component from './app-bar/AppBarContainer';
-import List from './shopping-list/ShoppingList';
-import ItemList from './item-list/ItemListContainer';
+import List from './shopping-list/ListContainer';
+import ItemList from './item-list/ListContainer';
 import { mapState } from '../redux/store';
 
 const connector = connect(mapState);

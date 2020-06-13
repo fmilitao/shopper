@@ -1,5 +1,5 @@
 import React from 'react';
-import ListDialog from './ShoppingListDialog';
+import ListDialog from './GenericListDialog';
 
 interface Props {
   isOpen: boolean;

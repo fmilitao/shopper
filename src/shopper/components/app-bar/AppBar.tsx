@@ -5,8 +5,8 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from '@material-ui/core/IconButton';
-import AddList from '../shopping-list/ShoppingListAddContainer';
-import AddItem from '../item-list/ItemAddContainer';
+import AddList from '../shopping-list/AddButtonContainer';
+import AddItem from '../item-list/AddButtonContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

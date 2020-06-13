@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 // import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Dialog from './ItemAddDialog';
+import Dialog from './AddDialog';
 
 interface Props {
   isValid(value: { name: string; quantity: number }): boolean;
