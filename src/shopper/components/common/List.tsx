@@ -4,12 +4,12 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import Menu from './Menu';
 
 interface Props {
   lists: { name: string; comment: string; enabled?: boolean }[];
   onClick(index: number): void;
+  onEdit(index: number): void;
   onDelete(index: number): void;
 }
 
@@ -30,13 +30,12 @@ export default function SimpleList(props: Props) {
           >
             <ListItemText primary={name} secondary={comment} />
             <ListItemSecondaryAction>
-              <IconButton
-                edge="end"
-                aria-label="delete"
-                onClick={() => props.onDelete(index)}
-              >
-                <DeleteIcon />
-              </IconButton>
+              <Menu
+                actions={[
+                  { label: 'edit', action: () => props.onEdit(index) },
+                  { label: 'delete', action: () => props.onDelete(index) },
+                ]}
+              />
             </ListItemSecondaryAction>
           </ListItem>
         ))}

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { ShopperState } from './state';
+import { ShopperState, DialogType } from './state';
 import { load } from './localStorage';
 
 // const defaultValue: ShopperState = {
@@ -31,17 +31,21 @@ export const shopperSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
+    // list
     addList: (state, action: PayloadAction<string>) => {
+      state.dialogState = undefined;
       state.lists.push({ name: action.payload, items: [] });
     },
-    editList: (
-      state,
-      action: PayloadAction<{ index: number; name: string }>
-    ) => {
-      const { index, name } = action.payload;
-      if (isInBounds(index, state.lists)) {
-        state.lists[index].name = name;
+    editList: (state, action: PayloadAction<string>) => {
+      const { dialogState } = state;
+      if (dialogState && dialogState.type === DialogType.EDIT_LIST) {
+        const { index } = dialogState;
+        const name = action.payload;
+        if (isInBounds(index, state.lists)) {
+          state.lists[index].name = name;
+        }
       }
+      state.dialogState = undefined;
     },
     deleteList: (state, action: PayloadAction<number>) => {
       const index = action.payload;
@@ -55,10 +59,12 @@ export const shopperSlice = createSlice({
     deselectList: state => {
       state.selectedList = undefined;
     },
+    // item
     addItem: (
       state,
       action: PayloadAction<{ name: string; quantity: number }>
     ) => {
+      state.dialogState = undefined;
       const { name, quantity } = action.payload;
       const listIndex = state.selectedList;
       if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
@@ -71,20 +77,25 @@ export const shopperSlice = createSlice({
     },
     editItem: (
       state,
-      action: PayloadAction<{ index: number; name: string; quantity: number }>
+      action: PayloadAction<{ name: string; quantity: number }>
     ) => {
-      const { index, name, quantity } = action.payload;
-      const listIndex = state.selectedList;
-      const itemIndex = index;
-      if (
-        listIndex !== undefined &&
-        isInBounds(listIndex, state.lists) &&
-        isInBounds(itemIndex, state.lists[listIndex].items)
-      ) {
-        const item = state.lists[listIndex].items[itemIndex];
-        item.name = name;
-        item.quantity = quantity;
+      const { dialogState } = state;
+      if (dialogState && dialogState.type === DialogType.EDIT_ITEM) {
+        const { index } = dialogState;
+        const { name, quantity } = action.payload;
+        const listIndex = state.selectedList;
+        const itemIndex = index;
+        if (
+          listIndex !== undefined &&
+          isInBounds(listIndex, state.lists) &&
+          isInBounds(itemIndex, state.lists[listIndex].items)
+        ) {
+          const item = state.lists[listIndex].items[itemIndex];
+          item.name = name;
+          item.quantity = quantity;
+        }
       }
+      state.dialogState = undefined;
     },
     deleteItem: (state, action: PayloadAction<number>) => {
       const listIndex = state.selectedList;
@@ -108,6 +119,32 @@ export const shopperSlice = createSlice({
         const item = state.lists[listIndex].items[itemIndex];
         item.enabled = !item.enabled;
       }
+    },
+    // dialog
+    openAddListDialog: state => {
+      state.dialogState = {
+        type: DialogType.ADD_LIST,
+      };
+    },
+    openEditListDialog: (state, action: PayloadAction<number>) => {
+      state.dialogState = {
+        type: DialogType.EDIT_LIST,
+        index: action.payload,
+      };
+    },
+    openAddItemDialog: state => {
+      state.dialogState = {
+        type: DialogType.ADD_ITEM,
+      };
+    },
+    openEditItemDialog: (state, action: PayloadAction<number>) => {
+      state.dialogState = {
+        type: DialogType.EDIT_ITEM,
+        index: action.payload,
+      };
+    },
+    closeDialog: state => {
+      state.dialogState = undefined;
     },
   },
 });

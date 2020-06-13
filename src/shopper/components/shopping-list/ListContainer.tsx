@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { actions, RootState } from '../../redux/store';
-import List from './List';
+import List from '../common/List';
 
 const mapToListState = (state: RootState) => {
   return {
@@ -13,6 +13,7 @@ const mapToListState = (state: RootState) => {
 
 const dispatchToProps = {
   onDelete: (index: number) => actions.deleteList(index),
+  onEdit: (index: number) => actions.openEditListDialog(index),
   onClick: (index: number) => actions.selectList(index),
 };
 

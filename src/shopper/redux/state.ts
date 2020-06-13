@@ -43,6 +43,8 @@ const ListSchema = {
 export interface ShopperState {
   selectedList?: number;
   lists: List[];
+  // not in schema
+  dialogState?: DialogState;
 }
 
 export const ShopperStateSchema = {
@@ -61,3 +63,34 @@ export const ShopperStateSchema = {
   additionalProperties: false,
   required: ['lists'],
 };
+
+// not in schema
+export enum DialogType {
+  ADD_LIST,
+  EDIT_LIST,
+  ADD_ITEM,
+  EDIT_ITEM,
+}
+
+export interface AddListDialog {
+  type: DialogType.ADD_LIST;
+}
+export interface AddItemDialog {
+  type: DialogType.ADD_ITEM;
+}
+
+export interface EditListDialog {
+  type: DialogType.EDIT_LIST;
+  index: number;
+}
+
+export interface EditItemDialog {
+  type: DialogType.EDIT_ITEM;
+  index: number;
+}
+
+export type DialogState =
+  | AddListDialog
+  | AddItemDialog
+  | EditListDialog
+  | EditItemDialog;

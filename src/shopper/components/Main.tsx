@@ -2,6 +2,10 @@ import { ConnectedProps, connect } from 'react-redux';
 import React from 'react';
 import Component from './app-bar/AppBarContainer';
 import List from './shopping-list/ListContainer';
+import AddListDialog from './shopping-list/AddDialogContainer';
+import AddItemDialog from './item-list/AddDialogContainer';
+import EditListDialog from './shopping-list/EditDialogContainer';
+import EditItemDialog from './item-list/EditDialogContainer';
 import ItemList from './item-list/ListContainer';
 import { mapState } from '../redux/store';
 
@@ -23,6 +27,10 @@ function Main(props: Props) {
     >
       <Component />
       {isListView ? <ItemList /> : <List />}
+      <AddListDialog />
+      <AddItemDialog />
+      <EditListDialog />
+      <EditItemDialog />
     </div>
   );
 }

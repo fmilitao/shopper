@@ -29,5 +29,10 @@ export function load(defaultValue: ShopperState): ShopperState {
 }
 
 export function save(state: ShopperState) {
-  localStorage.setItem(key, JSON.stringify(state));
+  const shallowClone = {
+    ...state,
+    // ensure not saved
+    dialogState: undefined,
+  };
+  localStorage.setItem(key, JSON.stringify(shallowClone));
 }

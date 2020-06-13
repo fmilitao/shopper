@@ -8,18 +8,21 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
-  value: string;
   title: string;
   okText: string;
   descriptionText: string;
-  // internal
+  // ...
   isOpen: boolean;
-  isValid: (value: string) => boolean;
-  onClose: (value?: string) => void;
+  value: { name: string; quantity: number };
+  onClose: (value?: { name: string; quantity: number }) => void;
 }
 
+// FIXME: validation should be by each field!
+const isValid = (newValue: { name: string; quantity: number }) =>
+  newValue.name.trim().length > 0 && newValue.quantity > 0;
+
 export default function (props: Props) {
-  const initialCheck = props.isValid(props.value);
+  const initialCheck = isValid(props.value);
   const [isValidCheck, setValidCheck] = React.useState(initialCheck);
   const [tmpValue, setTmpValue] = React.useState(props.value);
 
@@ -32,15 +35,33 @@ export default function (props: Props) {
     setTmpValue(props.value);
   }
 
-  function handleChange(event: any) {
-    const newValue = event.target.value;
+  function handleNameChange(event: any) {
+    const newValue = { name: event.target.value, quantity: tmpValue.quantity };
     setTmpValue(newValue);
-    setValidCheck(props.isValid(newValue));
+    setValidCheck(isValid(newValue));
+  }
+
+  function handleOpen() {
+    setTmpValue(props.value);
+    setValidCheck(isValid(props.value));
+  }
+
+  function handleQuantityChange(event: any) {
+    const newValue = {
+      name: tmpValue.name,
+      quantity: Number(event.target.value),
+    };
+    setTmpValue(newValue);
+    setValidCheck(isValid(newValue));
   }
 
   return (
     <div>
-      <Dialog open={props.isOpen} onClose={() => handleClose(false)}>
+      <Dialog
+        open={props.isOpen}
+        onEnter={() => handleOpen()}
+        onClose={() => handleClose(false)}
+      >
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>{props.descriptionText}</DialogContentText>
@@ -48,11 +69,25 @@ export default function (props: Props) {
             error={!isValidCheck}
             autoFocus
             margin="dense"
-            label="List name"
+            label="Item name"
             type="text"
-            onChange={handleChange}
+            onChange={handleNameChange}
             fullWidth
-            value={tmpValue}
+            value={tmpValue.name}
+          />
+          <TextField
+            error={!isValidCheck}
+            id="standard-number"
+            label="Quantity"
+            placeholder="How many of this item"
+            value={tmpValue.quantity}
+            onChange={handleQuantityChange}
+            type="number"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+            margin="normal"
           />
         </DialogContent>
         <DialogActions>

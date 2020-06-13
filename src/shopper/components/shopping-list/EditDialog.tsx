@@ -3,18 +3,17 @@ import ListDialog from './GenericDialog';
 
 interface Props {
   isOpen: boolean;
+  initialValue: string;
   onClose: (value?: string) => void;
 }
-
-const initialValue = '';
 
 export default function (props: Props) {
   return (
     <ListDialog
-      value={initialValue}
-      title="Create List"
-      okText="Create"
-      descriptionText="Pick the name for your new list."
+      value={props.initialValue}
+      title="Edit List"
+      okText="Update"
+      descriptionText="Pick the name for your list."
       {...props}
     />
   );

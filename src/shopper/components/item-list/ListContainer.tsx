@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { actions, RootState } from '../../redux/store';
-import List from './List';
+import List from '../common/List';
 
 const mapToListState = (state: RootState) => {
   const index = state.shopper.selectedList;
@@ -20,6 +20,7 @@ const mapToListState = (state: RootState) => {
 
 const dispatchToProps = {
   onDelete: (index: number) => actions.deleteItem(index),
+  onEdit: (index: number) => actions.openEditItemDialog(index),
   onClick: (index: number) => actions.toggleItem(index),
 };
 
