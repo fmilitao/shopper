@@ -4,9 +4,10 @@ import List from '../common/List';
 
 const mapToListState = (state: RootState) => {
   return {
-    lists: state.shopper.lists.map(({ name, items }) => ({
+    lists: state.shopper.lists.map(({ name, items }, index) => ({
       name,
       comment: `${items.length} items`,
+      index,
     })),
   };
 };

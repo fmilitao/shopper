@@ -7,10 +7,11 @@ const mapToListState = (state: RootState) => {
   if (index !== undefined) {
     return {
       lists: state.shopper.lists[index].items.map(
-        ({ name, quantity, enabled }) => ({
+        ({ name, quantity, enabled }, index) => ({
           name,
           comment: `${quantity} elements`,
           enabled,
+          index,
         })
       ),
     };

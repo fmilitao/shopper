@@ -7,7 +7,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import Menu from './Menu';
 
 interface Props {
-  lists: { name: string; comment: string; enabled?: boolean }[];
+  lists: { name: string; comment: string; enabled?: boolean; index: number }[];
   onClick(index: number): void;
   onEdit(index: number): void;
   onDelete(index: number): void;
@@ -16,10 +16,15 @@ interface Props {
 export default function SimpleList(props: Props) {
   const classes = useStyles();
 
+  // sorts only by enabled / disabled
+  const sorted = props.lists.sort(
+    (a, b) => Number(!a.enabled) - Number(!b.enabled)
+  );
+
   return (
     <div className={classes.root}>
       <List component="nav" className={classes.list}>
-        {props.lists.map(({ name, comment, enabled }, index) => (
+        {sorted.map(({ name, comment, enabled, index }) => (
           <ListItem
             // style override here so that ripple effect does not take priority
             // enabled is true or undefined: white, else: gray

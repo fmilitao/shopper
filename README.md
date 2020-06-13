@@ -5,7 +5,6 @@ Rewrite of `shopper-android` using a progressive web app.
 ## Tasks
 
 - Show Version somewhere
-- Simple list sorting (not completed / alphabetically)
 - Enable service worker and pass PWA checks
 
 ## Useful Links
