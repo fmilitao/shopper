@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ShopperState, DialogType, AppThunk } from './state';
 import { load, validate } from './localStorage';
+import { logger } from './store';
 
 const defaultValue: ShopperState = {
   selectedList: undefined,
@@ -132,8 +133,12 @@ export const shopperSlice = createSlice({
       state.dialogState = undefined;
     },
     copyToClipboard: state => {
-      navigator.clipboard.writeText(JSON.stringify(state));
-      console.log('Copied');
+      if (navigator?.clipboard?.writeText) {
+        navigator.clipboard.writeText(JSON.stringify(state));
+        logger.log('Copied to clipboard.');
+      } else {
+        logger.log('ERROR: Missing clipboard browser functionality');
+      }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {
       state.lists = action.payload.lists;
@@ -143,15 +148,22 @@ export const shopperSlice = createSlice({
 });
 
 export const importFromClipboard = (): AppThunk => dispatch => {
-  navigator.clipboard
-    .readText()
-    .then(value => {
-      const obj = JSON.parse(value);
-      const state = validate(obj);
-      dispatch(actions.updateState(state));
-      console.log('updated');
-    })
-    .catch(error => console.log(error));
+  if (navigator?.clipboard?.readText) {
+    navigator.clipboard
+      .readText()
+      .then(value => {
+        const obj = JSON.parse(value);
+        const state = validate(obj);
+        dispatch(actions.updateState(state));
+        logger.log('Imported from clipboard');
+      })
+      .catch(error => {
+        console.log(error);
+        logger.log(`ERROR: ${error}`);
+      });
+  } else {
+    logger.log('ERROR: Missing clipboard browser functionality');
+  }
 };
 
 export const { actions, reducer } = shopperSlice;

@@ -1,13 +1,14 @@
 import { ConnectedProps, connect } from 'react-redux';
 import React from 'react';
-import Component from './app-bar/AppBarContainer';
+import AppBar from './app-bar/AppBarContainer';
 import List from './shopping-list/ListContainer';
 import AddListDialog from './shopping-list/AddDialogContainer';
 import AddItemDialog from './item-list/AddDialogContainer';
 import EditListDialog from './shopping-list/EditDialogContainer';
 import EditItemDialog from './item-list/EditDialogContainer';
 import ItemList from './item-list/ListContainer';
-import { mapState } from '../redux/store';
+import { mapState, logger } from '../redux/store';
+import Notifier from './common/Notifier';
 
 const connector = connect(mapState);
 
@@ -25,12 +26,13 @@ function Main(props: Props) {
         height: '100%',
       }}
     >
-      <Component />
+      <AppBar />
       {isListView ? <ItemList /> : <List />}
       <AddListDialog />
       <AddItemDialog />
       <EditListDialog />
       <EditItemDialog />
+      <Notifier logger={logger} />
     </div>
   );
 }

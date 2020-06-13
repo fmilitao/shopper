@@ -19,6 +19,9 @@ export const mapState = (state: RootState) => ({
 
 export { actions, importFromClipboard } from './slice';
 
+// note that logger.log will be replaced by the `Notifier` element.
+export const logger = { log: (message: string) => console.log(message) };
+
 // auto-save
 store.subscribe(() => {
   const state = store.getState();
