@@ -8,11 +8,15 @@ Rewrite of `shopper-android` using a progressive web app.
 yarn start
 ```
 
+https://react-swipeable-views.com/
+https://github.com/sandstreamdev/react-swipeable-list
+
 ## Tasks
 
 - Edit/Remove items/list (long press dialog generic for add/edit)
 - Import/export Clipboard
-- Simple list sorting (not completed, alphabetically)
+- Show Version somewhere
+- Simple list sorting (not completed / alphabetically)
 - Enable service worker and pass PWA checks
 
 ## Useful Links

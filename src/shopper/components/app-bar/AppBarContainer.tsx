@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import type { RootState } from '../redux/store';
-import { actions } from '../redux/store';
+import type { RootState } from '../../redux/store';
+import { actions } from '../../redux/store';
 import Component from './AppBar';
 
 export const mapStateToProps = (state: RootState) => {
@@ -9,7 +9,7 @@ export const mapStateToProps = (state: RootState) => {
     const listName = list.name;
     const totalItemCount = list.items.length;
     const pendingItemCount = list.items.reduce(
-      (prev, curr) => prev + Number(!curr.enabled),
+      (prev, curr) => prev + Number(!!curr.enabled),
       0
     );
     return {

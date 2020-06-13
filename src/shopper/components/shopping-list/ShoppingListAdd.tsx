@@ -1,17 +1,20 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/AddShoppingCart';
 import Dialog from './ShoppingListAddDialog';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      margin: theme.spacing(1),
-      position: 'absolute',
-      bottom: theme.spacing(2),
-      right: theme.spacing(2),
-      zIndex: 1,
+      // margin: theme.spacing(1),
+      // position: 'absolute',
+      // bottom: theme.spacing(2),
+      // right: theme.spacing(2),
+      // zIndex: 1,
+    },
+    button: {
+      color: 'inherit',
     },
   })
 );
@@ -28,14 +31,15 @@ export default function (props: Props) {
 
   return (
     <div className={classes.root}>
-      <Fab
+      <IconButton
+        className={classes.button}
         title="Add list"
         color="secondary"
         aria-label="add"
         onClick={() => setOpen(true)}
       >
         <AddIcon />
-      </Fab>
+      </IconButton>
       <Dialog
         isOpen={open}
         isValid={isValid}

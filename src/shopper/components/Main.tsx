@@ -1,10 +1,8 @@
 import { ConnectedProps, connect } from 'react-redux';
 import React from 'react';
-import Component from './AppBarContainer';
-import AddList from './ShoppingListAddContainer';
-import AddItem from './ItemAddContainer';
-import List from './ShoppingList';
-import ItemList from './ItemListContainer';
+import Component from './app-bar/AppBarContainer';
+import List from './shopping-list/ShoppingList';
+import ItemList from './item-list/ItemListContainer';
 import { mapState } from '../redux/store';
 
 const connector = connect(mapState);
@@ -25,7 +23,6 @@ function Main(props: Props) {
     >
       <Component />
       {isListView ? <ItemList /> : <List />}
-      {isListView ? <AddItem /> : <AddList />}
     </div>
   );
 }

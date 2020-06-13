@@ -5,17 +5,27 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import MenuIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from '@material-ui/core/IconButton';
+import AddList from '../shopping-list/ShoppingListAddContainer';
+import AddItem from '../item-list/ItemAddContainer';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      // flexShrink: 0,
+      flexGrow: 0,
     },
     title: {
-      // flexGrow: 1,
+      flexGrow: 0,
     },
     menuButton: {
-      // marginRight: theme.spacing(2),
+      flexGrow: 0,
+    },
+    rightButton: {
+      // flexDirection: 'row',
+      flexGrow: 1,
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'flex-end',
+      // border: '1px solid blue',
     },
   })
 );
@@ -37,7 +47,7 @@ export default function ButtonAppBar(props: Props) {
     const { listName, pendingItemCount, totalItemCount } = props.selectedList;
     title = listName!;
     if (totalItemCount! > 0) {
-      title = `${title} (${pendingItemCount}/${totalItemCount})`;
+      title = `(${pendingItemCount}) ${title}`;
     }
   }
 
@@ -59,6 +69,9 @@ export default function ButtonAppBar(props: Props) {
           <Typography variant="h6" className={classes.title}>
             {title}
           </Typography>
+          <div className={classes.rightButton}>
+            {props.selectedList ? <AddItem /> : <AddList />}
+          </div>
         </Toolbar>
       </AppBar>
     </div>

@@ -51,13 +51,13 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: theme.palette.background.default,
       flex: '1',
       height: '90vh',
-      border: '1px solid red',
+      // border: '1px solid red',
       display: 'flex',
       flexDirection: 'column',
     },
     list: {
       overflow: 'scroll',
-      border: '1px solid blue',
+      // border: '1px solid blue',
     },
   })
 );

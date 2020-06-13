@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { actions, RootState } from '../redux/store';
+import { actions, RootState } from '../../redux/store';
 import List from './List';
 
 const mapToListState = (state: RootState) => {
