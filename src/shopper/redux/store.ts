@@ -17,9 +17,9 @@ export const mapState = (state: RootState) => ({
   },
 });
 
-export { actions } from './slice';
+export { actions, importFromClipboard } from './slice';
 
-// auto-saver
+// auto-save
 store.subscribe(() => {
   const state = store.getState();
   save(state.shopper);

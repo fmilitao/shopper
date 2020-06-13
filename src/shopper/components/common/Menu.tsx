@@ -1,4 +1,5 @@
 import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/MoreVert';
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function (props: Props) {
+  const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,9 +27,11 @@ export default function (props: Props) {
   return (
     <div>
       <IconButton
+        className={classes.button}
         aria-controls="simple-menu"
         edge="end"
         aria-label="menu"
+        color="secondary"
         aria-haspopup="true"
         onClick={handleClick}
       >
@@ -54,3 +58,11 @@ export default function (props: Props) {
     </div>
   );
 }
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    button: {
+      color: 'inherit',
+    },
+  })
+);

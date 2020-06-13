@@ -18,8 +18,10 @@ interface Props {
 }
 
 // FIXME: validation should be by each field!
-const isValid = (newValue: { name: string; quantity: number }) =>
-  newValue.name.trim().length > 0 && newValue.quantity > 0;
+const isValid = (newValue: { name: string; quantity: number }) => ({
+  name: newValue.name.trim().length > 0,
+  quantity: newValue.quantity > 0,
+});
 
 export default function (props: Props) {
   const initialCheck = isValid(props.value);
@@ -66,7 +68,7 @@ export default function (props: Props) {
         <DialogContent>
           <DialogContentText>{props.descriptionText}</DialogContentText>
           <TextField
-            error={!isValidCheck}
+            error={!isValidCheck.name}
             autoFocus
             margin="dense"
             label="Item name"
@@ -76,7 +78,7 @@ export default function (props: Props) {
             value={tmpValue.name}
           />
           <TextField
-            error={!isValidCheck}
+            error={!isValidCheck.quantity}
             id="standard-number"
             label="Quantity"
             placeholder="How many of this item"
@@ -97,7 +99,7 @@ export default function (props: Props) {
           <Button
             onClick={() => handleClose(true)}
             color="primary"
-            disabled={!isValidCheck}
+            disabled={!isValidCheck.name || !isValidCheck.quantity}
           >
             {props.okText}
           </Button>

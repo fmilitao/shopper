@@ -1,3 +1,4 @@
+import { ThunkAction, Action } from '@reduxjs/toolkit';
 export interface Item {
   name: string;
   quantity: number;
@@ -94,3 +95,10 @@ export type DialogState =
   | AddItemDialog
   | EditListDialog
   | EditItemDialog;
+
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  ShopperState,
+  unknown,
+  Action<string>
+>;

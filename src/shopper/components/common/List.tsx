@@ -29,7 +29,7 @@ export default function SimpleList(props: Props) {
             onClick={() => props.onClick(index)}
           >
             <ListItemText primary={name} secondary={comment} />
-            <ListItemSecondaryAction>
+            <ListItemSecondaryAction className={classes.menuButton}>
               <Menu
                 actions={[
                   { label: 'edit', action: () => props.onEdit(index) },
@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme: Theme) =>
     list: {
       overflow: 'scroll',
       // border: '1px solid blue',
+    },
+    menuButton: {
+      color: theme.palette.grey[500],
     },
   })
 );

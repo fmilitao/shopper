@@ -1,25 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ShopperState, DialogType } from './state';
-import { load } from './localStorage';
+import { ShopperState, DialogType, AppThunk } from './state';
+import { load, validate } from './localStorage';
 
-// const defaultValue: ShopperState = {
-//   selectedList: undefined,
-//   lists: [],
-// };
-
-// FIXME: placeholder - revert to above
 const defaultValue: ShopperState = {
-  selectedList: 0,
-  lists: [
-    {
-      name: 'LIDL',
-      items: Array.from(Array(20).keys()).map((value, index) => ({
-        name: `Item${value}`,
-        quantity: index,
-        enabled: true,
-      })),
-    },
-  ],
+  selectedList: undefined,
+  lists: [],
 };
 
 const initialState: ShopperState = load(defaultValue);
@@ -146,7 +131,27 @@ export const shopperSlice = createSlice({
     closeDialog: state => {
       state.dialogState = undefined;
     },
+    copyToClipboard: state => {
+      navigator.clipboard.writeText(JSON.stringify(state));
+      console.log('Copied');
+    },
+    updateState: (state, action: PayloadAction<ShopperState>) => {
+      state.lists = action.payload.lists;
+      state.selectedList = undefined;
+    },
   },
 });
+
+export const importFromClipboard = (): AppThunk => dispatch => {
+  navigator.clipboard
+    .readText()
+    .then(value => {
+      const obj = JSON.parse(value);
+      const state = validate(obj);
+      dispatch(actions.updateState(state));
+      console.log('updated');
+    })
+    .catch(error => console.log(error));
+};
 
 export const { actions, reducer } = shopperSlice;

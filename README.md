@@ -8,12 +8,8 @@ Rewrite of `shopper-android` using a progressive web app.
 yarn start
 ```
 
-https://react-swipeable-views.com/
-https://github.com/sandstreamdev/react-swipeable-list
-
 ## Tasks
 
-- Edit/Remove items/list (long press dialog generic for add/edit)
 - Import/export Clipboard
 - Show Version somewhere
 - Simple list sorting (not completed / alphabetically)
@@ -21,8 +17,8 @@ https://github.com/sandstreamdev/react-swipeable-list
 
 ## Useful Links
 
-- https://reactjs.org/docs/forms.html
-- https://github.com/mui-org/material-ui/tree/master/examples/create-react-app
+- https://react-swipeable-views.com/
+- https://github.com/sandstreamdev/react-swipeable-list
 - https://hackernoon.com/animations-in-react-at-60fps-an-introduction-to-react-pose-6db5a1c1e0ae
 - https://medium.com/@joomiguelcunha/amazing-react-animation-with-react-pose-3b67d9eb6e07
 - https://developer.mozilla.org/en-US/docs/Web/API/Clipboard_API

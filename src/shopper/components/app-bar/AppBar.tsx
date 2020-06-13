@@ -7,6 +7,7 @@ import MenuIcon from '@material-ui/icons/ArrowBackRounded';
 import IconButton from '@material-ui/core/IconButton';
 import AddList from '../shopping-list/AddButtonContainer';
 import AddItem from '../item-list/AddButtonContainer';
+import Menu from '../common/Menu';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -37,6 +38,8 @@ interface Props {
     totalItemCount: number;
   };
   deselectList: () => void;
+  copyToClipboard: () => void;
+  importFromClipboard: () => void;
 }
 
 export default function ButtonAppBar(props: Props) {
@@ -72,6 +75,18 @@ export default function ButtonAppBar(props: Props) {
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}
           </div>
+          <Menu
+            actions={[
+              {
+                label: 'import from clipboard',
+                action: () => props.importFromClipboard(),
+              },
+              {
+                label: 'copy to clipboard',
+                action: () => props.copyToClipboard(),
+              },
+            ]}
+          ></Menu>
         </Toolbar>
       </AppBar>
     </div>
