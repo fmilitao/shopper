@@ -11,7 +11,7 @@ import { RootState } from '../redux/store';
 import Notifier from './common/Notifier';
 
 const connector = connect((state: RootState) => ({
-  isListSelected: state.shopper.selectedList !== undefined,
+  isListSelected: state.selectedList !== undefined,
 }));
 
 type Props = ConnectedProps<typeof connector>;

@@ -4,8 +4,8 @@ import { actions } from '../../redux/store';
 import Component from './AppBar';
 
 export const mapStateToProps = (state: RootState) => {
-  if (state.shopper.selectedList !== undefined) {
-    const list = state.shopper.lists[state.shopper.selectedList!];
+  if (state.selectedList !== undefined) {
+    const list = state.lists[state.selectedList!];
     const listName = list.name;
     const totalItemCount = list.items.length;
     const pendingItemCount = list.items.reduce(

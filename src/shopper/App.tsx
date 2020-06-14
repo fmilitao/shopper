@@ -1,15 +1,45 @@
 import React from 'react';
 import Main from './components/Main';
-import './App.css';
+import {
+  createMuiTheme,
+  Theme,
+  makeStyles,
+  createStyles,
+  ThemeProvider,
+} from '@material-ui/core/styles';
 
-function App() {
+const theme = createMuiTheme({
+  props: {
+    MuiButtonBase: {
+      disableRipple: true,
+    },
+  },
+  transitions: {
+    // Disable transitions since they make UI feel slow
+    create: () => 'none',
+  },
+});
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    app: {
+      minHeight: '100vh',
+      height: '100%',
+      display: 'flex',
+      overflow: 'hidden',
+      flexDirection: 'column',
+    },
+  })
+);
+
+export default function () {
+  const classes = useStyles();
+
   return (
-    <div className="App">
-      <header className="App-header">
+    <ThemeProvider theme={theme}>
+      <div className={classes.app}>
         <Main />
-      </header>
-    </div>
+      </div>
+    </ThemeProvider>
   );
 }
-
-export default App;

@@ -4,17 +4,16 @@ import Component from './EditDialog';
 import { DialogType } from '../../redux/state';
 
 const mapStateToProps = (state: RootState) => {
-  const { dialogState, selectedList } = state.shopper;
+  const { dialogState, selectedList } = state;
   if (
     selectedList !== undefined &&
     selectedList >= 0 &&
-    selectedList < state.shopper.lists.length &&
+    selectedList < state.lists.length &&
     dialogState?.type === DialogType.EDIT_ITEM &&
     dialogState.index >= 0 &&
-    dialogState.index < state.shopper.lists[selectedList].items.length
+    dialogState.index < state.lists[selectedList].items.length
   ) {
-    const initialValue =
-      state.shopper.lists[selectedList].items[dialogState.index];
+    const initialValue = state.lists[selectedList].items[dialogState.index];
     return {
       isOpen: true,
       initialValue,

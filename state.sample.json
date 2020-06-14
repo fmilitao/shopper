@@ -1,0 +1,103 @@
+{
+  "lists": [
+    {
+      "name": "LIDL is the cheapest!!!",
+      "items": [
+        { "name": "Item 3", "quantity": 3, "enabled": true },
+        { "name": "ok ok ok ok okooooo", "quantity": 6, "enabled": true },
+        { "name": "Item17", "quantity": 17, "enabled": true },
+        { "name": "Item18", "quantity": 18, "enabled": true },
+        { "name": "Item19", "quantity": 19, "enabled": true },
+        { "name": "Item18", "quantity": 19, "enabled": true },
+        { "name": "Item17", "quantity": 19, "enabled": true },
+        {
+          "name": "This is a placeholder item",
+          "quantity": 1,
+          "enabled": true
+        },
+        {
+          "name": "This is a placeholder itemqweqwe",
+          "quantity": 1,
+          "enabled": true
+        },
+        { "name": "wqeweq", "quantity": 1, "enabled": true },
+        { "name": "qwqw", "quantity": 1, "enabled": true },
+        { "name": "wwww", "quantity": 1, "enabled": true },
+        { "name": "qw", "quantity": 1, "enabled": true }
+      ]
+    },
+    {
+      "name": "Test List",
+      "items": [
+        {
+          "name": "This is a placeholder item",
+          "quantity": 1,
+          "enabled": true
+        },
+        {
+          "name": "This is a placeholder item",
+          "quantity": 1,
+          "enabled": true
+        },
+        { "name": "My tests item", "quantity": 1, "enabled": true }
+      ]
+    },
+    {
+      "name": "Test List",
+      "items": [
+        {
+          "name": "This is a placeholder item",
+          "quantity": 1,
+          "enabled": true
+        },
+        {
+          "name": "This is a placeholder item",
+          "quantity": 1,
+          "enabled": false
+        },
+        { "name": "tests", "quantity": 1, "enabled": true },
+        { "name": "asd", "quantity": 1, "enabled": true }
+      ]
+    },
+    {
+      "name": "test list",
+      "items": [
+        { "name": "nope", "quantity": 1, "enabled": false },
+        { "name": "test", "quantity": 1, "enabled": true },
+        { "name": "ewr", "quantity": 11, "enabled": true },
+        { "name": "sdfsdf", "quantity": 15, "enabled": true }
+      ]
+    },
+    {
+      "name": "Nombre",
+      "items": [
+        { "name": "Espinafres", "quantity": 1, "enabled": true },
+        { "name": "qwe", "quantity": 1, "enabled": true }
+      ]
+    },
+    {
+      "name": "nooooo11",
+      "items": [{ "name": "qweqwe", "quantity": 1, "enabled": true }]
+    },
+    {
+      "name": "test 123",
+      "items": [{ "name": "one", "quantity": 1, "enabled": true }]
+    },
+    { "name": "test list", "items": [] },
+    { "name": "another test list", "items": [] },
+    { "name": "we", "items": [] },
+    { "name": "test", "items": [] },
+    { "name": "qwe", "items": [] },
+    {
+      "name": "note",
+      "items": [
+        { "name": "one", "quantity": 1, "enabled": true },
+        { "name": "one", "quantity": 1, "enabled": false },
+        { "name": "one", "quantity": 1, "enabled": true },
+        { "name": "one", "quantity": 1, "enabled": false },
+        { "name": "one", "quantity": 1, "enabled": true }
+      ]
+    }
+  ],
+  "selectedList": 12
+}

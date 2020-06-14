@@ -3,10 +3,10 @@ import { actions, RootState } from '../../redux/store';
 import List from '../common/List';
 
 const mapToListState = (state: RootState) => {
-  const index = state.shopper.selectedList;
+  const index = state.selectedList;
   if (index !== undefined) {
     return {
-      lists: state.shopper.lists[index].items.map(
+      lists: state.lists[index].items.map(
         ({ name, quantity, enabled }, index) => ({
           name,
           comment: `${quantity} elements`,

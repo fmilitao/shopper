@@ -1,13 +1,18 @@
-# Shopper - Progressive Web App
+# Shopper
 
 Rewrite of `shopper-android` using a progressive web app.
 
+Still work in progress.
+
+<!--
 ## Tasks
 
 - Show Version somewhere
 - Enable service worker and pass PWA checks
 
 ## Useful Links
+
+- https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
 
 - https://stackoverflow.com/questions/43329654/android-back-button-on-a-progressive-web-application-closes-de-app
 
@@ -20,3 +25,4 @@ Rewrite of `shopper-android` using a progressive web app.
 - https://developers.google.com/web/progressive-web-apps/checklist
 - https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
 - https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
+-->

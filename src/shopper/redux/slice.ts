@@ -14,7 +14,7 @@ const isInBounds = <T>(index: number, array: T[]) =>
   index >= 0 && index < array.length;
 
 export const shopperSlice = createSlice({
-  name: 'counter',
+  name: 'shopper',
   initialState,
   reducers: {
     // list

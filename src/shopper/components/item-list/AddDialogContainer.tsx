@@ -4,7 +4,7 @@ import Component from './AddDialog';
 import { DialogType } from '../../redux/state';
 
 const mapStateToProps = (state: RootState) => ({
-  isOpen: state.shopper.dialogState?.type === DialogType.ADD_ITEM,
+  isOpen: state.dialogState?.type === DialogType.ADD_ITEM,
 });
 
 const connector = connect(mapStateToProps, {
