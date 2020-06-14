@@ -7,7 +7,8 @@ Still work in progress.
 <!--
 ## Tasks
 
-...
+* back button issue
+* item descriptions as strings
 
 ## Useful Links
 
