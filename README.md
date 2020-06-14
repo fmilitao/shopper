@@ -7,7 +7,6 @@ Still work in progress.
 <!--
 ## Tasks
 
-- Show Version somewhere
 - Enable service worker and pass PWA checks
 
 ## Useful Links
