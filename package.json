@@ -24,10 +24,12 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "prebuild": "yarn run buildVersion",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "predeploy": "yarn build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "buildVersion": "echo \"export default 'commit: `git rev-parse --short HEAD` (`node -p 'new Date().toISOString()'`)';\" > src/version.ts"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -9,6 +9,9 @@ import AddList from '../shopping-list/AddButtonContainer';
 import AddItem from '../item-list/AddButtonContainer';
 import Menu from '../common/Menu';
 
+import version from '../../../version';
+import { logger } from '../../redux/store';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -42,10 +45,12 @@ interface Props {
   importFromClipboard: () => void;
 }
 
+const shopperTitle = 'Shopper';
+
 export default function ButtonAppBar(props: Props) {
   const classes = useStyles();
 
-  let title = 'Shopper';
+  let title = shopperTitle;
   if (props.selectedList) {
     const { listName, pendingItemCount, totalItemCount } = props.selectedList;
     title = listName!;
@@ -69,7 +74,15 @@ export default function ButtonAppBar(props: Props) {
               <MenuIcon />
             </IconButton>
           )}
-          <Typography variant="h6" className={classes.title}>
+          <Typography
+            variant="h6"
+            className={classes.title}
+            onClick={() => {
+              if (title === shopperTitle) {
+                logger.log(version);
+              }
+            }}
+          >
             {title}
           </Typography>
           <div className={classes.rightButton}>
