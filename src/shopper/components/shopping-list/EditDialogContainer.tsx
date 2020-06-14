@@ -3,7 +3,7 @@ import { actions, RootState } from '../../redux/store';
 import Component from './EditDialog';
 import { DialogType } from '../../redux/state';
 
-const mapState = (state: RootState) => {
+const mapStateToProps = (state: RootState) => {
   const { dialogState } = state.shopper;
   if (
     dialogState?.type === DialogType.EDIT_LIST &&
@@ -22,7 +22,7 @@ const mapState = (state: RootState) => {
   };
 };
 
-const connector = connect(mapState, {
+const connector = connect(mapStateToProps, {
   onClose: (value?: string) => {
     if (value) {
       return actions.editList(value);

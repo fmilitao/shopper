@@ -7,15 +7,17 @@ import AddItemDialog from './item-list/AddDialogContainer';
 import EditListDialog from './shopping-list/EditDialogContainer';
 import EditItemDialog from './item-list/EditDialogContainer';
 import ItemList from './item-list/ListContainer';
-import { mapState, logger } from '../redux/store';
+import { RootState } from '../redux/store';
 import Notifier from './common/Notifier';
 
-const connector = connect(mapState);
+const connector = connect((state: RootState) => ({
+  isListSelected: state.shopper.selectedList !== undefined,
+}));
 
 type Props = ConnectedProps<typeof connector>;
 
 function Main(props: Props) {
-  const isListView = props.shopper.isListSelected;
+  const isItemView = props.isListSelected;
   return (
     <div
       style={{
@@ -27,12 +29,10 @@ function Main(props: Props) {
       }}
     >
       <AppBar />
-      {isListView ? <ItemList /> : <List />}
-      <AddListDialog />
-      <AddItemDialog />
-      <EditListDialog />
-      <EditItemDialog />
-      <Notifier logger={logger} />
+      {isItemView ? <ItemList /> : <List />}
+      {isItemView ? <AddItemDialog /> : <AddListDialog />}
+      {isItemView ? <EditItemDialog /> : <EditListDialog />}
+      <Notifier />
     </div>
   );
 }

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import { actions, mapState } from '../../redux/store';
+import { actions } from '../../redux/store';
 import Component from './AddButton';
 
-const connector = connect(mapState, {
+const connector = connect(() => ({}), {
   openDialog: () => actions.openAddListDialog(),
 });
 

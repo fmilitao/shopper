@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import type { RootState } from '../../redux/store';
-import { actions, importFromClipboard } from '../../redux/store';
+import { actions } from '../../redux/store';
 import Component from './AppBar';
 
 export const mapStateToProps = (state: RootState) => {
@@ -29,7 +29,7 @@ export const mapStateToProps = (state: RootState) => {
 const connector = connect(mapStateToProps, {
   deselectList: () => actions.deselectList(),
   copyToClipboard: () => actions.copyToClipboard(),
-  importFromClipboard: () => importFromClipboard(),
+  importFromClipboard: () => actions.importFromClipboard(),
 });
 
 export default connector(Component);

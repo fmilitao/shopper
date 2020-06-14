@@ -3,11 +3,11 @@ import { actions, RootState } from '../../redux/store';
 import Component from './AddDialog';
 import { DialogType } from '../../redux/state';
 
-const mapState = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({
   isOpen: state.shopper.dialogState?.type === DialogType.ADD_ITEM,
 });
 
-const connector = connect(mapState, {
+const connector = connect(mapStateToProps, {
   onClose: (value?: { name: string; quantity: number }) => {
     if (value) {
       return actions.addItem(value);

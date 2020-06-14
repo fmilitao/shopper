@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { reducer } from './slice';
+import { reducer, actions as sliceActions, importFromClipboard } from './slice';
 import { save } from './localStorage';
 
 export const store = configureStore({
@@ -10,14 +10,10 @@ export const store = configureStore({
 
 export type RootState = ReturnType<typeof store.getState>;
 
-export const mapState = (state: RootState) => ({
-  shopper: {
-    ...state.shopper,
-    isListSelected: state.shopper.selectedList !== undefined,
-  },
-});
-
-export { actions, importFromClipboard } from './slice';
+export const actions = {
+  ...sliceActions,
+  importFromClipboard,
+};
 
 // note that logger.log will be replaced by the `Notifier` element.
 export const logger = { log: (message: string) => console.log(message) };

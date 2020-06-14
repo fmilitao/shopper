@@ -3,7 +3,7 @@ import { actions, RootState } from '../../redux/store';
 import Component from './EditDialog';
 import { DialogType } from '../../redux/state';
 
-const mapState = (state: RootState) => {
+const mapStateToProps = (state: RootState) => {
   const { dialogState, selectedList } = state.shopper;
   if (
     selectedList !== undefined &&
@@ -26,7 +26,7 @@ const mapState = (state: RootState) => {
   };
 };
 
-const connector = connect(mapState, {
+const connector = connect(mapStateToProps, {
   onClose: (value?: { name: string; quantity: number }) => {
     if (value) {
       return actions.editItem(value);

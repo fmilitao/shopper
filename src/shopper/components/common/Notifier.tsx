@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
+import { logger } from '../../redux/store';
 
 const useStyles = makeStyles(theme => ({
   close: {
@@ -10,12 +11,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-interface NotifierProps {
-  logger: { log: (message: string) => void };
-}
-
 // from sheety-writer, only one message at a time.
-export default function Notifier(props: NotifierProps) {
+// should be changed to queue up in array instead
+export default function () {
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
@@ -26,7 +24,7 @@ export default function Notifier(props: NotifierProps) {
     setOpen(true);
   }
 
-  props.logger.log = handleClick;
+  logger.log = handleClick;
 
   function handleClose(_event: unknown, reason?: string) {
     if (reason === 'clickaway') {
