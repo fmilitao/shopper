@@ -6,6 +6,12 @@ import { store } from './shopper/redux/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
+function isDebug(): boolean {
+  const url = new URL(window.location.href);
+  const param = url.searchParams.get('debug');
+  return Boolean(param);
+}
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
@@ -18,4 +24,9 @@ ReactDOM.render(
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+if (isDebug()) {
+  console.log('No service worker enabled.');
+  serviceWorker.unregister();
+} else {
+  serviceWorker.register();
+}
