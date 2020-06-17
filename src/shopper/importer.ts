@@ -1,5 +1,12 @@
 const regex = /(.*) (\d+.*)/;
-export function importText(rawText: string) {
+
+function notNull<T>(value: T | null): value is T {
+  return value !== null;
+}
+
+export function importText(
+  rawText: string
+): { name: string; quantity: string }[] {
   return rawText
     .split('\n')
     .map(txt => txt.trim())
@@ -12,5 +19,5 @@ export function importText(rawText: string) {
       const [, name, quantity] = match;
       return { name, quantity };
     })
-    .filter(value => value !== null);
+    .filter(notNull);
 }
