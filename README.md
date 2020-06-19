@@ -19,6 +19,8 @@ Still work in progress.
 * product name, quantity, unit, category
 * undo deletion
 
+* on mouse down? track time down for long/short press?
+
 ## Useful Links
 
 - https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape

@@ -3,8 +3,8 @@ import ListDialog from './GenericDialog';
 
 interface Props {
   isOpen: boolean;
-  initialValue: { name: string; quantity: number };
-  onClose: (value?: { name: string; quantity: number }) => void;
+  initialValue: { name: string; comment: string };
+  onClose: (value?: { name: string; comment: string }) => void;
 }
 
 export default function (props: Props) {

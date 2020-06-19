@@ -3,10 +3,10 @@ import ItemDialog from './GenericDialog';
 
 interface Props {
   isOpen: boolean;
-  onClose: (value?: { name: string; quantity: number }) => void;
+  onClose: (value?: { name: string; comment: string }) => void;
 }
 
-const initialValue = { name: '', quantity: 1 };
+const initialValue = { name: '', comment: '' };
 
 export default function (props: Props) {
   return (

@@ -22,13 +22,13 @@
       "item1": {
         "id": "item1",
         "name": "qweqwe",
-        "quantity": 19,
+        "comment": "19",
         "enabled": true
       },
       "item2": {
         "id": "item2",
         "name": "qweqwe",
-        "quantity": 19,
+        "comment": "19",
         "enabled": true
       }
     },

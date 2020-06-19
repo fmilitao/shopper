@@ -7,9 +7,9 @@ const mapToListState = (state: RootState) => {
   if (index !== undefined) {
     return {
       lists: state.lists[index].items.map(
-        ({ name, quantity, enabled }, index) => ({
+        ({ name, comment, enabled }, index) => ({
           name,
-          comment: `${quantity} elements`,
+          comment,
           enabled,
           index,
         })

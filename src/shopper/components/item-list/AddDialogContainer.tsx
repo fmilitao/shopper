@@ -8,7 +8,7 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const connector = connect(mapStateToProps, {
-  onClose: (value?: { name: string; quantity: number }) => {
+  onClose: (value?: { name: string; comment: string }) => {
     if (value) {
       return actions.addItem(value);
     }

@@ -16,7 +16,7 @@ ${JSON.stringify(obj, null, 2)}
 Failed validation:
 ${JSON.stringify(test.errors, null, 2)}`);
 
-  throw Error('Invalid localStorage object');
+  throw Error('Invalid object');
 }
 
 export function load(defaultValue: ShopperState): ShopperState {

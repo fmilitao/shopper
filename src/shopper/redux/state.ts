@@ -1,19 +1,20 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
 export interface Item {
   name: string;
-  quantity: number; // TODO: switch to comment: string;
+  comment: string;
   enabled: boolean;
 }
 
 const ItemSchema = {
   type: 'object',
-  required: ['name', 'quantity', 'enabled'],
+  required: ['name', 'enabled'],
   properties: {
     name: {
       type: 'string',
+      minLength: 1,
     },
-    quantity: {
-      type: 'number',
+    comment: {
+      type: 'string',
     },
     enabled: {
       type: 'boolean',

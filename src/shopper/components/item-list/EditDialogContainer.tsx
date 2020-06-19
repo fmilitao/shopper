@@ -21,12 +21,12 @@ const mapStateToProps = (state: RootState) => {
   }
   return {
     isOpen: false,
-    initialValue: { name: '', quantity: 1 },
+    initialValue: { name: '', comment: '' },
   };
 };
 
 const connector = connect(mapStateToProps, {
-  onClose: (value?: { name: string; quantity: number }) => {
+  onClose: (value?: { name: string; comment: string }) => {
     if (value) {
       return actions.editItem(value);
     }

@@ -1,11 +1,6 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '../common/Dialog';
 
 interface Props {
   title: string;
@@ -13,14 +8,14 @@ interface Props {
   descriptionText: string;
   // ...
   isOpen: boolean;
-  value: { name: string; quantity: number };
-  onClose: (value?: { name: string; quantity: number }) => void;
+  value: { name: string; comment: string };
+  onClose: (value?: { name: string; comment: string }) => void;
 }
 
-// FIXME: validation should be by each field!
-const isValid = (newValue: { name: string; quantity: number }) => ({
+const isValid = (newValue: { name: string; comment: string }) => ({
   name: newValue.name.trim().length > 0,
-  quantity: newValue.quantity > 0,
+  // comments always valid
+  comment: true,
 });
 
 export default function (props: Props) {
@@ -34,11 +29,11 @@ export default function (props: Props) {
     } else {
       props.onClose();
     }
-    setTmpValue(props.value);
+    // setTmpValue(props.value);
   }
 
   function handleNameChange(event: any) {
-    const newValue = { name: event.target.value, quantity: tmpValue.quantity };
+    const newValue = { name: event.target.value, comment: tmpValue.comment };
     setTmpValue(newValue);
     setValidCheck(isValid(newValue));
   }
@@ -48,10 +43,10 @@ export default function (props: Props) {
     setValidCheck(isValid(props.value));
   }
 
-  function handleQuantityChange(event: any) {
+  function handleCommentChange(event: any) {
     const newValue = {
       name: tmpValue.name,
-      quantity: Number(event.target.value),
+      comment: event.target.value,
     };
     setTmpValue(newValue);
     setValidCheck(isValid(newValue));
@@ -60,50 +55,39 @@ export default function (props: Props) {
   return (
     <div>
       <Dialog
-        open={props.isOpen}
-        onEnter={() => handleOpen()}
+        isOpen={props.isOpen}
+        description={props.descriptionText}
+        isValid={isValidCheck.name && isValidCheck.comment}
+        onOpen={() => handleOpen()}
         onClose={() => handleClose(false)}
+        title={props.title}
+        ok={'ok'}
+        cancel={'cancel'}
       >
-        <DialogTitle>{props.title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{props.descriptionText}</DialogContentText>
-          <TextField
-            error={!isValidCheck.name}
-            autoFocus
-            margin="dense"
-            label="Item name"
-            type="text"
-            onChange={handleNameChange}
-            fullWidth
-            value={tmpValue.name}
-          />
-          <TextField
-            error={!isValidCheck.quantity}
-            id="standard-number"
-            label="Quantity"
-            placeholder="How many of this item"
-            value={tmpValue.quantity}
-            onChange={handleQuantityChange}
-            type="number"
-            fullWidth
-            InputLabelProps={{
-              shrink: true,
-            }}
-            margin="normal"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleClose(false)} color="primary">
-            Cancel
-          </Button>
-          <Button
-            onClick={() => handleClose(true)}
-            color="primary"
-            disabled={!isValidCheck.name || !isValidCheck.quantity}
-          >
-            {props.okText}
-          </Button>
-        </DialogActions>
+        <TextField
+          error={!isValidCheck.name}
+          autoFocus
+          margin="dense"
+          label="Item name"
+          type="text"
+          onChange={handleNameChange}
+          fullWidth
+          value={tmpValue.name}
+        />
+        <TextField
+          error={!isValidCheck.comment}
+          id="standard-number"
+          label="Comment"
+          placeholder="How many of this item"
+          value={tmpValue.comment}
+          onChange={handleCommentChange}
+          type="text"
+          fullWidth
+          InputLabelProps={{
+            shrink: true,
+          }}
+          margin="normal"
+        />
       </Dialog>
     </div>
   );
