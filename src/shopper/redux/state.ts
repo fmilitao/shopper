@@ -1,7 +1,7 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
 export interface Item {
   name: string;
-  quantity: number;
+  quantity: number; // TODO: switch to comment: string;
   enabled: boolean;
 }
 
