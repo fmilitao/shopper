@@ -43,6 +43,8 @@ interface Props {
   deselectList: () => void;
   copyToClipboard: () => void;
   importFromClipboard: () => void;
+  undoItemDeletion: () => void;
+  undoListDeletion: () => void;
 }
 
 const shopperTitle = 'Shopper';
@@ -97,6 +99,13 @@ export default function ButtonAppBar(props: Props) {
               {
                 label: 'copy state to clipboard',
                 action: () => props.copyToClipboard(),
+              },
+              {
+                label: `undo ${props.selectedList ? 'item' : 'list'} deletion`,
+                action: () =>
+                  props.selectedList
+                    ? props.undoItemDeletion()
+                    : props.undoListDeletion(),
               },
             ]}
           ></Menu>

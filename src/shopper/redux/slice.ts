@@ -43,6 +43,7 @@ export const shopperSlice = createSlice({
         const name = action.payload;
         if (isInBounds(index, state.lists)) {
           state.lists[index].name = name;
+          logger.log('List updated.');
         }
       }
       state.dialogState = undefined;
@@ -50,7 +51,14 @@ export const shopperSlice = createSlice({
     deleteList: (state, action: PayloadAction<number>) => {
       const index = action.payload;
       if (isInBounds(index, state.lists)) {
-        state.lists.splice(index, 1);
+        const [deleted] = state.lists.splice(index, 1);
+
+        if (state.listUndo === undefined) {
+          state.listUndo = [];
+        }
+        state.listUndo.push(deleted);
+
+        logger.log('List deleted.');
       }
     },
     selectList: (state, action: PayloadAction<number>) => {
@@ -58,6 +66,36 @@ export const shopperSlice = createSlice({
     },
     deselectList: state => {
       state.selectedList = undefined;
+      state.itemUndo = undefined;
+    },
+    // undo
+    undoItemDeletion: state => {
+      const listIndex = state.selectedList;
+      if (
+        listIndex !== undefined &&
+        isInBounds(listIndex, state.lists) &&
+        state.itemUndo !== undefined &&
+        state.itemUndo.length > 0
+      ) {
+        const undo = state.itemUndo.pop();
+        if (undo !== undefined) {
+          state.lists[listIndex].items.push(undo);
+          logger.log('Item deletion undone.');
+          return;
+        }
+      }
+      logger.log('Nothing to undo.');
+    },
+    undoListDeletion: state => {
+      if (state.listUndo !== undefined && state.listUndo.length > 0) {
+        const undo = state.listUndo.pop();
+        if (undo !== undefined) {
+          state.lists.push(undo);
+          logger.log(`List ${undo.name} deletion undone.`);
+          return;
+        }
+      }
+      logger.log('Nothing to undo.');
     },
     // item
     addItem: (
@@ -94,6 +132,8 @@ export const shopperSlice = createSlice({
           item.name = name;
           item.comment = comment;
         }
+
+        logger.log('Item updated.');
       }
       state.dialogState = undefined;
     },
@@ -105,7 +145,14 @@ export const shopperSlice = createSlice({
         isInBounds(listIndex, state.lists) &&
         isInBounds(itemIndex, state.lists[listIndex].items)
       ) {
-        state.lists[listIndex].items.splice(itemIndex, 1);
+        const [deleted] = state.lists[listIndex].items.splice(itemIndex, 1);
+
+        if (state.itemUndo === undefined) {
+          state.itemUndo = [];
+        }
+        state.itemUndo.push(deleted);
+
+        logger.log('Item deleted.');
       }
     },
     toggleItem: (state, action: PayloadAction<number>) => {

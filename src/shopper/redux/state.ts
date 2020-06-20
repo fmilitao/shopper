@@ -47,6 +47,8 @@ export interface ShopperState {
   lists: List[];
   // not in schema
   dialogState?: DialogState;
+  listUndo?: List[];
+  itemUndo?: Item[];
 }
 
 export const ShopperStateSchema = {

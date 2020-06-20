@@ -30,6 +30,8 @@ const connector = connect(mapStateToProps, {
   deselectList: () => actions.deselectList(),
   copyToClipboard: () => actions.copyToClipboard(),
   importFromClipboard: () => actions.importFromClipboard(),
+  undoItemDeletion: () => actions.undoItemDeletion(),
+  undoListDeletion: () => actions.undoListDeletion(),
 });
 
 export default connector(Component);

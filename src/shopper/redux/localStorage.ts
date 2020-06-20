@@ -33,6 +33,8 @@ export function save(state: ShopperState) {
     ...state,
     // ensure not saved
     dialogState: undefined,
+    listUndo: undefined,
+    itemUndo: undefined,
   };
   localStorage.setItem(key, JSON.stringify(shallowClone));
 }
