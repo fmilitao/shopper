@@ -11,11 +11,8 @@ Still work in progress.
 <!--
 ## Tasks
 
-* allow for colors/categories
+* add colors/categories
 * transfer to another list
-* product name, quantity, unit, category
-* undo deletion
-
 * on mouse down? track time down for long/short press?
 
 ## Useful Links

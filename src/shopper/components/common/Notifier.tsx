@@ -1,60 +1,34 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { logger } from '../../redux/store';
+import { ToastContainer, cssTransition, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const useStyles = makeStyles(theme => ({
-  close: {
-    padding: theme.spacing(0.5),
-  },
-}));
+export const logger = toast;
 
-// from sheety-writer, only one message at a time.
-// should be changed to queue up in array instead
 export default function () {
-  const classes = useStyles();
+  // copied from Slide to change durations
+  // https://github.com/fkhadra/react-toastify/blob/da5fab4006456434d7ad29360aa702d2c725a9a1/src/components/Transitions.tsx
+  const transition = cssTransition({
+    enter: `Toastify__slide-enter`,
+    exit: `Toastify__slide-exit`,
+    duration: [200, 200],
+    appendPosition: true,
+  });
 
-  const [open, setOpen] = React.useState(false);
-  const [message, setMessage] = React.useState('Hello!');
-
-  function handleClick(message: string) {
-    setMessage(message);
-    setOpen(true);
-  }
-
-  logger.log = handleClick;
-
-  function handleClose(_event: unknown, reason?: string) {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  }
+  // more customization?
+  // https://github.com/fkhadra/react-toastify/issues/455
 
   return (
-    <Snackbar
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'left',
-      }}
-      open={open}
-      autoHideDuration={2000}
-      onClose={handleClose}
-      message={message}
-      action={[
-        <IconButton
-          key="close"
-          aria-label="Close"
-          color="inherit"
-          className={classes.close}
-          onClick={handleClose}
-        >
-          <CloseIcon />
-        </IconButton>,
-      ]}
+    <ToastContainer
+      transition={transition}
+      position="bottom-left"
+      autoClose={2000}
+      hideProgressBar={true}
+      newestOnTop={true}
+      closeOnClick={false}
+      rtl={false}
+      pauseOnFocusLoss={false}
+      draggable={false}
+      pauseOnHover={false}
     />
   );
 }

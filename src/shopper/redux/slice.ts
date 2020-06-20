@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ShopperState, DialogType, AppThunk } from './state';
 import { load, validate } from './localStorage';
-import { logger } from './store';
+import { logger } from '../components/common/Notifier';
 
 const defaultValue: ShopperState = {
   selectedList: undefined,
@@ -43,7 +43,7 @@ export const shopperSlice = createSlice({
         const name = action.payload;
         if (isInBounds(index, state.lists)) {
           state.lists[index].name = name;
-          logger.log('List updated.');
+          logger.info('List updated.');
         }
       }
       state.dialogState = undefined;
@@ -58,7 +58,7 @@ export const shopperSlice = createSlice({
         }
         state.listUndo.push(deleted);
 
-        logger.log('List deleted.');
+        logger.info('List deleted.');
       }
     },
     selectList: (state, action: PayloadAction<number>) => {
@@ -80,22 +80,22 @@ export const shopperSlice = createSlice({
         const undo = state.itemUndo.pop();
         if (undo !== undefined) {
           state.lists[listIndex].items.push(undo);
-          logger.log('Item deletion undone.');
+          logger.info('Item deletion undone.');
           return;
         }
       }
-      logger.log('Nothing to undo.');
+      logger.warn('Nothing to undo.');
     },
     undoListDeletion: state => {
       if (state.listUndo !== undefined && state.listUndo.length > 0) {
         const undo = state.listUndo.pop();
         if (undo !== undefined) {
           state.lists.push(undo);
-          logger.log(`List ${undo.name} deletion undone.`);
+          logger.info(`List ${undo.name} deletion undone.`);
           return;
         }
       }
-      logger.log('Nothing to undo.');
+      logger.warn('Nothing to undo.');
     },
     // item
     addItem: (
@@ -133,7 +133,7 @@ export const shopperSlice = createSlice({
           item.comment = comment;
         }
 
-        logger.log('Item updated.');
+        logger.info('Item updated.');
       }
       state.dialogState = undefined;
     },
@@ -152,7 +152,7 @@ export const shopperSlice = createSlice({
         }
         state.itemUndo.push(deleted);
 
-        logger.log('Item deleted.');
+        logger.info('Item deleted.');
       }
     },
     toggleItem: (state, action: PayloadAction<number>) => {
@@ -196,9 +196,9 @@ export const shopperSlice = createSlice({
     copyToClipboard: state => {
       if (navigator?.clipboard?.writeText) {
         navigator.clipboard.writeText(JSON.stringify(state));
-        logger.log('Copied to clipboard.');
+        logger.info('Copied to clipboard.');
       } else {
-        logger.log('ERROR: Missing clipboard browser functionality');
+        logger.error('ERROR: Missing clipboard browser functionality');
       }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {
@@ -216,14 +216,14 @@ export const importFromClipboard = (): AppThunk => dispatch => {
         const obj = JSON.parse(value);
         const state = validate(obj);
         dispatch(actions.updateState(state));
-        logger.log('Imported from clipboard');
+        logger.info('Imported from clipboard');
       })
       .catch(error => {
         console.log(error);
-        logger.log(`ERROR: ${error}`);
+        logger.error(`ERROR: ${error}`);
       });
   } else {
-    logger.log('ERROR: Missing clipboard browser functionality');
+    logger.error('ERROR: Missing clipboard browser functionality');
   }
 };
 

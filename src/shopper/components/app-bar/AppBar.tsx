@@ -10,7 +10,7 @@ import AddItem from '../item-list/AddButtonContainer';
 import Menu from '../common/Menu';
 
 import version from '../../../version';
-import { logger } from '../../redux/store';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -81,7 +81,7 @@ export default function ButtonAppBar(props: Props) {
             className={classes.title}
             onClick={() => {
               if (title === shopperTitle) {
-                logger.log(version);
+                toast.info(version);
               }
             }}
           >
