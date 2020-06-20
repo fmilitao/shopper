@@ -91,11 +91,11 @@ export default function ButtonAppBar(props: Props) {
           <Menu
             actions={[
               {
-                label: 'import from clipboard',
+                label: 'import state from clipboard',
                 action: () => props.importFromClipboard(),
               },
               {
-                label: 'copy to clipboard',
+                label: 'copy state to clipboard',
                 action: () => props.copyToClipboard(),
               },
             ]}

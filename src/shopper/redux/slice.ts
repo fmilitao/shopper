@@ -18,9 +18,23 @@ export const shopperSlice = createSlice({
   initialState,
   reducers: {
     // list
-    addList: (state, action: PayloadAction<string>) => {
+    addList: (
+      state,
+      action: PayloadAction<{
+        name: string;
+        items: { name: string; comment: string }[];
+      }>
+    ) => {
       state.dialogState = undefined;
-      state.lists.push({ name: action.payload, items: [] });
+      const { name, items } = action.payload;
+      state.lists.push({
+        name,
+        items: items.map(({ name, comment }) => ({
+          name,
+          comment,
+          enabled: true,
+        })),
+      });
     },
     editList: (state, action: PayloadAction<string>) => {
       const { dialogState } = state;

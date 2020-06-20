@@ -8,7 +8,10 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const connector = connect(mapStateToProps, {
-  onClose: (value?: string) => {
+  onClose: (value?: {
+    name: string;
+    items: { name: string; comment: string }[];
+  }) => {
     if (value) {
       return actions.addList(value);
     }

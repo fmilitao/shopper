@@ -14,7 +14,7 @@ interface Props {
 
 const isValid = (newValue: { name: string; comment: string }) => ({
   name: newValue.name.trim().length > 0,
-  // comments always valid
+  // comments are always valid
   comment: true,
 });
 
@@ -23,24 +23,26 @@ export default function (props: Props) {
   const [isValidCheck, setValidCheck] = React.useState(initialCheck);
   const [tmpValue, setTmpValue] = React.useState(props.value);
 
-  function handleClose(isSet: boolean) {
-    if (isSet) {
+  function handleClose(commit: boolean) {
+    if (commit) {
       props.onClose(tmpValue);
     } else {
       props.onClose();
     }
-    // setTmpValue(props.value);
-  }
-
-  function handleNameChange(event: any) {
-    const newValue = { name: event.target.value, comment: tmpValue.comment };
-    setTmpValue(newValue);
-    setValidCheck(isValid(newValue));
   }
 
   function handleOpen() {
     setTmpValue(props.value);
     setValidCheck(isValid(props.value));
+  }
+
+  function handleNameChange(event: any) {
+    const newValue = {
+      name: event.target.value,
+      comment: tmpValue.comment,
+    };
+    setTmpValue(newValue);
+    setValidCheck(isValid(newValue));
   }
 
   function handleCommentChange(event: any) {
@@ -58,27 +60,31 @@ export default function (props: Props) {
         isOpen={props.isOpen}
         description={props.descriptionText}
         isValid={isValidCheck.name && isValidCheck.comment}
-        onOpen={() => handleOpen()}
-        onClose={() => handleClose(false)}
+        onOpen={handleOpen}
+        onClose={handleClose}
         title={props.title}
-        ok={'ok'}
-        cancel={'cancel'}
+        ok="ok"
+        cancel="cancel"
       >
         <TextField
           error={!isValidCheck.name}
           autoFocus
           margin="dense"
           label="Item name"
+          placeholder="What's the name of the item?"
           type="text"
           onChange={handleNameChange}
           fullWidth
           value={tmpValue.name}
+          InputLabelProps={{
+            shrink: true,
+          }}
         />
         <TextField
           error={!isValidCheck.comment}
-          id="standard-number"
-          label="Comment"
-          placeholder="How many of this item"
+          margin="dense"
+          label="Comment (optional)"
+          placeholder="How many of this item?"
           value={tmpValue.comment}
           onChange={handleCommentChange}
           type="text"
@@ -86,7 +92,6 @@ export default function (props: Props) {
           InputLabelProps={{
             shrink: true,
           }}
-          margin="normal"
         />
       </Dialog>
     </div>

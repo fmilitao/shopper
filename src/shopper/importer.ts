@@ -6,7 +6,7 @@ function notNull<T>(value: T | null): value is T {
 
 export function importText(
   rawText: string
-): { name: string; quantity: string }[] {
+): { name: string; comment: string }[] {
   return rawText
     .split('\n')
     .map(txt => txt.trim())
@@ -16,8 +16,8 @@ export function importText(
       if (!match) {
         return null;
       }
-      const [, name, quantity] = match;
-      return { name, quantity };
+      const [, name, comment] = match;
+      return { name, comment };
     })
     .filter(notNull);
 }

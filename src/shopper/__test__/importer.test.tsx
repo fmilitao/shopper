@@ -19,16 +19,16 @@ Batata Lays 3
 describe('importer function', () => {
   test('processes sample input', () => {
     expect(importText(sampleInput)).toStrictEqual([
-      { name: 'Gelado magnum', quantity: '1' },
-      { name: 'Abrilhantador maquina loiça', quantity: '1 Embalagem' },
-      { name: 'Agua', quantity: '2 Garrafões' },
-      { name: 'Arroz', quantity: '6 Kg' },
-      { name: 'Atum', quantity: '10 Lata' },
-      { name: 'Azeite', quantity: '3 Garrafa' },
-      { name: 'Açucar amarelo', quantity: '1' },
-      { name: 'Bananas', quantity: '1 Kg' },
-      { name: 'Batata cozer', quantity: '1 Embalagem' },
-      { name: 'Batata Lays', quantity: '3' },
+      { name: 'Gelado magnum', comment: '1' },
+      { name: 'Abrilhantador maquina loiça', comment: '1 Embalagem' },
+      { name: 'Agua', comment: '2 Garrafões' },
+      { name: 'Arroz', comment: '6 Kg' },
+      { name: 'Atum', comment: '10 Lata' },
+      { name: 'Azeite', comment: '3 Garrafa' },
+      { name: 'Açucar amarelo', comment: '1' },
+      { name: 'Bananas', comment: '1 Kg' },
+      { name: 'Batata cozer', comment: '1 Embalagem' },
+      { name: 'Batata Lays', comment: '3' },
     ]);
   });
 });

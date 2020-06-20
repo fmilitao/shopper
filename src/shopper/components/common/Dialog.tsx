@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React, { ReactNode } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -8,7 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 interface Props {
   isOpen: boolean;
-  children: ReactChild | ReactChild[];
+  children: ReactNode | ReactNode[];
 
   title: string;
   ok: string;

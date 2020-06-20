@@ -11,9 +11,6 @@ Still work in progress.
 <!--
 ## Tasks
 
-* item descriptions as strings
-* when creating a list, also add the items of clipboard
-* import form clipboard as (<name> <number> <something>)
 * allow for colors/categories
 * transfer to another list
 * product name, quantity, unit, category
