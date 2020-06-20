@@ -23,12 +23,7 @@ const mapStateToProps = (state: RootState) => {
 };
 
 const connector = connect(mapStateToProps, {
-  onClose: (value?: string) => {
-    if (value) {
-      return actions.editList(value);
-    }
-    return actions.closeDialog();
-  },
+  onCommit: (value: string) => actions.editList(value),
 });
 
 export default connector(Component);

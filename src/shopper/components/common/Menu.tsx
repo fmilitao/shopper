@@ -4,12 +4,13 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
+import Divider from '@material-ui/core/Divider';
 
 interface Props {
   actions: {
     label: string;
     action: () => void;
-  }[];
+  }[][];
 }
 
 export default function (props: Props) {
@@ -43,17 +44,24 @@ export default function (props: Props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        {props.actions.map(({ label, action }, index) => (
-          <MenuItem
-            key={index}
-            onClick={() => {
-              handleClose();
-              action();
-            }}
-          >
-            {label}
-          </MenuItem>
-        ))}
+        {props.actions.flatMap((actionList, outerIndex) => {
+          const result = actionList.map(({ label, action }, innerIndex) => (
+            <MenuItem
+              key={`outer=${outerIndex}-inner${innerIndex}`}
+              onClick={() => {
+                handleClose();
+                action();
+              }}
+            >
+              {label}
+            </MenuItem>
+          ));
+          // add separator if adding a new set of actions
+          if (outerIndex !== 0) {
+            result.unshift(<Divider key={`divider-${outerIndex}`} />);
+          }
+          return result;
+        })}
       </Menu>
     </div>
   );

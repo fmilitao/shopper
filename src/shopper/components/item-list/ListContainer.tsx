@@ -1,6 +1,7 @@
+import React from 'react';
 import { connect } from 'react-redux';
 import { actions, RootState } from '../../redux/store';
-import List from '../common/List';
+import List, { Props as ListProps } from '../common/List';
 
 const mapToListState = (state: RootState) => {
   const index = state.selectedList;
@@ -25,6 +26,33 @@ const dispatchToProps = {
   onClick: (index: number) => actions.toggleItem(index),
 };
 
-const connector = connect(mapToListState, dispatchToProps);
+type Props = Omit<ListProps, 'actions' | 'swipeRight'> & {
+  onEdit: (index: number) => void;
+};
 
-export default connector(List);
+function ListWithContextMenu(props: Props) {
+  return (
+    <List
+      {...props}
+      swipeRight={true}
+      actions={[
+        [
+          {
+            label: 'Edit',
+            action: (index: number) => props.onEdit(index),
+          },
+          // TODO: add a move to another list
+        ],
+        [
+          {
+            label: 'Delete',
+            action: (index: number) => props.onDelete(index),
+          },
+        ],
+      ]}
+    />
+  );
+}
+
+const connector = connect(mapToListState, dispatchToProps);
+export default connector(ListWithContextMenu);

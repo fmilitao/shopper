@@ -4,7 +4,7 @@ import ListDialog from './GenericDialog';
 interface Props {
   isOpen: boolean;
   initialValue: { name: string; comment: string };
-  onClose: (value?: { name: string; comment: string }) => void;
+  onCommit: (value: { name: string; comment: string }) => void;
 }
 
 export default function (props: Props) {
@@ -13,6 +13,7 @@ export default function (props: Props) {
       value={props.initialValue}
       title="Edit List"
       okText="Update"
+      cancelText="Cancel"
       descriptionText="Pick the name for your list."
       {...props}
     />

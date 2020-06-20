@@ -9,11 +9,13 @@ interface Props {
   value: string;
   title: string;
   okText: string;
+  cancelText: string;
+  anotherText?: string;
   descriptionText: string;
   // internal
   isOpen: boolean;
   isEdit: boolean;
-  onClose: (value?: {
+  onCommit: (value: {
     name: string;
     items: { name: string; comment: string }[];
   }) => void;
@@ -35,12 +37,10 @@ export default function (props: Props) {
 
   function handleClose(commit: boolean) {
     if (commit) {
-      props.onClose({
+      props.onCommit({
         name: tmpValue,
         items: includeClipboard.includeClipboard ? includeClipboard.items : [],
       });
-    } else {
-      props.onClose();
     }
   }
 
@@ -48,6 +48,9 @@ export default function (props: Props) {
     setTmpValue(props.value);
     setValidCheck(isValid(props.value));
     setIncludeClipboard({ includeClipboard: false, items: [] });
+    if (defaultFocus.current) {
+      defaultFocus.current.focus();
+    }
   }
 
   function handleChange(event: any) {
@@ -80,6 +83,9 @@ export default function (props: Props) {
     ? `${includeClipboard.items.length} `
     : ' ';
   const label = `Include ${count}items from clipboard`;
+  const allowedImport = navigator?.clipboard?.readText !== undefined;
+
+  const defaultFocus = React.useRef<any>(null);
 
   return (
     <Dialog
@@ -89,12 +95,15 @@ export default function (props: Props) {
       onClose={handleClose}
       title={props.title}
       description={props.descriptionText}
-      ok="ok"
-      cancel="cancel"
+      ok={props.okText}
+      another={props.anotherText}
+      cancel={props.cancelText}
     >
       <TextField
         error={!isValidCheck}
-        autoFocus
+        inputRef={input => {
+          defaultFocus.current = input;
+        }}
         margin="dense"
         label="List name"
         type="text"
@@ -105,7 +114,7 @@ export default function (props: Props) {
           shrink: true,
         }}
       />
-      {!props.isEdit && (
+      {!props.isEdit && allowedImport && (
         <FormControlLabel
           control={
             <Checkbox

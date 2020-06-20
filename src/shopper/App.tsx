@@ -1,8 +1,7 @@
 import React from 'react';
 import Main from './components/Main';
 import {
-  // createMuiTheme,
-  // https://github.com/mui-org/material-ui/issues/13394
+  // TODO: update version once warning is fixed, see: https://github.com/mui-org/material-ui/issues/13394
   unstable_createMuiStrictModeTheme as createMuiTheme,
   Theme,
   makeStyles,

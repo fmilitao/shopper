@@ -5,11 +5,13 @@ import Dialog from '../common/Dialog';
 interface Props {
   title: string;
   okText: string;
+  cancelText: string;
+  anotherText?: string;
   descriptionText: string;
   // ...
   isOpen: boolean;
   value: { name: string; comment: string };
-  onClose: (value?: { name: string; comment: string }) => void;
+  onCommit: (value: { name: string; comment: string }) => void;
 }
 
 const isValid = (newValue: { name: string; comment: string }) => ({
@@ -25,15 +27,16 @@ export default function (props: Props) {
 
   function handleClose(commit: boolean) {
     if (commit) {
-      props.onClose(tmpValue);
-    } else {
-      props.onClose();
+      props.onCommit(tmpValue);
     }
   }
 
   function handleOpen() {
     setTmpValue(props.value);
     setValidCheck(isValid(props.value));
+    if (defaultFocus.current) {
+      defaultFocus.current.focus();
+    }
   }
 
   function handleNameChange(event: any) {
@@ -54,6 +57,8 @@ export default function (props: Props) {
     setValidCheck(isValid(newValue));
   }
 
+  const defaultFocus = React.useRef<any>(null);
+
   return (
     <div>
       <Dialog
@@ -63,12 +68,15 @@ export default function (props: Props) {
         onOpen={handleOpen}
         onClose={handleClose}
         title={props.title}
-        ok="ok"
-        cancel="cancel"
+        ok={props.okText}
+        another={props.anotherText}
+        cancel={props.cancelText}
       >
         <TextField
           error={!isValidCheck.name}
-          autoFocus
+          inputRef={input => {
+            defaultFocus.current = input;
+          }}
           margin="dense"
           label="Item name"
           placeholder="What's the name of the item?"

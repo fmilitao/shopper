@@ -1,19 +1,18 @@
 # Shopper
 
-Rewrite of `shopper-android` using a progressive web app.
-
-Still work in progress.
+Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a progressive web app.
 
 ## Notes
 
-- Back button is to exit the application, use the arrow on top to go back to the list view.
+- Back button is to exit, use the arrow on top to go back to the list view.
 
 <!--
 ## Tasks
 
+* export list content as csv for importing elsewhere
 * add colors/categories
 * transfer to another list
-* on mouse down? track time down for long/short press?
+
 
 ## Useful Links
 
@@ -33,4 +32,6 @@ Still work in progress.
 - https://developers.google.com/web/progressive-web-apps/checklist
 - https://developers.google.com/web/fundamentals/design-and-ux/input/forms/
 - https://developers.google.com/web/fundamentals/design-and-ux/input/touch/
+
+https://github.com/oliviertassinari/react-swipeable-views/issues/347
 -->

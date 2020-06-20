@@ -3,7 +3,7 @@ import ItemDialog from './GenericDialog';
 
 interface Props {
   isOpen: boolean;
-  onClose: (value?: { name: string; comment: string }) => void;
+  onCommit: (value: { name: string; comment: string }) => void;
 }
 
 const initialValue = { name: '', comment: '' };
@@ -13,7 +13,9 @@ export default function (props: Props) {
     <ItemDialog
       value={initialValue}
       title="Create Item"
-      okText="Create"
+      okText="Add"
+      cancelText="Cancel"
+      anotherText="Add Another"
       descriptionText="Pick the name for your new item."
       {...props}
     />

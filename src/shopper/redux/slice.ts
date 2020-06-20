@@ -25,7 +25,6 @@ export const shopperSlice = createSlice({
         items: { name: string; comment: string }[];
       }>
     ) => {
-      state.dialogState = undefined;
       const { name, items } = action.payload;
       state.lists.push({
         name,
@@ -43,10 +42,9 @@ export const shopperSlice = createSlice({
         const name = action.payload;
         if (isInBounds(index, state.lists)) {
           state.lists[index].name = name;
-          logger.info('List updated.');
+          logger.info('List updated');
         }
       }
-      state.dialogState = undefined;
     },
     deleteList: (state, action: PayloadAction<number>) => {
       const index = action.payload;
@@ -58,7 +56,7 @@ export const shopperSlice = createSlice({
         }
         state.listUndo.push(deleted);
 
-        logger.info('List deleted.');
+        logger.info(`List "${deleted.name}" deleted`);
       }
     },
     selectList: (state, action: PayloadAction<number>) => {
@@ -80,29 +78,28 @@ export const shopperSlice = createSlice({
         const undo = state.itemUndo.pop();
         if (undo !== undefined) {
           state.lists[listIndex].items.push(undo);
-          logger.info('Item deletion undone.');
+          logger.info('Item restored');
           return;
         }
       }
-      logger.warn('Nothing to undo.');
+      logger.warn('Nothing to undo');
     },
     undoListDeletion: state => {
       if (state.listUndo !== undefined && state.listUndo.length > 0) {
         const undo = state.listUndo.pop();
         if (undo !== undefined) {
           state.lists.push(undo);
-          logger.info(`List ${undo.name} deletion undone.`);
+          logger.info(`List "${undo.name}" restored`);
           return;
         }
       }
-      logger.warn('Nothing to undo.');
+      logger.warn('Nothing to undo');
     },
     // item
     addItem: (
       state,
       action: PayloadAction<{ name: string; comment: string }>
     ) => {
-      state.dialogState = undefined;
       const { name, comment } = action.payload;
       const listIndex = state.selectedList;
       if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
@@ -133,9 +130,8 @@ export const shopperSlice = createSlice({
           item.comment = comment;
         }
 
-        logger.info('Item updated.');
+        logger.info('Item updated');
       }
-      state.dialogState = undefined;
     },
     deleteItem: (state, action: PayloadAction<number>) => {
       const listIndex = state.selectedList;
@@ -152,7 +148,7 @@ export const shopperSlice = createSlice({
         }
         state.itemUndo.push(deleted);
 
-        logger.info('Item deleted.');
+        logger.info('Item deleted');
       }
     },
     toggleItem: (state, action: PayloadAction<number>) => {
@@ -196,9 +192,9 @@ export const shopperSlice = createSlice({
     copyToClipboard: state => {
       if (navigator?.clipboard?.writeText) {
         navigator.clipboard.writeText(JSON.stringify(state));
-        logger.info('Copied to clipboard.');
+        logger.info('Copied to clipboard');
       } else {
-        logger.error('ERROR: Missing clipboard browser functionality');
+        logger.error('ERROR: denied use of browser clipboard');
       }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {
@@ -223,7 +219,7 @@ export const importFromClipboard = (): AppThunk => dispatch => {
         logger.error(`ERROR: ${error}`);
       });
   } else {
-    logger.error('ERROR: Missing clipboard browser functionality');
+    logger.error('ERROR: denied use of browser clipboard');
   }
 };
 

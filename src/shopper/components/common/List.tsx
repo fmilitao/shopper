@@ -3,51 +3,162 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import Menu from './Menu';
+import ContextMenu from './ContextMenu';
 
-interface Props {
+import DeleteIcon from '@material-ui/icons/Delete';
+import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import KeyboardArrowRightIcon from '@material-ui/icons/KeyboardArrowRight';
+import DoneIcon from '@material-ui/icons/Done';
+
+// TODO: update SwipeableViews to remove "Legacy context API has been detected within a strict-mode tree" warning. See: https://github.com/oliviertassinari/react-swipeable-views/issues/596
+import SwipeableViews from 'react-swipeable-views';
+
+export interface Props {
   lists: { name: string; comment: string; enabled?: boolean; index: number }[];
-  onClick(index: number): void;
-  onEdit(index: number): void;
-  onDelete(index: number): void;
+  onClick: (index: number) => void;
+  onDelete: (index: number) => void;
+  swipeRight: boolean;
+  actions: {
+    label: string;
+    action: (index: number) => void;
+  }[][];
 }
 
-export default function SimpleList(props: Props) {
+export default function (props: Props) {
   const classes = useStyles();
 
-  // sorts only by enabled / disabled
+  const mouse = React.useRef({ x: 0, time: 0 });
+
+  const handleMouseDown = (e: any) => {
+    mouse.current.x = e.screenX;
+    mouse.current.time = Date.now();
+  };
+
+  const handleMouseClick = (index: number) => (e: React.MouseEvent) => {
+    // some horizontal movement, ignore click
+    const delta = Math.abs(e.screenX - mouse.current.x);
+    if (delta > 10) {
+      e.preventDefault();
+      return;
+    }
+
+    if (e.type === 'click') {
+      props.onClick(index);
+      return;
+    }
+  };
+
+  // sorts list using only enabled / disabled
   const sorted = props.lists.sort(
     (a, b) => Number(!a.enabled) - Number(!b.enabled)
   );
 
+  // on swipe index change
+  const onChangeIndex = (index: number, start: number) => (i: number) => {
+    if (i < start) {
+      props.onClick(index);
+      return;
+    }
+    if (i > start) {
+      props.onDelete(index);
+      return;
+    }
+  };
+
+  const [state, setState] = React.useState<
+    | {
+        x: number;
+        y: number;
+        index: number;
+      }
+    | undefined
+  >(undefined);
+
+  const handleOpenContextMenu = (index: number) => (
+    event: React.MouseEvent<HTMLDivElement>
+  ) => {
+    event.preventDefault();
+    setState({
+      x: event.clientX - 4,
+      y: event.clientY - 4,
+      index,
+    });
+  };
+
+  const handleCloseContextMenu = () => {
+    setState(undefined);
+  };
+
   return (
     <div className={classes.root}>
+      <ContextMenu
+        position={state}
+        onClose={handleCloseContextMenu}
+        actions={props.actions}
+      />
       <List component="nav" className={classes.list}>
-        {sorted.map(({ name, comment, enabled, index }) => (
-          <ListItem
-            // style override here so that ripple effect does not take priority
-            // enabled is true or undefined: white, else: gray
-            style={{ backgroundColor: enabled !== false ? 'white' : 'gray' }}
-            key={index}
-            button
-            onClick={() => props.onClick(index)}
-          >
-            <ListItemText primary={name} secondary={comment} />
-            <ListItemSecondaryAction className={classes.menuButton}>
-              <Menu
-                actions={[
-                  { label: 'edit', action: () => props.onEdit(index) },
-                  { label: 'delete', action: () => props.onDelete(index) },
-                ]}
-              />
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
+        {sorted.map(({ name, comment, enabled, index }) => {
+          const panels = [
+            <ListItem
+              key="middle-panel"
+              className={
+                enabled !== false ? classes.enabledItem : classes.disabledItem
+              }
+              button
+              onContextMenu={handleOpenContextMenu(index)}
+              onClick={handleMouseClick(index)}
+              onMouseDown={handleMouseDown}
+            >
+              <ListItemText primary={name} secondary={comment} />
+            </ListItem>,
+            rightPanel,
+          ];
+          if (props.swipeRight) {
+            panels.unshift(leftPanel);
+          }
+          const startIndex = props.swipeRight ? 1 : 0;
+          return (
+            <SwipeableViews
+              // hack: changes the key value to force new item on enabled/disabled
+              // since otherwise SwipeableViews will remain on swiped panel.
+              key={`${name}-${index}-${enabled}`}
+              index={startIndex}
+              enableMouseEvents
+              onChangeIndex={onChangeIndex(index, startIndex)}
+            >
+              {panels}
+            </SwipeableViews>
+          );
+        })}
       </List>
     </div>
   );
 }
+
+const leftPanel = (
+  <div
+    key="left-panel"
+    style={{
+      backgroundColor: '#a9f58c',
+      height: '100%',
+      direction: 'rtl',
+    }}
+  >
+    <KeyboardArrowRightIcon
+      style={{ height: '100%', marginRight: '10px', color: 'gray' }}
+    />
+    <DoneIcon style={{ height: '100%', marginRight: '10px' }} />
+  </div>
+);
+
+const rightPanel = (
+  <div key="right-panel" style={{ backgroundColor: '#ed837b', height: '100%' }}>
+    <KeyboardArrowLeftIcon
+      style={{ height: '100%', marginLeft: '10px', color: 'gray' }}
+    />
+    <DeleteIcon style={{ height: '100%', marginLeft: '10px' }} />
+  </div>
+);
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -62,6 +173,19 @@ const useStyles = makeStyles((theme: Theme) =>
     list: {
       overflow: 'scroll',
       // border: '1px solid blue',
+    },
+    enabledItem: {
+      userSelect: 'none',
+      textDecoration: 'none',
+      opacity: '1',
+    },
+    disabledItem: {
+      userSelect: 'none',
+      textDecoration: 'line-through',
+      opacity: '0.5',
+      '&:hover': {
+        textDecoration: 'line-through',
+      },
     },
     menuButton: {
       color: theme.palette.grey[500],

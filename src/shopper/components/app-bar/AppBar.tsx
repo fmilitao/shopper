@@ -92,21 +92,27 @@ export default function ButtonAppBar(props: Props) {
           </div>
           <Menu
             actions={[
-              {
-                label: 'import state from clipboard',
-                action: () => props.importFromClipboard(),
-              },
-              {
-                label: 'copy state to clipboard',
-                action: () => props.copyToClipboard(),
-              },
-              {
-                label: `undo ${props.selectedList ? 'item' : 'list'} deletion`,
-                action: () =>
-                  props.selectedList
-                    ? props.undoItemDeletion()
-                    : props.undoListDeletion(),
-              },
+              [
+                {
+                  label: 'import state from clipboard',
+                  action: () => props.importFromClipboard(),
+                },
+                {
+                  label: 'copy state to clipboard',
+                  action: () => props.copyToClipboard(),
+                },
+              ],
+              [
+                {
+                  label: `undo ${
+                    props.selectedList ? 'item' : 'list'
+                  } deletion`,
+                  action: () =>
+                    props.selectedList
+                      ? props.undoItemDeletion()
+                      : props.undoListDeletion(),
+                },
+              ],
             ]}
           ></Menu>
         </Toolbar>

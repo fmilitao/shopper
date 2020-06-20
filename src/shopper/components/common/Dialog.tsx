@@ -5,6 +5,8 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../redux/slice';
 
 interface Props {
   isOpen: boolean;
@@ -13,6 +15,8 @@ interface Props {
   title: string;
   ok: string;
   cancel: string;
+  another?: string;
+
   description: string;
   isValid: boolean;
 
@@ -21,11 +25,18 @@ interface Props {
 }
 
 export default function (props: Props) {
-  function handleClose(commit: boolean) {
+  const dispatch = useDispatch();
+
+  function handleClose(commit: boolean, closeDialog: boolean = true) {
     if (commit) {
       props.onClose(true);
     } else {
       props.onClose(false);
+    }
+    if (closeDialog) {
+      dispatch(actions.closeDialog());
+    } else {
+      props.onOpen();
     }
   }
 
@@ -36,6 +47,8 @@ export default function (props: Props) {
   return (
     <div>
       <Dialog
+        // full screen dialog works best on mobile
+        fullScreen
         open={props.isOpen}
         onEnter={() => handleOpen()}
         onClose={() => handleClose(false)}
@@ -46,6 +59,16 @@ export default function (props: Props) {
           {props.children}
         </DialogContent>
         <DialogActions>
+          {props.another !== undefined && (
+            <Button
+              onClick={() => handleClose(true, false)}
+              color="primary"
+              disabled={!props.isValid}
+            >
+              {props.another}
+            </Button>
+          )}
+          {props.another !== undefined && <div style={{ flex: '1 0 0' }} />}
           <Button onClick={() => handleClose(false)} color="primary">
             {props.cancel}
           </Button>

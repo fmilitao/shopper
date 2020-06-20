@@ -8,15 +8,10 @@ const mapStateToProps = (state: RootState) => ({
 });
 
 const connector = connect(mapStateToProps, {
-  onClose: (value?: {
+  onCommit: (value: {
     name: string;
     items: { name: string; comment: string }[];
-  }) => {
-    if (value) {
-      return actions.addList(value);
-    }
-    return actions.closeDialog();
-  },
+  }) => value && actions.addList(value),
 });
 
 export default connector(Component);
