@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ShopperState, DialogType, AppThunk } from './state';
 import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
+import { newListId, newItemId } from './id';
 
 const defaultValue: ShopperState = {
   selectedList: undefined,
@@ -27,8 +28,10 @@ export const shopperSlice = createSlice({
     ) => {
       const { name, items } = action.payload;
       state.lists.push({
+        id: newListId(),
         name,
         items: items.map(({ name, comment }) => ({
+          id: newItemId(),
           name,
           comment,
           enabled: true,
@@ -104,6 +107,7 @@ export const shopperSlice = createSlice({
       const listIndex = state.selectedList;
       if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
         state.lists[listIndex].items.push({
+          id: newItemId(),
           name,
           comment,
           enabled: true,
@@ -112,12 +116,16 @@ export const shopperSlice = createSlice({
     },
     editItem: (
       state,
-      action: PayloadAction<{ name: string; comment: string }>
+      action: PayloadAction<{
+        name: string;
+        comment: string;
+        listIndex?: number;
+      }>
     ) => {
       const { dialogState } = state;
       if (dialogState && dialogState.type === DialogType.EDIT_ITEM) {
         const { index } = dialogState;
-        const { name, comment } = action.payload;
+        const { name, comment, listIndex: newListIndex } = action.payload;
         const listIndex = state.selectedList;
         const itemIndex = index;
         if (
@@ -128,9 +136,19 @@ export const shopperSlice = createSlice({
           const item = state.lists[listIndex].items[itemIndex];
           item.name = name;
           item.comment = comment;
-        }
 
-        logger.info('Item updated');
+          if (
+            newListIndex !== undefined &&
+            listIndex !== newListIndex &&
+            isInBounds(newListIndex, state.lists)
+          ) {
+            const [moved] = state.lists[listIndex].items.splice(itemIndex, 1);
+            state.lists[newListIndex].items.push(moved);
+            logger.info('Item moved');
+          } else {
+            logger.info('Item updated');
+          }
+        }
       }
     },
     deleteItem: (state, action: PayloadAction<number>) => {
@@ -195,6 +213,21 @@ export const shopperSlice = createSlice({
         logger.info('Copied to clipboard');
       } else {
         logger.error('ERROR: denied use of browser clipboard');
+      }
+    },
+    copyItemsToClipboard: state => {
+      const listIndex = state.selectedList;
+      if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
+        if (navigator?.clipboard?.writeText) {
+          const items = state.lists[listIndex].items;
+          const text = items
+            .map(({ name, comment }) => `${name} ${comment}`)
+            .join('\n');
+          navigator.clipboard.writeText(text);
+          logger.info(`Copied ${items.length} items to clipboard`);
+        } else {
+          logger.error('ERROR: denied use of browser clipboard');
+        }
       }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {

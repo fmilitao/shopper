@@ -1,5 +1,6 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
 export interface Item {
+  id: string;
   name: string;
   comment: string;
   enabled: boolean;
@@ -7,8 +8,12 @@ export interface Item {
 
 const ItemSchema = {
   type: 'object',
-  required: ['name', 'enabled'],
+  required: ['id', 'name', 'enabled'],
   properties: {
+    id: {
+      type: 'string',
+      minLength: 1,
+    },
     name: {
       type: 'string',
       minLength: 1,
@@ -23,16 +28,22 @@ const ItemSchema = {
 };
 
 export interface List {
+  id: string;
   name: string;
   items: Item[];
 }
 
 const ListSchema = {
   type: 'object',
-  required: ['name', 'items'],
+  required: ['id', 'name', 'items'],
   properties: {
+    id: {
+      type: 'string',
+      minLength: 1,
+    },
     name: {
       type: 'string',
+      minLength: 1,
     },
     items: {
       type: 'array',

@@ -14,7 +14,13 @@ import DoneIcon from '@material-ui/icons/Done';
 import SwipeableViews from 'react-swipeable-views';
 
 export interface Props {
-  lists: { name: string; comment: string; enabled?: boolean; index: number }[];
+  lists: {
+    id: string;
+    name: string;
+    comment: string;
+    enabled?: boolean;
+    index: number;
+  }[];
   onClick: (index: number) => void;
   onDelete: (index: number) => void;
   swipeRight: boolean;
@@ -47,11 +53,6 @@ export default function (props: Props) {
       return;
     }
   };
-
-  // sorts list using only enabled / disabled
-  const sorted = props.lists.sort(
-    (a, b) => Number(!a.enabled) - Number(!b.enabled)
-  );
 
   // on swipe index change
   const onChangeIndex = (index: number, start: number) => (i: number) => {
@@ -97,7 +98,7 @@ export default function (props: Props) {
         actions={props.actions}
       />
       <List component="nav" className={classes.list}>
-        {sorted.map(({ name, comment, enabled, index }) => {
+        {props.lists.map(({ id, name, comment, enabled, index }) => {
           const panels = [
             <ListItem
               key="middle-panel"
@@ -121,7 +122,7 @@ export default function (props: Props) {
             <SwipeableViews
               // hack: changes the key value to force new item on enabled/disabled
               // since otherwise SwipeableViews will remain on swiped panel.
-              key={`${name}-${index}-${enabled}`}
+              key={`${id}-${enabled}`}
               index={startIndex}
               enableMouseEvents
               onChangeIndex={onChangeIndex(index, startIndex)}
@@ -173,13 +174,20 @@ const useStyles = makeStyles((theme: Theme) =>
     list: {
       overflow: 'scroll',
       // border: '1px solid blue',
+      backgroundColor: theme.palette.background.default,
     },
     enabledItem: {
+      backgroundColor: 'white',
+      marginTop: '2px',
+      marginBottom: '2px',
       userSelect: 'none',
       textDecoration: 'none',
       opacity: '1',
     },
     disabledItem: {
+      backgroundColor: 'white',
+      marginTop: '2px',
+      marginBottom: '2px',
       userSelect: 'none',
       textDecoration: 'line-through',
       opacity: '0.5',

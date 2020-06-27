@@ -28,6 +28,7 @@ export const mapStateToProps = (state: RootState) => {
 
 const connector = connect(mapStateToProps, {
   deselectList: () => actions.deselectList(),
+  copyItemsToClipboard: () => actions.copyItemsToClipboard(),
   copyToClipboard: () => actions.copyToClipboard(),
   importFromClipboard: () => actions.importFromClipboard(),
   undoItemDeletion: () => actions.undoItemDeletion(),

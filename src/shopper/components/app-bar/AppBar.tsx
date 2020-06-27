@@ -41,6 +41,7 @@ interface Props {
     totalItemCount: number;
   };
   deselectList: () => void;
+  copyItemsToClipboard: () => void;
   copyToClipboard: () => void;
   importFromClipboard: () => void;
   undoItemDeletion: () => void;
@@ -59,6 +60,39 @@ export default function ButtonAppBar(props: Props) {
     if (totalItemCount! > 0) {
       title = `(${pendingItemCount}) ${title}`;
     }
+  }
+
+  const itemActions = [
+    {
+      label: 'copy list items to clipboard',
+      action: () => props.copyItemsToClipboard(),
+    },
+  ];
+
+  const defaultActions = [
+    {
+      label: 'import state from clipboard',
+      action: () => props.importFromClipboard(),
+    },
+    {
+      label: 'copy state to clipboard',
+      action: () => props.copyToClipboard(),
+    },
+  ];
+
+  const contextActions = [
+    {
+      label: `undo ${props.selectedList ? 'item' : 'list'} deletion`,
+      action: () =>
+        props.selectedList
+          ? props.undoItemDeletion()
+          : props.undoListDeletion(),
+    },
+  ];
+
+  const actions = [defaultActions, contextActions];
+  if (props.selectedList) {
+    actions.unshift(itemActions);
   }
 
   return (
@@ -90,31 +124,7 @@ export default function ButtonAppBar(props: Props) {
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}
           </div>
-          <Menu
-            actions={[
-              [
-                {
-                  label: 'import state from clipboard',
-                  action: () => props.importFromClipboard(),
-                },
-                {
-                  label: 'copy state to clipboard',
-                  action: () => props.copyToClipboard(),
-                },
-              ],
-              [
-                {
-                  label: `undo ${
-                    props.selectedList ? 'item' : 'list'
-                  } deletion`,
-                  action: () =>
-                    props.selectedList
-                      ? props.undoItemDeletion()
-                      : props.undoListDeletion(),
-                },
-              ],
-            ]}
-          ></Menu>
+          <Menu actions={actions}></Menu>
         </Toolbar>
       </AppBar>
     </div>

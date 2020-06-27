@@ -17,16 +17,20 @@ const mapStateToProps = (state: RootState) => {
     return {
       isOpen: true,
       initialValue,
+      listOptions: state.lists.map(({ name }) => name),
+      selectedList,
     };
   }
   return {
     isOpen: false,
     initialValue: { name: '', comment: '' },
+    listOptions: undefined,
+    selectedList: undefined,
   };
 };
 
 const connector = connect(mapStateToProps, {
-  onCommit: (value: { name: string; comment: string }) =>
+  onCommit: (value: { name: string; comment: string; listIndex?: number }) =>
     value && actions.editItem(value),
 });
 

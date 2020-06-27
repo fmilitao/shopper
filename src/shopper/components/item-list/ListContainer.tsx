@@ -7,14 +7,12 @@ const mapToListState = (state: RootState) => {
   const index = state.selectedList;
   if (index !== undefined) {
     return {
-      lists: state.lists[index].items.map(
-        ({ name, comment, enabled }, index) => ({
-          name,
-          comment,
-          enabled,
+      lists: state.lists[index].items
+        .map((item, index) => ({
+          ...item,
           index,
-        })
-      ),
+        }))
+        .sort((a, b) => Number(!a.enabled) - Number(!b.enabled)),
     };
   }
   return { lists: [] };
@@ -41,7 +39,6 @@ function ListWithContextMenu(props: Props) {
             label: 'Edit',
             action: (index: number) => props.onEdit(index),
           },
-          // TODO: add a move to another list
         ],
         [
           {

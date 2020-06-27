@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '../common/Dialog';
+import Select from '../common/Select';
 
 interface Props {
   title: string;
@@ -8,10 +9,16 @@ interface Props {
   cancelText: string;
   anotherText?: string;
   descriptionText: string;
+  listOptions?: string[];
+  selectedList?: number;
   // ...
   isOpen: boolean;
   value: { name: string; comment: string };
-  onCommit: (value: { name: string; comment: string }) => void;
+  onCommit: (value: {
+    name: string;
+    comment: string;
+    listIndex?: number;
+  }) => void;
 }
 
 const isValid = (newValue: { name: string; comment: string }) => ({
@@ -24,16 +31,18 @@ export default function (props: Props) {
   const initialCheck = isValid(props.value);
   const [isValidCheck, setValidCheck] = React.useState(initialCheck);
   const [tmpValue, setTmpValue] = React.useState(props.value);
+  const [tmpList, setTmpList] = React.useState(props.selectedList);
 
   function handleClose(commit: boolean) {
     if (commit) {
-      props.onCommit(tmpValue);
+      props.onCommit({ ...tmpValue, listIndex: tmpList });
     }
   }
 
   function handleOpen() {
     setTmpValue(props.value);
     setValidCheck(isValid(props.value));
+    setTmpList(props.selectedList);
     if (defaultFocus.current) {
       defaultFocus.current.focus();
     }
@@ -55,6 +64,10 @@ export default function (props: Props) {
     };
     setTmpValue(newValue);
     setValidCheck(isValid(newValue));
+  }
+
+  function handleListChange(index: number) {
+    setTmpList(index);
   }
 
   const defaultFocus = React.useRef<any>(null);
@@ -101,6 +114,14 @@ export default function (props: Props) {
             shrink: true,
           }}
         />
+        {props.listOptions && tmpList !== undefined && (
+          <Select
+            title="List (optional, moves item to another list)"
+            value={props.listOptions[tmpList]}
+            onChange={handleListChange}
+            choices={props.listOptions}
+          />
+        )}
       </Dialog>
     </div>
   );

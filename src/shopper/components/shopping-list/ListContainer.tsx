@@ -5,7 +5,8 @@ import List, { Props as ListProps } from '../common/List';
 
 const mapToListState = (state: RootState) => {
   return {
-    lists: state.lists.map(({ name, items }, index) => ({
+    lists: state.lists.map(({ id, name, items }, index) => ({
+      id,
       name,
       comment: `${items.length} items`,
       index,

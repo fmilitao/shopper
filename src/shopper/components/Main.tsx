@@ -17,7 +17,18 @@ const connector = connect((state: RootState) => ({
 type Props = ConnectedProps<typeof connector>;
 
 function Main(props: Props) {
+  const children: JSX.Element[] = [];
   const isItemView = props.isListSelected;
+  if (isItemView) {
+    children.push(<ItemList key="item-list" />);
+    children.push(<AddItemDialog key="item-add-dialog" />);
+    children.push(<EditItemDialog key="item-edit-dialog" />);
+  } else {
+    children.push(<List key="list" />);
+    children.push(<AddListDialog key="list-add-dialog" />);
+    children.push(<EditListDialog key="list-edit-dialog" />);
+  }
+
   return (
     <div
       style={{
@@ -29,10 +40,8 @@ function Main(props: Props) {
       }}
     >
       <AppBar />
-      {isItemView ? <ItemList /> : <List />}
-      {isItemView ? <AddItemDialog /> : <AddListDialog />}
-      {isItemView ? <EditItemDialog /> : <EditListDialog />}
       <Notifier />
+      {children}
     </div>
   );
 }

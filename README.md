@@ -9,12 +9,28 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 <!--
 ## Tasks
 
-* export list content as csv for importing elsewhere
-* add colors/categories
-* transfer to another list
+* Add Category
+Name ... (if name is the same, change button to update)
+Color picker ...
 
+[Add/Update Button]
+
+* View Categories
+<Name> <Color> <Trash>
+
+* https://github.com/onury/invert-color
+
+
+use: https://github.com/onury/invert-color
 
 ## Useful Links
+
+- https://stackoverflow.com/questions/53176124/material-ui-zoom-animate-out-then-remove
+- https://www.react-spring.io/
+- https://codesandbox.io/embed/1y3yyqpq7q
+- https://codesandbox.io/embed/1wqpz5mzqj
+- https://dev.to/michalczaplinski/super-easy-react-mount-unmount-animations-with-hooks-4foj
+- https://www.react-spring.io/docs/hooks/use-transition
 
 - https://redux.js.org/recipes/structuring-reducers/normalizing-state-shape
 
