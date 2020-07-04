@@ -14,7 +14,7 @@ interface Props {
 
   title: string;
   ok: string;
-  cancel: string;
+  cancel?: string;
   another?: string;
 
   description: string;
@@ -69,9 +69,11 @@ export default function (props: Props) {
             </Button>
           )}
           {props.another !== undefined && <div style={{ flex: '1 0 0' }} />}
-          <Button onClick={() => handleClose(false)} color="primary">
-            {props.cancel}
-          </Button>
+          {props.cancel !== undefined && (
+            <Button onClick={() => handleClose(false)} color="primary">
+              {props.cancel}
+            </Button>
+          )}
           <Button
             onClick={() => handleClose(true)}
             color="primary"

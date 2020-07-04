@@ -18,11 +18,15 @@ export const mapStateToProps = (state: RootState) => {
         pendingItemCount,
         listName,
       },
+      sortMode: state.sortMode || 'default',
+      categoryMode: state.categoryMode || 'text',
     };
   }
 
   return {
     selectedList: undefined,
+    sortMode: 'default' as const,
+    categoryMode: 'text' as const,
   };
 };
 
@@ -33,6 +37,13 @@ const connector = connect(mapStateToProps, {
   importFromClipboard: () => actions.importFromClipboard(),
   undoItemDeletion: () => actions.undoItemDeletion(),
   undoListDeletion: () => actions.undoListDeletion(),
+  // sort
+  setDefaultSort: () => actions.setDefaultSort(),
+  setCategorySort: () => actions.setCategorySort(),
+  // category
+  setTextCategoryMode: () => actions.setTextCategoryMode(),
+  setHiddenCategoryMode: () => actions.setHiddenCategoryMode(),
+  setColorCategoryMode: () => actions.setColorCategoryMode(),
 });
 
 export default connector(Component);

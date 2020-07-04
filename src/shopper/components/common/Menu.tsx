@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuIcon from '@material-ui/icons/MoreVert';
 import IconButton from '@material-ui/core/IconButton';
 import Divider from '@material-ui/core/Divider';
 
 interface Props {
+  children: ReactNode;
   actions: {
     label: string;
     action: () => void;
+    selected?: boolean;
   }[][];
 }
 
@@ -36,7 +37,7 @@ export default function (props: Props) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        <MenuIcon />
+        {props.children}
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -45,17 +46,20 @@ export default function (props: Props) {
         onClose={handleClose}
       >
         {props.actions.flatMap((actionList, outerIndex) => {
-          const result = actionList.map(({ label, action }, innerIndex) => (
-            <MenuItem
-              key={`outer=${outerIndex}-inner${innerIndex}`}
-              onClick={() => {
-                handleClose();
-                action();
-              }}
-            >
-              {label}
-            </MenuItem>
-          ));
+          const result = actionList.map(
+            ({ label, action, selected }, innerIndex) => (
+              <MenuItem
+                key={`outer=${outerIndex}-inner${innerIndex}`}
+                onClick={() => {
+                  handleClose();
+                  action();
+                }}
+                selected={!!selected}
+              >
+                {label}
+              </MenuItem>
+            )
+          );
           // add separator if adding a new set of actions
           if (outerIndex !== 0) {
             result.unshift(<Divider key={`divider-${outerIndex}`} />);

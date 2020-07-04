@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '../common/Dialog';
 import Select from '../common/Select';
+import { SimpleItem as Item } from '../../redux/state';
 
 interface Props {
   title: string;
@@ -10,39 +11,52 @@ interface Props {
   anotherText?: string;
   descriptionText: string;
   listOptions?: string[];
+  categories: string[];
   selectedList?: number;
   // ...
   isOpen: boolean;
-  value: { name: string; comment: string };
+  value: { name: string; comment: string; category?: string };
   onCommit: (value: {
     name: string;
     comment: string;
     listIndex?: number;
+    category?: string;
   }) => void;
 }
 
-const isValid = (newValue: { name: string; comment: string }) => ({
-  name: newValue.name.trim().length > 0,
-  // comments are always valid
+const isValid = ({ name, category }: Item) => ({
+  name: name.trim().length > 0,
+  // these are always valid
   comment: true,
+  category: true,
 });
 
 export default function (props: Props) {
   const initialCheck = isValid(props.value);
   const [isValidCheck, setValidCheck] = React.useState(initialCheck);
-  const [tmpValue, setTmpValue] = React.useState(props.value);
+  const [tmpValue, setTmpValue] = React.useState({
+    ...props.value,
+    category: props.value.category || '',
+  });
   const [tmpList, setTmpList] = React.useState(props.selectedList);
+  const [showText, setShowText] = React.useState(false);
 
   function handleClose(commit: boolean) {
     if (commit) {
-      props.onCommit({ ...tmpValue, listIndex: tmpList });
+      const { category } = tmpValue;
+      props.onCommit({
+        ...tmpValue,
+        category: category.trim().length <= 0 ? undefined : category,
+        listIndex: tmpList,
+      });
     }
   }
 
   function handleOpen() {
-    setTmpValue(props.value);
+    setTmpValue({ ...props.value, category: props.value.category || '' });
     setValidCheck(isValid(props.value));
     setTmpList(props.selectedList);
+    setShowText(false);
     if (defaultFocus.current) {
       defaultFocus.current.focus();
     }
@@ -50,8 +64,8 @@ export default function (props: Props) {
 
   function handleNameChange(event: any) {
     const newValue = {
+      ...tmpValue,
       name: event.target.value,
-      comment: tmpValue.comment,
     };
     setTmpValue(newValue);
     setValidCheck(isValid(newValue));
@@ -59,7 +73,7 @@ export default function (props: Props) {
 
   function handleCommentChange(event: any) {
     const newValue = {
-      name: tmpValue.name,
+      ...tmpValue,
       comment: event.target.value,
     };
     setTmpValue(newValue);
@@ -70,14 +84,58 @@ export default function (props: Props) {
     setTmpList(index);
   }
 
+  function handleCategoryIndexChange(index: number) {
+    if (index === 0) {
+      const newValue = {
+        ...tmpValue,
+        category: '',
+      };
+      setTmpValue(newValue);
+      setValidCheck(isValid(newValue));
+      return;
+    }
+    if (index - 1 < props.categories.length) {
+      const newValue = {
+        ...tmpValue,
+        category: props.categories[index - 1],
+      };
+      setTmpValue(newValue);
+      setValidCheck(isValid(newValue));
+      return;
+    }
+
+    // set text to empty
+    const newValue = { ...tmpValue, category: '' };
+    setTmpValue(newValue);
+    setValidCheck(isValid(newValue));
+    setShowText(true);
+  }
+
+  function handleCategoryNameChange(event: any) {
+    const newValue = {
+      ...tmpValue,
+      category: event.target.value,
+    };
+    setTmpValue(newValue);
+    setValidCheck(isValid(newValue));
+  }
+
   const defaultFocus = React.useRef<any>(null);
+
+  const { category } = props.value;
+  const noCategories = props.categories.length <= 0;
+  const notInCategoryList =
+    category !== undefined && props.categories.indexOf(category) < 0;
+  const showDialogText = showText || noCategories || notInCategoryList;
 
   return (
     <div>
       <Dialog
         isOpen={props.isOpen}
         description={props.descriptionText}
-        isValid={isValidCheck.name && isValidCheck.comment}
+        isValid={
+          isValidCheck.name && isValidCheck.comment && isValidCheck.category
+        }
         onOpen={handleOpen}
         onClose={handleClose}
         title={props.title}
@@ -114,6 +172,30 @@ export default function (props: Props) {
             shrink: true,
           }}
         />
+        {!showDialogText && (
+          <Select
+            title="Category"
+            value={tmpValue.category}
+            onChange={index => handleCategoryIndexChange(index)}
+            choices={['[None]', ...props.categories, '[Add Category]']}
+          />
+        )}
+        {showDialogText && (
+          <TextField
+            autoFocus={true}
+            error={!isValidCheck.category}
+            margin="dense"
+            label="Category (optional)"
+            placeholder="Which category?"
+            value={tmpValue.category}
+            onChange={handleCategoryNameChange}
+            type="text"
+            fullWidth
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+        )}
         {props.listOptions && tmpList !== undefined && (
           <Select
             title="List (optional, moves item to another list)"

@@ -1,10 +1,35 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
+
+const SORT_MODES = ['default', 'categories'] as const;
+export type SortMode = typeof SORT_MODES[number];
+
+const CATEGORY_MODES = ['text', 'color', 'hidden'] as const;
+export type CategoryMode = typeof CATEGORY_MODES[number];
+
+export interface Category {
+  name: string;
+}
+
+const CategorySchema = {
+  type: 'object',
+  required: ['name'],
+  properties: {
+    name: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+};
+
 export interface Item {
   id: string;
   name: string;
   comment: string;
   enabled: boolean;
+  category?: string;
 }
+
+export type SimpleItem = Omit<Item, 'enabled' | 'id'>;
 
 const ItemSchema = {
   type: 'object',
@@ -23,6 +48,10 @@ const ItemSchema = {
     },
     enabled: {
       type: 'boolean',
+    },
+    category: {
+      type: 'string',
+      minLength: 1,
     },
   },
 };
@@ -55,6 +84,8 @@ const ListSchema = {
 
 export interface ShopperState {
   selectedList?: number;
+  sortMode?: SortMode;
+  categoryMode?: CategoryMode;
   lists: List[];
   // not in schema
   dialogState?: DialogState;
@@ -68,6 +99,13 @@ export const ShopperStateSchema = {
   properties: {
     selectedList: {
       type: 'number',
+    },
+    sortMode: { type: 'string', enum: SORT_MODES },
+    categoryMode: { type: 'string', enum: CATEGORY_MODES },
+    categories: {
+      type: 'array',
+      minItems: 0,
+      items: CategorySchema,
     },
     lists: {
       type: 'array',

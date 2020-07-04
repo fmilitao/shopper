@@ -1,12 +1,14 @@
 import React from 'react';
 import ItemDialog from './GenericDialog';
+import { SimpleItem as Item } from '../../redux/state';
 
 interface Props {
   isOpen: boolean;
-  onCommit: (value: { name: string; comment: string }) => void;
+  categories: string[];
+  onCommit: (value: Item) => void;
 }
 
-const initialValue = { name: '', comment: '' };
+const initialValue: Item = { name: '', comment: '', category: undefined };
 
 export default function (props: Props) {
   return (

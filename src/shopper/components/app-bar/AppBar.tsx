@@ -8,9 +8,12 @@ import IconButton from '@material-ui/core/IconButton';
 import AddList from '../shopping-list/AddButtonContainer';
 import AddItem from '../item-list/AddButtonContainer';
 import Menu from '../common/Menu';
+import ActionsMenuIcon from '@material-ui/icons/MoreVert';
+import SortMenuIcon from '@material-ui/icons/Sort';
 
 import version from '../../../version';
 import { toast } from 'react-toastify';
+import { SortMode, CategoryMode } from '../../redux/state';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,12 +43,21 @@ interface Props {
     pendingItemCount: number;
     totalItemCount: number;
   };
+  sortMode: SortMode;
+  categoryMode: CategoryMode;
   deselectList: () => void;
   copyItemsToClipboard: () => void;
   copyToClipboard: () => void;
   importFromClipboard: () => void;
   undoItemDeletion: () => void;
   undoListDeletion: () => void;
+  // sort
+  setDefaultSort: () => void;
+  setCategorySort: () => void;
+  // categories
+  setTextCategoryMode: () => void;
+  setHiddenCategoryMode: () => void;
+  setColorCategoryMode: () => void;
 }
 
 const shopperTitle = 'Shopper';
@@ -95,6 +107,38 @@ export default function ButtonAppBar(props: Props) {
     actions.unshift(itemActions);
   }
 
+  const sortActions = [
+    [
+      {
+        label: 'default sort',
+        action: () => props.setDefaultSort(),
+        selected: props.sortMode === 'default',
+      },
+      {
+        label: 'category sort',
+        action: () => props.setCategorySort(),
+        selected: props.sortMode === 'categories',
+      },
+    ],
+    [
+      {
+        label: 'hidden category',
+        action: () => props.setHiddenCategoryMode(),
+        selected: props.categoryMode === 'hidden',
+      },
+      {
+        label: 'text category',
+        action: () => props.setTextCategoryMode(),
+        selected: props.categoryMode === 'text',
+      },
+      {
+        label: 'color category',
+        action: () => props.setColorCategoryMode(),
+        selected: props.categoryMode === 'color',
+      },
+    ],
+  ];
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -124,7 +168,14 @@ export default function ButtonAppBar(props: Props) {
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}
           </div>
-          <Menu actions={actions}></Menu>
+          {props.selectedList && (
+            <Menu actions={sortActions}>
+              <SortMenuIcon />
+            </Menu>
+          )}
+          <Menu actions={actions}>
+            <ActionsMenuIcon />
+          </Menu>
         </Toolbar>
       </AppBar>
     </div>

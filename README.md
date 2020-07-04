@@ -9,19 +9,7 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 <!--
 ## Tasks
 
-* Add Category
-Name ... (if name is the same, change button to update)
-Color picker ...
-
-[Add/Update Button]
-
-* View Categories
-<Name> <Color> <Trash>
-
-* https://github.com/onury/invert-color
-
-
-use: https://github.com/onury/invert-color
+* animation
 
 ## Useful Links
 

@@ -6,6 +6,7 @@ import { newListId, newItemId } from './id';
 
 const defaultValue: ShopperState = {
   selectedList: undefined,
+  sortMode: undefined,
   lists: [],
 };
 
@@ -18,6 +19,23 @@ export const shopperSlice = createSlice({
   name: 'shopper',
   initialState,
   reducers: {
+    // sort
+    setDefaultSort: state => {
+      state.sortMode = 'default';
+    },
+    setCategorySort: state => {
+      state.sortMode = 'categories';
+    },
+    // category
+    setTextCategoryMode: state => {
+      state.categoryMode = 'text';
+    },
+    setHiddenCategoryMode: state => {
+      state.categoryMode = 'hidden';
+    },
+    setColorCategoryMode: state => {
+      state.categoryMode = 'color';
+    },
     // list
     addList: (
       state,
@@ -101,9 +119,13 @@ export const shopperSlice = createSlice({
     // item
     addItem: (
       state,
-      action: PayloadAction<{ name: string; comment: string }>
+      action: PayloadAction<{
+        name: string;
+        comment: string;
+        category?: string;
+      }>
     ) => {
-      const { name, comment } = action.payload;
+      const { name, comment, category } = action.payload;
       const listIndex = state.selectedList;
       if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
         state.lists[listIndex].items.push({
@@ -111,6 +133,7 @@ export const shopperSlice = createSlice({
           name,
           comment,
           enabled: true,
+          category,
         });
       }
     },
@@ -120,12 +143,19 @@ export const shopperSlice = createSlice({
         name: string;
         comment: string;
         listIndex?: number;
+        category?: string;
       }>
     ) => {
       const { dialogState } = state;
       if (dialogState && dialogState.type === DialogType.EDIT_ITEM) {
         const { index } = dialogState;
-        const { name, comment, listIndex: newListIndex } = action.payload;
+        const {
+          name,
+          comment,
+          listIndex: newListIndex,
+          category,
+        } = action.payload;
+
         const listIndex = state.selectedList;
         const itemIndex = index;
         if (
@@ -136,6 +166,7 @@ export const shopperSlice = createSlice({
           const item = state.lists[listIndex].items[itemIndex];
           item.name = name;
           item.comment = comment;
+          item.category = category;
 
           if (
             newListIndex !== undefined &&

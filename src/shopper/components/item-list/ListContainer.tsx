@@ -2,17 +2,60 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { actions, RootState } from '../../redux/store';
 import List, { Props as ListProps } from '../common/List';
+import { Item } from '../../redux/state';
+import { extractCategories } from './AddDialogContainer';
+import { COLORS } from '../common/Colors';
+
+const defaultSorter = (a: Item, b: Item) =>
+  Number(!a.enabled) - Number(!b.enabled);
+
+const categorySorter = (a: Item, b: Item) => {
+  const defaultResult = defaultSorter(a, b);
+
+  if (defaultResult !== 0) {
+    return defaultResult;
+  }
+
+  const { category: aCategory } = a;
+  const { category: bCategory } = b;
+  if (aCategory === undefined || bCategory === undefined) {
+    return Number(aCategory === undefined) - Number(bCategory === undefined);
+  }
+  return aCategory.localeCompare(bCategory);
+};
+
+function buildMapper(state: RootState) {
+  const categories = extractCategories(state);
+  return (category: string | undefined) => {
+    if (category === undefined) {
+      return undefined;
+    }
+    const index = categories.indexOf(category);
+    if (index !== -1 && index < COLORS.length) {
+      return COLORS[index];
+    }
+    return undefined;
+  };
+}
 
 const mapToListState = (state: RootState) => {
   const index = state.selectedList;
+  const sorter =
+    state.sortMode === 'categories' ? categorySorter : defaultSorter;
+
   if (index !== undefined) {
+    const extractColor =
+      state.categoryMode === 'color' ? buildMapper(state) : () => undefined;
+
     return {
       lists: state.lists[index].items
         .map((item, index) => ({
           ...item,
           index,
         }))
-        .sort((a, b) => Number(!a.enabled) - Number(!b.enabled)),
+        .sort(sorter),
+      categoryMode: state.categoryMode,
+      extractColor,
     };
   }
   return { lists: [] };

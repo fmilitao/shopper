@@ -12,6 +12,7 @@ import DoneIcon from '@material-ui/icons/Done';
 
 // TODO: update SwipeableViews to remove "Legacy context API has been detected within a strict-mode tree" warning. See: https://github.com/oliviertassinari/react-swipeable-views/issues/596
 import SwipeableViews from 'react-swipeable-views';
+import { CategoryMode } from '../../redux/state';
 
 export interface Props {
   lists: {
@@ -19,6 +20,7 @@ export interface Props {
     name: string;
     comment: string;
     enabled?: boolean;
+    category?: string;
     index: number;
   }[];
   onClick: (index: number) => void;
@@ -28,6 +30,8 @@ export interface Props {
     label: string;
     action: (index: number) => void;
   }[][];
+  categoryMode?: CategoryMode;
+  extractColor?: (category: string | undefined) => string | undefined;
 }
 
 export default function (props: Props) {
@@ -98,19 +102,40 @@ export default function (props: Props) {
         actions={props.actions}
       />
       <List component="nav" className={classes.list}>
-        {props.lists.map(({ id, name, comment, enabled, index }) => {
+        {props.lists.map(({ id, name, comment, enabled, index, category }) => {
           const panels = [
             <ListItem
               key="middle-panel"
               className={
                 enabled !== false ? classes.enabledItem : classes.disabledItem
               }
+              style={{
+                backgroundColor:
+                  props.categoryMode === 'color' && props.extractColor
+                    ? props.extractColor(category)
+                    : undefined,
+              }}
               button
               onContextMenu={handleOpenContextMenu(index)}
               onClick={handleMouseClick(index)}
               onMouseDown={handleMouseDown}
             >
               <ListItemText primary={name} secondary={comment} />
+              {category && props.categoryMode === 'text' && (
+                <div
+                  style={
+                    {
+                      // borderRadius: '5px',
+                      // border: '2px solid blue',
+                      // fontSize: '13px',
+                      // fontWeight: 'bold',
+                      // padding: '2px',
+                    }
+                  }
+                >
+                  {category}
+                </div>
+              )}
             </ListItem>,
             rightPanel,
           ];
