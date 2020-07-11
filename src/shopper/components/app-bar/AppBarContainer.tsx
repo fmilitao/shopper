@@ -18,8 +18,8 @@ export const mapStateToProps = (state: RootState) => {
         pendingItemCount,
         listName,
       },
-      sortMode: state.sortMode || 'default',
-      categoryMode: state.categoryMode || 'text',
+      sortMode: state.sortMode,
+      categoryMode: state.categoryMode,
     };
   }
 

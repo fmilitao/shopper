@@ -1,7 +1,6 @@
 // colors for categories
 export const COLORS = [
   '#70d470',
-  '#42af44',
   '#ffdb66',
   '#0076ff',
   '#d5ff00',
@@ -22,6 +21,7 @@ export const COLORS = [
   '#ff0056',
   '#a42400',
   '#00ae7e',
+  '#42af44',
   '#683d3b',
   '#bdd393',
   '#00b917',

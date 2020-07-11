@@ -164,6 +164,7 @@
         {
           "id": "item-id(kbxostak:25)",
           "name": "Batata pre-frita",
+          "category": "snack",
           "comment": "1",
           "enabled": true
         },
@@ -176,6 +177,7 @@
         {
           "id": "item-id(kbxostak:27)",
           "name": "Bolachas p/ EID",
+          "category": "cookies",
           "comment": "1",
           "enabled": true
         },
@@ -260,6 +262,7 @@
         {
           "id": "item-id(kbxostak:41)",
           "name": "Delicias do mar",
+          "category": "fish",
           "comment": "1",
           "enabled": true
         },
@@ -284,5 +287,12 @@
       ]
     }
   ],
-  "selectedList": 4
+  "selectedList": 4,
+  "categoryMode": "text",
+  "sortMode": "default",
+  "categoryColorMapper": {
+    "cookies": "#f7b5f6",
+    "fish": "#03b6fc",
+    "snack": "#fcbe03"
+  }
 }

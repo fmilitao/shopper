@@ -6,7 +6,8 @@ import { newListId, newItemId } from './id';
 
 const defaultValue: ShopperState = {
   selectedList: undefined,
-  sortMode: undefined,
+  sortMode: 'default',
+  categoryMode: 'text',
   lists: [],
 };
 
@@ -262,8 +263,7 @@ export const shopperSlice = createSlice({
       }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {
-      state.lists = action.payload.lists;
-      state.selectedList = undefined;
+      Object.assign(state, action.payload);
     },
   },
 });

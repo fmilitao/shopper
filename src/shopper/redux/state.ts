@@ -10,17 +10,6 @@ export interface Category {
   name: string;
 }
 
-const CategorySchema = {
-  type: 'object',
-  required: ['name'],
-  properties: {
-    name: {
-      type: 'string',
-      minLength: 1,
-    },
-  },
-};
-
 export interface Item {
   id: string;
   name: string;
@@ -84,8 +73,8 @@ const ListSchema = {
 
 export interface ShopperState {
   selectedList?: number;
-  sortMode?: SortMode;
-  categoryMode?: CategoryMode;
+  sortMode: SortMode;
+  categoryMode: CategoryMode;
   categoryColorMapper?: {
     [category: string]: string;
   };
@@ -114,11 +103,6 @@ export const ShopperStateSchema = {
       },
       additionalProperties: false,
     },
-    categories: {
-      type: 'array',
-      minItems: 0,
-      items: CategorySchema,
-    },
     lists: {
       type: 'array',
       minItems: 0,
@@ -126,7 +110,7 @@ export const ShopperStateSchema = {
     },
   },
   additionalProperties: false,
-  required: ['lists'],
+  required: ['lists', 'categoryMode', 'sortMode'],
 };
 
 // not in schema
