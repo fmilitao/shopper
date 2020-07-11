@@ -25,6 +25,19 @@ const categorySorter = (a: Item, b: Item) => {
 };
 
 function buildMapper(state: RootState) {
+  const { categoryColorMapper } = state;
+
+  // use user-defined color mapper
+  if (categoryColorMapper !== undefined) {
+    return (category: string | undefined) => {
+      if (category === undefined) {
+        return undefined;
+      }
+      return categoryColorMapper[category];
+    };
+  }
+
+  // use default color array
   const categories = extractCategories(state);
   return (category: string | undefined) => {
     if (category === undefined) {

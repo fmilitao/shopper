@@ -86,6 +86,9 @@ export interface ShopperState {
   selectedList?: number;
   sortMode?: SortMode;
   categoryMode?: CategoryMode;
+  categoryColorMapper?: {
+    [category: string]: string;
+  };
   lists: List[];
   // not in schema
   dialogState?: DialogState;
@@ -102,6 +105,15 @@ export const ShopperStateSchema = {
     },
     sortMode: { type: 'string', enum: SORT_MODES },
     categoryMode: { type: 'string', enum: CATEGORY_MODES },
+    categoryColorMapper: {
+      type: 'object',
+      patternProperties: {
+        '^.*$': {
+          type: 'string',
+        },
+      },
+      additionalProperties: false,
+    },
     categories: {
       type: 'array',
       minItems: 0,
