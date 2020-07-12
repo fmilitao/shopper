@@ -266,6 +266,8 @@ export const shopperSlice = createSlice({
       }
     },
     updateState: (state, action: PayloadAction<ShopperState>) => {
+      state.selectedList = undefined;
+      state.categoryColorMapper = undefined;
       Object.assign(state, action.payload);
     },
   },
