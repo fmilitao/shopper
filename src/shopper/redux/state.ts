@@ -1,6 +1,6 @@
 import { ThunkAction, Action } from '@reduxjs/toolkit';
 
-const SORT_MODES = ['default', 'categories'] as const;
+const SORT_MODES = ['default', 'categories', 'alphabetic'] as const;
 export type SortMode = typeof SORT_MODES[number];
 
 const CATEGORY_MODES = ['text', 'color', 'hidden'] as const;

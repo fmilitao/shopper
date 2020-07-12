@@ -40,6 +40,7 @@ const connector = connect(mapStateToProps, {
   // sort
   setDefaultSort: () => actions.setDefaultSort(),
   setCategorySort: () => actions.setCategorySort(),
+  setAlphabeticSort: () => actions.setAlphabeticSort(),
   // category
   setTextCategoryMode: () => actions.setTextCategoryMode(),
   setHiddenCategoryMode: () => actions.setHiddenCategoryMode(),

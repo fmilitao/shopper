@@ -54,6 +54,7 @@ interface Props {
   // sort
   setDefaultSort: () => void;
   setCategorySort: () => void;
+  setAlphabeticSort: () => void;
   // categories
   setTextCategoryMode: () => void;
   setHiddenCategoryMode: () => void;
@@ -118,6 +119,11 @@ export default function ButtonAppBar(props: Props) {
         label: 'category sort',
         action: () => props.setCategorySort(),
         selected: props.sortMode === 'categories',
+      },
+      {
+        label: 'alphabetic sort',
+        action: () => props.setAlphabeticSort(),
+        selected: props.sortMode === 'alphabetic',
       },
     ],
     [

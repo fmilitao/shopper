@@ -13,6 +13,7 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 
 ## Useful Links
 
+- https://github.com/joshwcomeau/react-flip-move
 - https://stackoverflow.com/questions/53176124/material-ui-zoom-animate-out-then-remove
 - https://www.react-spring.io/
 - https://codesandbox.io/embed/1y3yyqpq7q

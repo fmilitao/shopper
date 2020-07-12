@@ -9,6 +9,21 @@ import { COLORS } from '../common/Colors';
 const defaultSorter = (a: Item, b: Item) =>
   Number(!a.enabled) - Number(!b.enabled);
 
+const alphabeticSorter = (a: Item, b: Item) => {
+  const defaultResult = defaultSorter(a, b);
+
+  if (defaultResult !== 0) {
+    return defaultResult;
+  }
+
+  const { name: aName } = a;
+  const { name: bName } = b;
+  if (aName === undefined || bName === undefined) {
+    return Number(aName === undefined) - Number(bName === undefined);
+  }
+  return aName.localeCompare(bName);
+};
+
 const categorySorter = (a: Item, b: Item) => {
   const defaultResult = defaultSorter(a, b);
 
@@ -54,7 +69,11 @@ function buildMapper(state: RootState) {
 const mapToListState = (state: RootState) => {
   const index = state.selectedList;
   const sorter =
-    state.sortMode === 'categories' ? categorySorter : defaultSorter;
+    state.sortMode === 'categories'
+      ? categorySorter
+      : state.sortMode === 'alphabetic'
+      ? alphabeticSorter
+      : defaultSorter;
 
   if (index !== undefined) {
     const extractColor =

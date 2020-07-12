@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
+import FlipMove from 'react-flip-move';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -94,6 +95,21 @@ export default function (props: Props) {
     setState(undefined);
   };
 
+  // TODO: fix this any!
+  const Wrapper = forwardRef((props: { children: ReactNode }, ref: any) => (
+    <div ref={ref}>{props.children}</div>
+  ));
+
+  const customEnterAnimation = {
+    from: { transform: 'scale(0.5, 1)' },
+    to: { transform: 'scale(1, 1)' },
+  };
+
+  const customLeaveAnimation = {
+    from: { transform: 'scale(1, 1)' },
+    to: { transform: 'scale(1, 0)' },
+  };
+
   return (
     <div className={classes.root}>
       <ContextMenu
@@ -102,60 +118,71 @@ export default function (props: Props) {
         actions={props.actions}
       />
       <List component="nav" className={classes.list}>
-        {props.lists.map(({ id, name, comment, enabled, index, category }) => {
-          const panels = [
-            <ListItem
-              key="middle-panel"
-              className={
-                enabled !== false ? classes.enabledItem : classes.disabledItem
-              }
-              style={{
-                backgroundColor:
-                  props.categoryMode === 'color' && props.extractColor
-                    ? props.extractColor(category)
-                    : undefined,
-              }}
-              button
-              onContextMenu={handleOpenContextMenu(index)}
-              onClick={handleMouseClick(index)}
-              onMouseDown={handleMouseDown}
-            >
-              <ListItemText primary={name} secondary={comment} />
-              {category && props.categoryMode === 'text' && (
-                <div
-                  style={
-                    {
-                      // borderRadius: '5px',
-                      // border: '2px solid blue',
-                      // fontSize: '13px',
-                      // fontWeight: 'bold',
-                      // padding: '2px',
-                    }
+        <FlipMove
+          enterAnimation={customEnterAnimation}
+          leaveAnimation={customLeaveAnimation}
+        >
+          {props.lists.map(
+            ({ id, name, comment, enabled, index, category }) => {
+              const panels = [
+                <ListItem
+                  key="middle-panel"
+                  className={
+                    enabled !== false
+                      ? classes.enabledItem
+                      : classes.disabledItem
                   }
+                  style={{
+                    backgroundColor:
+                      props.categoryMode === 'color' && props.extractColor
+                        ? props.extractColor(category)
+                        : undefined,
+                  }}
+                  button
+                  onContextMenu={handleOpenContextMenu(index)}
+                  onClick={handleMouseClick(index)}
+                  onMouseDown={handleMouseDown}
                 >
-                  {category}
-                </div>
-              )}
-            </ListItem>,
-            rightPanel,
-          ];
-          if (props.swipeRight) {
-            panels.unshift(leftPanel);
-          }
-          const startIndex = props.swipeRight ? 1 : 0;
-          return (
-            <SwipeableViews
-              // hack: changes the key value to force new item on enabled/disabled
-              // since otherwise SwipeableViews will remain on swiped panel.
-              key={`${id}-${enabled}`}
-              index={startIndex}
-              enableMouseEvents
-              onChangeIndex={onChangeIndex(index, startIndex)}
-            >
-              {panels}
-            </SwipeableViews>
-          );
-        })}
+                  <ListItemText primary={name} secondary={comment} />
+                  {category && props.categoryMode === 'text' && (
+                    <div
+                      style={
+                        {
+                          // borderRadius: '5px',
+                          // border: '2px solid blue',
+                          // fontSize: '13px',
+                          // fontWeight: 'bold',
+                          // padding: '2px',
+                        }
+                      }
+                    >
+                      {category}
+                    </div>
+                  )}
+                </ListItem>,
+                rightPanel,
+              ];
+              if (props.swipeRight) {
+                panels.unshift(leftPanel);
+              }
+              const startIndex = props.swipeRight ? 1 : 0;
+              return (
+                <Wrapper key={`${id}`}>
+                  <SwipeableViews
+                    // hack: changes the key value to force new item on enabled/disabled
+                    // since otherwise SwipeableViews will remain on swiped panel.
+                    key={`${id}-${enabled}`}
+                    index={startIndex}
+                    enableMouseEvents
+                    onChangeIndex={onChangeIndex(index, startIndex)}
+                  >
+                    {panels}
+                  </SwipeableViews>
+                </Wrapper>
+              );
+            }
+          )}
+        </FlipMove>
       </List>
     </div>
   );
@@ -203,16 +230,16 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     enabledItem: {
       backgroundColor: 'white',
-      marginTop: '2px',
-      marginBottom: '2px',
+      // marginTop: '2px',
+      // marginBottom: '2px',
       userSelect: 'none',
       textDecoration: 'none',
       opacity: '1',
     },
     disabledItem: {
       backgroundColor: 'white',
-      marginTop: '2px',
-      marginBottom: '2px',
+      // marginTop: '2px',
+      // marginBottom: '2px',
       userSelect: 'none',
       textDecoration: 'line-through',
       opacity: '0.5',

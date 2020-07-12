@@ -27,6 +27,9 @@ export const shopperSlice = createSlice({
     setCategorySort: state => {
       state.sortMode = 'categories';
     },
+    setAlphabeticSort: state => {
+      state.sortMode = 'alphabetic';
+    },
     // category
     setTextCategoryMode: state => {
       state.categoryMode = 'text';
