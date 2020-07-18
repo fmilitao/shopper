@@ -95,10 +95,9 @@ export default function (props: Props) {
     setState(undefined);
   };
 
-  // TODO: fix this any!
-  const Wrapper = forwardRef((props: { children: ReactNode }, ref: any) => (
-    <div ref={ref}>{props.children}</div>
-  ));
+  const Wrapper = forwardRef<HTMLDivElement, { children: ReactNode }>(
+    (props, ref) => <div ref={ref}>{props.children}</div>
+  );
 
   const customEnterAnimation = {
     from: { transform: 'scale(0.5, 1)' },
@@ -145,19 +144,7 @@ export default function (props: Props) {
                 >
                   <ListItemText primary={name} secondary={comment} />
                   {category && props.categoryMode === 'text' && (
-                    <div
-                      style={
-                        {
-                          // borderRadius: '5px',
-                          // border: '2px solid blue',
-                          // fontSize: '13px',
-                          // fontWeight: 'bold',
-                          // padding: '2px',
-                        }
-                      }
-                    >
-                      {category}
-                    </div>
+                    <div>{category}</div>
                   )}
                 </ListItem>,
                 rightPanel,

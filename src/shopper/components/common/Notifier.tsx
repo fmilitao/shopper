@@ -14,7 +14,7 @@ export default function () {
     appendPosition: true,
   });
 
-  // more customization?
+  // TODO: more customization?
   // https://github.com/fkhadra/react-toastify/issues/455
 
   return (

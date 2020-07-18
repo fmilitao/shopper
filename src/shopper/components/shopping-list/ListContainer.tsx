@@ -33,13 +33,13 @@ function ListWithContextMenu(props: Props) {
         [
           {
             label: 'Edit',
-            action: (index: number) => props.onEdit(index),
+            action: index => props.onEdit(index),
           },
         ],
         [
           {
             label: 'Delete',
-            action: (index: number) => props.onDelete(index),
+            action: index => props.onDelete(index),
           },
         ],
       ]}

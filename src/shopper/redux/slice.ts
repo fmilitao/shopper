@@ -4,21 +4,28 @@ import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
 import { newListId, newItemId } from './id';
 
-const defaultValue: ShopperState = {
-  selectedList: undefined,
-  sortMode: 'default',
-  categoryMode: 'text',
-  lists: [],
-};
+function loadOrDefault(): ShopperState {
+  const defaultValue: ShopperState = {
+    selectedList: undefined,
+    sortMode: 'default',
+    categoryMode: 'text',
+    lists: [],
+  };
 
-const initialState: ShopperState = load(defaultValue);
+  try {
+    return load(defaultValue);
+  } catch (error) {
+    logger.error(`Failed to load local state: ${error}`);
+  }
+  return defaultValue;
+}
 
 const isInBounds = <T>(index: number, array: T[]) =>
   index >= 0 && index < array.length;
 
 export const shopperSlice = createSlice({
   name: 'shopper',
-  initialState,
+  initialState: loadOrDefault(),
   reducers: {
     // sort
     setDefaultSort: state => {

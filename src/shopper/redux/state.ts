@@ -97,6 +97,7 @@ export const ShopperStateSchema = {
     categoryColorMapper: {
       type: 'object',
       patternProperties: {
+        // any key must be a string
         '^.*$': {
           type: 'string',
         },

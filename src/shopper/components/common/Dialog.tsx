@@ -28,11 +28,7 @@ export default function (props: Props) {
   const dispatch = useDispatch();
 
   function handleClose(commit: boolean, closeDialog: boolean = true) {
-    if (commit) {
-      props.onClose(true);
-    } else {
-      props.onClose(false);
-    }
+    props.onClose(commit);
     if (closeDialog) {
       dispatch(actions.closeDialog());
     } else {
