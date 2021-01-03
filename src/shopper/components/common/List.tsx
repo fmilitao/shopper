@@ -107,10 +107,7 @@ export default function (props: Props) {
         actions={props.actions}
       />
       <List component="nav" className={classes.list}>
-        <FlipMove
-          enterAnimation="accordionVertical"
-          leaveAnimation="accordionVertical"
-        >
+        <FlipMove enterAnimation="fade" leaveAnimation="fade">
           {props.lists.map(
             ({ id, name, comment, enabled, index, category }) => {
               const panels = [
@@ -206,6 +203,7 @@ const useStyles = makeStyles((theme: Theme) =>
       overflowY: 'scroll',
       overflowX: 'hidden',
       // border: '1px solid blue',
+      minHeight: '100%',
       backgroundColor: theme.palette.background.default,
     },
     enabledItem: {
