@@ -99,16 +99,6 @@ export default function (props: Props) {
     (props, ref) => <div ref={ref}>{props.children}</div>
   );
 
-  const customEnterAnimation = {
-    from: { transform: 'scale(0.5, 1)' },
-    to: { transform: 'scale(1, 1)' },
-  };
-
-  const customLeaveAnimation = {
-    from: { transform: 'scale(1, 1)' },
-    to: { transform: 'scale(1, 0)' },
-  };
-
   return (
     <div className={classes.root}>
       <ContextMenu
@@ -118,8 +108,8 @@ export default function (props: Props) {
       />
       <List component="nav" className={classes.list}>
         <FlipMove
-          enterAnimation={customEnterAnimation}
-          leaveAnimation={customLeaveAnimation}
+          enterAnimation="accordionVertical"
+          leaveAnimation="accordionVertical"
         >
           {props.lists.map(
             ({ id, name, comment, enabled, index, category }) => {
@@ -153,12 +143,14 @@ export default function (props: Props) {
                 panels.unshift(leftPanel);
               }
               const startIndex = props.swipeRight ? 1 : 0;
+              // hack: changes the key value to force new item on enabled/disabled
+              // since otherwise SwipeableViews will remain on swiped panel and
+              // FlipMove will not use the enter/leave animations.
+              const key = `${id}-${enabled}`;
               return (
-                <Wrapper key={`${id}`}>
+                <Wrapper key={key}>
                   <SwipeableViews
-                    // hack: changes the key value to force new item on enabled/disabled
-                    // since otherwise SwipeableViews will remain on swiped panel.
-                    key={`${id}-${enabled}`}
+                    key={key}
                     index={startIndex}
                     enableMouseEvents
                     onChangeIndex={onChangeIndex(index, startIndex)}
@@ -211,7 +203,8 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
     },
     list: {
-      overflow: 'scroll',
+      overflowY: 'scroll',
+      overflowX: 'hidden',
       // border: '1px solid blue',
       backgroundColor: theme.palette.background.default,
     },
