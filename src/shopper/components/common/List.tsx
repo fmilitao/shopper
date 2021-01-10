@@ -109,7 +109,7 @@ export default function (props: Props) {
       <List component="nav" className={classes.list}>
         <FlipMove enterAnimation="fade" leaveAnimation="fade">
           {props.lists.map(
-            ({ id, name, comment, enabled, index, category }) => {
+            ({ id, name, comment, enabled, index, category }, arrayIndex) => {
               const panels = [
                 <ListItem
                   key="middle-panel"
@@ -144,9 +144,14 @@ export default function (props: Props) {
               // since otherwise SwipeableViews will remain on swiped panel and
               // FlipMove will not use the enter/leave animations.
               const key = `${id}-${enabled}`;
+              const style =
+                props.lists.length - 1 === arrayIndex
+                  ? { paddingBottom: '50px' }
+                  : {};
               return (
                 <Wrapper key={key}>
                   <SwipeableViews
+                    style={style}
                     key={key}
                     index={startIndex}
                     enableMouseEvents
