@@ -3,6 +3,8 @@ import { ShopperState, DialogType, AppThunk } from './state';
 import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
 import { newListId, newItemId } from './id';
+import { serialize } from '../gsheets-serde';
+import { batchClear, batchUpdate, getValues } from '../spreadsheet';
 
 function loadOrDefault(): ShopperState {
   const defaultValue: ShopperState = {
@@ -246,6 +248,11 @@ export const shopperSlice = createSlice({
         index: action.payload,
       };
     },
+    openSetupGoogleSheetsDialog: state => {
+      state.dialogState = {
+        type: DialogType.SETUP_GOOGLE_SHEETS,
+      };
+    },
     closeDialog: state => {
       state.dialogState = undefined;
     },
@@ -277,8 +284,59 @@ export const shopperSlice = createSlice({
       state.categoryColorMapper = undefined;
       Object.assign(state, action.payload);
     },
+    // set sign in
+    setGoogleSheetsLoggedIn: (state, action: PayloadAction<boolean>) => {
+      state.googleSheetsLoggedIn = action.payload;
+    },
+    setGoogleSheetsDetails: (
+      state,
+      action: PayloadAction<ShopperState['googleSheets']>
+    ) => {
+      state.googleSheets = action.payload;
+    },
   },
 });
+
+export const copyToGoogleSheet = (): AppThunk => async (_, getState) => {
+  try {
+    const state = getState();
+    if (state.googleSheets === undefined) {
+      logger.error('Missing google sheets info');
+      return;
+    }
+    const values = serialize(state, true);
+    const spreadsheetId = state.googleSheets.spreadsheetId;
+    const sheet = state.googleSheets.range;
+    // clear is necessary to ensure any old value is removed
+    await batchClear(spreadsheetId, sheet);
+    await batchUpdate(spreadsheetId, sheet, values);
+    logger.info('Copied to google sheet');
+  } catch (error) {
+    console.log(error);
+    logger.error(`ERROR: ${error}`);
+  }
+};
+
+export const importFromGoogleSheets = (): AppThunk => async (
+  dispatch,
+  getState
+) => {
+  try {
+    const state = getState();
+    if (state.googleSheets === undefined) {
+      logger.error('Missing google sheets info');
+      return;
+    }
+    const spreadsheetId = state.googleSheets.spreadsheetId;
+    const sheet = state.googleSheets.range;
+    const values = await getValues(spreadsheetId, sheet);
+    dispatch(actions.updateState(values));
+    logger.info('Imported from google sheet');
+  } catch (error) {
+    console.log(error);
+    logger.error(`ERROR: ${error}`);
+  }
+};
 
 export const importFromClipboard = (): AppThunk => dispatch => {
   if (navigator?.clipboard?.readText) {

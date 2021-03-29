@@ -14,6 +14,7 @@ import SortMenuIcon from '@material-ui/icons/Sort';
 import version from '../../../version';
 import { toast } from 'react-toastify';
 import { SortMode, CategoryMode } from '../../redux/state';
+import SheetControl from '../google-sheets/SheetControl';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,11 +44,14 @@ interface Props {
     pendingItemCount: number;
     totalItemCount: number;
   };
+  googleSheetsEnabled: boolean;
   sortMode: SortMode;
   categoryMode: CategoryMode;
   deselectList: () => void;
   copyItemsToClipboard: () => void;
   copyToClipboard: () => void;
+  copyToGoogleSheet: () => void;
+  importFromGoogleSheets: () => void;
   importFromClipboard: () => void;
   undoItemDeletion: () => void;
   undoListDeletion: () => void;
@@ -93,6 +97,17 @@ export default function ButtonAppBar(props: Props) {
     },
   ];
 
+  const googleSheetsActions = [
+    {
+      label: 'import from google sheet',
+      action: () => props.importFromGoogleSheets(),
+    },
+    {
+      label: 'export to google sheet',
+      action: () => props.copyToGoogleSheet(),
+    },
+  ];
+
   const contextActions = [
     {
       label: `undo ${props.selectedList ? 'item' : 'list'} deletion`,
@@ -104,6 +119,9 @@ export default function ButtonAppBar(props: Props) {
   ];
 
   const actions = [defaultActions, contextActions];
+  if (props.googleSheetsEnabled) {
+    actions.unshift(googleSheetsActions);
+  }
   if (props.selectedList) {
     actions.unshift(itemActions);
   }
@@ -171,6 +189,8 @@ export default function ButtonAppBar(props: Props) {
           >
             {title}
           </Typography>
+          <SheetControl />
+
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}
           </div>

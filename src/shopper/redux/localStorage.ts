@@ -35,6 +35,7 @@ export function save(state: ShopperState) {
     dialogState: undefined,
     listUndo: undefined,
     itemUndo: undefined,
+    googleSheetsLoggedIn: undefined,
   };
   localStorage.setItem(key, JSON.stringify(shallowClone));
 }

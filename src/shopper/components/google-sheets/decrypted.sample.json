@@ -1,0 +1,6 @@
+{
+  "spreadsheetId": "SPREADSHEET_ID",
+  "range": "Sheet1",
+  "clientId": "CLIENT_ID.apps.googleusercontent.com",
+  "apiKey": "API_KEY"
+}

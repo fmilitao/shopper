@@ -18,12 +18,14 @@ export const mapStateToProps = (state: RootState) => {
         pendingItemCount,
         listName,
       },
+      googleSheetsEnabled: state.googleSheetsLoggedIn === true,
       sortMode: state.sortMode,
       categoryMode: state.categoryMode,
     };
   }
 
   return {
+    googleSheetsEnabled: state.googleSheetsLoggedIn === true,
     selectedList: undefined,
     sortMode: 'default' as const,
     categoryMode: 'text' as const,
@@ -35,6 +37,8 @@ const connector = connect(mapStateToProps, {
   copyItemsToClipboard: () => actions.copyItemsToClipboard(),
   copyToClipboard: () => actions.copyToClipboard(),
   importFromClipboard: () => actions.importFromClipboard(),
+  copyToGoogleSheet: () => actions.copyToGoogleSheet(),
+  importFromGoogleSheets: () => actions.importFromGoogleSheets(),
   undoItemDeletion: () => actions.undoItemDeletion(),
   undoListDeletion: () => actions.undoListDeletion(),
   // sort

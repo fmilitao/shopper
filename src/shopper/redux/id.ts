@@ -1,10 +1,12 @@
 const timestamp = Date.now().toString(36);
 let counter = 0;
 
-export default function newId(prefix: string | undefined) {
-  const finalPrefix = prefix === undefined ? '' : `${prefix}-`;
-  return `${finalPrefix}id(${timestamp}:${counter++})`;
+export default function newId(prefix: string) {
+  return `${prefix}(${timestamp}:${counter++})`;
 }
 
-export const newListId = () => newId('list');
-export const newItemId = () => newId('item');
+export const LIST_ID_PREFIX = 'list-id';
+export const ITEM_ID_PREFIX = 'item-id';
+
+export const newListId = () => newId(LIST_ID_PREFIX);
+export const newItemId = () => newId(ITEM_ID_PREFIX);

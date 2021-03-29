@@ -6,6 +6,7 @@ import AddListDialog from './shopping-list/AddDialogContainer';
 import AddItemDialog from './item-list/AddDialogContainer';
 import EditListDialog from './shopping-list/EditDialogContainer';
 import EditItemDialog from './item-list/EditDialogContainer';
+import SetupGoogleSheetsDialog from './google-sheets/SetupDialogContainer';
 import ItemList from './item-list/ListContainer';
 import { RootState } from '../redux/store';
 import Notifier from './common/Notifier';
@@ -23,10 +24,12 @@ function Main(props: Props) {
     children.push(<ItemList key="item-list" />);
     children.push(<AddItemDialog key="item-add-dialog" />);
     children.push(<EditItemDialog key="item-edit-dialog" />);
+    children.push(<SetupGoogleSheetsDialog key="setup-google-sheets-dialog" />);
   } else {
     children.push(<List key="list" />);
     children.push(<AddListDialog key="list-add-dialog" />);
     children.push(<EditListDialog key="list-edit-dialog" />);
+    children.push(<SetupGoogleSheetsDialog key="setup-google-sheets-dialog" />);
   }
 
   return (

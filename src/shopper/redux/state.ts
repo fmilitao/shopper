@@ -71,6 +71,29 @@ const ListSchema = {
   },
 };
 
+export const GoogleSheetSchema = {
+  type: 'object',
+  required: ['spreadsheetId', 'range', 'clientId', 'apiKey'],
+  properties: {
+    spreadsheetId: {
+      type: 'string',
+      minLength: 1,
+    },
+    range: {
+      type: 'string',
+      minLength: 1,
+    },
+    clientId: {
+      type: 'string',
+      minLength: 1,
+    },
+    apiKey: {
+      type: 'string',
+      minLength: 1,
+    },
+  },
+};
+
 export interface ShopperState {
   selectedList?: number;
   sortMode: SortMode;
@@ -79,10 +102,17 @@ export interface ShopperState {
     [category: string]: string;
   };
   lists: List[];
+  googleSheets?: {
+    spreadsheetId: string;
+    range: string;
+    clientId: string;
+    apiKey: string;
+  };
   // not in schema
   dialogState?: DialogState;
   listUndo?: List[];
   itemUndo?: Item[];
+  googleSheetsLoggedIn?: boolean;
 }
 
 export const ShopperStateSchema = {
@@ -104,6 +134,7 @@ export const ShopperStateSchema = {
       },
       additionalProperties: false,
     },
+    googleSheets: GoogleSheetSchema,
     lists: {
       type: 'array',
       minItems: 0,
@@ -120,6 +151,7 @@ export enum DialogType {
   EDIT_LIST,
   ADD_ITEM,
   EDIT_ITEM,
+  SETUP_GOOGLE_SHEETS,
 }
 
 export interface AddListDialog {
@@ -138,8 +170,12 @@ export interface EditItemDialog {
   type: DialogType.EDIT_ITEM;
   index: number;
 }
+export interface SetupGoogleSheetsDialog {
+  type: DialogType.SETUP_GOOGLE_SHEETS;
+}
 
 export type DialogState =
+  | SetupGoogleSheetsDialog
   | AddListDialog
   | AddItemDialog
   | EditListDialog

@@ -7,11 +7,10 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 - Back button is to exit, use the arrow on top to go back to the list view.
 
 <!--
-## Tasks
-
-* animation
 
 ## Useful Links
+
+- https://developers.google.com/web/updates/2017/09/sensors-for-the-web (shake undo?)
 
 - https://cssanimation.rocks/list-items/
 - https://github.com/joshwcomeau/react-flip-move
