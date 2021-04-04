@@ -2,11 +2,18 @@
 
 Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a progressive web app.
 
+![Shopper PWA](./shopper.gif)
+
 ## Notes
 
 - Back button is to exit, use the arrow on top to go back to the list view.
 
 <!--
+
+* gif generated with:
+
+ffmpeg -i movie.mov -filter_complex "[0:v] setpts=0.5*PTS,fps=12,scale=300:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse" output4.gif
+
 
 ## Useful Links
 
