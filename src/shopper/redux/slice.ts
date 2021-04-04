@@ -3,8 +3,12 @@ import { ShopperState, DialogType, AppThunk } from './state';
 import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
 import { newListId, newItemId } from './id';
-import { serialize } from '../gsheets-serde';
-import { batchClear, batchUpdate, getValues } from '../spreadsheet';
+import { serialize } from '../components/google-sheets/gsheets-serde';
+import {
+  batchClear,
+  batchUpdate,
+  getValues,
+} from '../components/google-sheets/spreadsheet';
 
 function loadOrDefault(): ShopperState {
   const defaultValue: ShopperState = {

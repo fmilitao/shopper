@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import type { RootState } from '../../redux/store';
 import { actions } from '../../redux/store';
-import { init } from '../../spreadsheet';
+import { init } from './spreadsheet';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 // status icons

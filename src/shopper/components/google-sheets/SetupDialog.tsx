@@ -125,7 +125,7 @@ export default function (props: Props) {
         }}
       />
       <TextField
-        error={!clientId}
+        error={!validClientId}
         margin="dense"
         label="Client ID"
         type="text"

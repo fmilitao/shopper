@@ -1,6 +1,6 @@
-import { ITEM_ID_PREFIX, LIST_ID_PREFIX } from './redux/id';
-import { validate } from './redux/localStorage';
-import { ShopperState } from './redux/state';
+import { ITEM_ID_PREFIX, LIST_ID_PREFIX } from '../../redux/id';
+import { validate } from '../../redux/localStorage';
+import { ShopperState } from '../../redux/state';
 
 export function deserialize(values: string[][]): ShopperState {
   const [internal, headers, ...others] = values;
