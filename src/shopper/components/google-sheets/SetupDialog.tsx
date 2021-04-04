@@ -106,7 +106,7 @@ export default function (props: Props) {
       cancel={'Cancel'}
     >
       <DialogContentText className={classes.helperText}>
-        GoogleSheets API access details. (Require page refresh to reflect
+        GoogleSheets API access details. (Requires page refresh to reflect
         changes.)
       </DialogContentText>
       <TextField
