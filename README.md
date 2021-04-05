@@ -12,7 +12,7 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 
 * gif generated with:
 
-ffmpeg -i movie.mov -filter_complex "[0:v] setpts=0.5*PTS,fps=12,scale=300:-1,split [a][b];[a] palettegen [p];[b][p] paletteuse" output4.gif
+ffmpeg -i clip.mov -filter_complex "[0:v] setpts=0.5*PTS,fps=12,scale=300:-1,pad=w=2+iw:h=2+ih:x=1:y=1:color=black,split [a][b];[a] palettegen [p];[b][p] paletteuse" output.gif
 
 
 ## Useful Links
