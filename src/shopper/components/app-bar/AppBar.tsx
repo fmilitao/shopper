@@ -163,6 +163,10 @@ export default function ButtonAppBar(props: Props) {
     ],
   ];
 
+  const [isOnline, setIsOnline] = React.useState(navigator.onLine);
+  window.addEventListener('online', () => setIsOnline(true));
+  window.addEventListener('offline', () => setIsOnline(false));
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -189,7 +193,7 @@ export default function ButtonAppBar(props: Props) {
           >
             {title}
           </Typography>
-          <SheetControl />
+          <SheetControl isOnline={isOnline} />
 
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}

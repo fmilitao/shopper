@@ -17,20 +17,23 @@ type SheetControlProps = {
   status?: boolean;
   setLoginStatus: (status: boolean) => void;
   openDialog: () => void;
+  isOnline: boolean;
 };
 
 function SheetControl(props: SheetControlProps) {
   const classes = useStyles();
 
   React.useEffect(
-    () => init(props.apiKey, props.clientId, props.setLoginStatus),
-    [props.apiKey, props.clientId, props.setLoginStatus]
+    () =>
+      init(props.apiKey, props.clientId, props.isOnline, props.setLoginStatus),
+    [props.apiKey, props.clientId, props.setLoginStatus, props.isOnline]
   );
 
   const icon =
     props.apiKey === undefined ||
     props.clientId === undefined ||
-    props.status === false ? (
+    props.status === false ||
+    props.isOnline === false ? (
       <NotAvailable />
     ) : props.status === true ? (
       <Available />

@@ -167,6 +167,8 @@ export default function (props: Props) {
   );
 }
 
+// TODO: not really handling sign out (and sign back in)
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     helperText: {

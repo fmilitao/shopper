@@ -15,9 +15,15 @@ const scope = 'https://www.googleapis.com/auth/spreadsheets';
 export function init(
   apiKey: string | undefined,
   clientId: string | undefined,
+  isOnline: boolean,
   setSignIn: (isSignedIn: boolean) => void
 ) {
-  if (apiKey !== undefined && clientId !== undefined && !init.loaded) {
+  if (
+    isOnline &&
+    apiKey !== undefined &&
+    clientId !== undefined &&
+    !init.loaded
+  ) {
     init.loaded = true;
     loadGApi(apiKey, clientId, setSignIn);
   }
