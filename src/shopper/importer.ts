@@ -14,7 +14,7 @@ export function importText(
     .map(txt => {
       const match = txt.match(regex);
       if (!match) {
-        return null;
+        return { name: txt, comment: '' };
       }
       const [, name, comment] = match;
       return { name, comment };
