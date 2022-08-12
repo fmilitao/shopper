@@ -10,6 +10,11 @@ import AddItem from '../item-list/AddButtonContainer';
 import Menu from '../common/Menu';
 import ActionsMenuIcon from '@material-ui/icons/MoreVert';
 import SortMenuIcon from '@material-ui/icons/Sort';
+import {
+  enqueueIfNeeded,
+  dequeueIfNeeded,
+  isShopperQueued,
+} from '../../history';
 
 import version from '../../../version';
 import { toast } from 'react-toastify';
@@ -166,6 +171,18 @@ export default function ButtonAppBar(props: Props) {
   const [isOnline, setIsOnline] = React.useState(navigator.onLine);
   window.addEventListener('online', () => setIsOnline(true));
   window.addEventListener('offline', () => setIsOnline(false));
+
+  React.useEffect(() => {
+    const isQueued = isShopperQueued();
+    const isListSelected = props.selectedList !== undefined;
+
+    enqueueIfNeeded(isQueued, isListSelected);
+    dequeueIfNeeded(isQueued, isListSelected);
+
+    window.addEventListener('popstate', () => {
+      props.deselectList();
+    });
+  }, []);
 
   return (
     <div className={classes.root}>

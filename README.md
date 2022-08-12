@@ -9,6 +9,8 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 - Back button is to exit, use the arrow on top to go back to the list view.
 
 <!--
+* ensure using ssh repo:
+git remote set-url origin git@github.com:fmilitao/shopper.git
 
 * gif generated with:
 

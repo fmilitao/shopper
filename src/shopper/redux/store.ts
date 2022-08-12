@@ -7,6 +7,7 @@ import {
   copyToGoogleSheet,
 } from './slice';
 import { save } from './localStorage';
+import { enqueueIfNeeded, dequeueIfNeeded, isShopperQueued } from '../history';
 
 export const store = configureStore({ reducer });
 
@@ -24,4 +25,10 @@ store.subscribe(() => {
   const state = store.getState();
   save(state);
   // console.log(JSON.stringify(state));
+
+  const isQueued = isShopperQueued();
+  const isListSelected = state.selectedList !== undefined;
+
+  enqueueIfNeeded(isQueued, isListSelected);
+  dequeueIfNeeded(isQueued, isListSelected);
 });
