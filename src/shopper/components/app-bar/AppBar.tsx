@@ -113,11 +113,11 @@ export default function ButtonAppBar(props: Props) {
 
   const defaultActions = [
     {
-      label: 'import state from clipboard',
+      label: 'load app state from clipboard',
       action: () => props.importFromClipboard(),
     },
     {
-      label: 'copy state to clipboard',
+      label: 'copy app state to clipboard',
       action: () => props.copyToClipboard(),
     },
   ];
