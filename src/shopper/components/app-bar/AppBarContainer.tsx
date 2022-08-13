@@ -31,8 +31,8 @@ export const mapStateToProps = (state: RootState) => {
     selectedList: undefined,
     sortMode: 'default' as const,
     categoryMode: 'text' as const,
-    itemClick: false,
-    googleSheetActions: false,
+    itemClick: state.itemClick,
+    googleSheetActions: state.googleSheetActions,
   };
 };
 
