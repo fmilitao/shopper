@@ -20,7 +20,7 @@ const dispatchToProps = {
   onClick: (index: number) => actions.selectList(index),
 };
 
-type Props = Omit<ListProps, 'actions' | 'swipeRight'> & {
+type Props = Omit<ListProps, 'actions' | 'swipeRight' | 'clickEnabled'> & {
   onEdit: (index: number) => void;
 };
 
@@ -29,6 +29,7 @@ function ListWithContextMenu(props: Props) {
     <List
       {...props}
       swipeRight={false}
+      clickEnabled={true}
       actions={[
         [
           {

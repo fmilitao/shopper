@@ -14,6 +14,7 @@ function loadOrDefault(): ShopperState {
   const defaultValue: ShopperState = {
     selectedList: undefined,
     sortMode: 'default',
+    itemClick: false,
     categoryMode: 'text',
     lists: [],
   };
@@ -42,6 +43,10 @@ export const shopperSlice = createSlice({
     },
     setAlphabeticSort: state => {
       state.sortMode = 'alphabetic';
+    },
+    // item click
+    toggleItemClick: state => {
+      state.itemClick = !state.itemClick;
     },
     // category
     setTextCategoryMode: state => {
@@ -321,26 +326,24 @@ export const copyToGoogleSheet = (): AppThunk => async (_, getState) => {
   }
 };
 
-export const importFromGoogleSheets = (): AppThunk => async (
-  dispatch,
-  getState
-) => {
-  try {
-    const state = getState();
-    if (state.googleSheets === undefined) {
-      logger.error('Missing google sheets info');
-      return;
+export const importFromGoogleSheets =
+  (): AppThunk => async (dispatch, getState) => {
+    try {
+      const state = getState();
+      if (state.googleSheets === undefined) {
+        logger.error('Missing google sheets info');
+        return;
+      }
+      const spreadsheetId = state.googleSheets.spreadsheetId;
+      const sheet = state.googleSheets.range;
+      const values = await getValues(spreadsheetId, sheet);
+      dispatch(actions.updateState(values));
+      logger.info('Imported from google sheet');
+    } catch (error) {
+      console.log(error);
+      logger.error(`ERROR: ${error}`);
     }
-    const spreadsheetId = state.googleSheets.spreadsheetId;
-    const sheet = state.googleSheets.range;
-    const values = await getValues(spreadsheetId, sheet);
-    dispatch(actions.updateState(values));
-    logger.info('Imported from google sheet');
-  } catch (error) {
-    console.log(error);
-    logger.error(`ERROR: ${error}`);
-  }
-};
+  };
 
 export const importFromClipboard = (): AppThunk => dispatch => {
   if (navigator?.clipboard?.readText) {

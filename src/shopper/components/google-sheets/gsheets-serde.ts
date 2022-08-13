@@ -88,6 +88,7 @@ export function serialize(state: ShopperState, simplify: boolean): string[][] {
 
   const validKeys = new Set([
     'sortMode',
+    'itemClick',
     'categoryMode',
     'categoryColorMapper',
   ]);

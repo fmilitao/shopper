@@ -87,20 +87,23 @@ const mapToListState = (state: RootState) => {
         }))
         .sort(sorter),
       categoryMode: state.categoryMode,
+      clickEnabled: state.itemClick,
       extractColor,
     };
   }
-  return { lists: [] };
+  return { lists: [], clickEnabled: state.itemClick };
 };
 
 const dispatchToProps = {
   onDelete: (index: number) => actions.deleteItem(index),
   onEdit: (index: number) => actions.openEditItemDialog(index),
   onClick: (index: number) => actions.toggleItem(index),
+  toggleClick: () => actions.toggleItemClick(),
 };
 
 type Props = Omit<ListProps, 'actions' | 'swipeRight'> & {
   onEdit: (index: number) => void;
+  toggleClick: () => void;
 };
 
 function ListWithContextMenu(props: Props) {

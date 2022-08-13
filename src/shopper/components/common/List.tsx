@@ -27,6 +27,7 @@ export interface Props {
   onClick: (index: number) => void;
   onDelete: (index: number) => void;
   swipeRight: boolean;
+  clickEnabled: boolean;
   actions: {
     label: string;
     action: (index: number) => void;
@@ -53,7 +54,7 @@ export default function (props: Props) {
       return;
     }
 
-    if (e.type === 'click') {
+    if (props.clickEnabled && e.type === 'click') {
       props.onClick(index);
       return;
     }
@@ -80,16 +81,15 @@ export default function (props: Props) {
     | undefined
   >(undefined);
 
-  const handleOpenContextMenu = (index: number) => (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    event.preventDefault();
-    setState({
-      x: event.clientX - 4,
-      y: event.clientY - 4,
-      index,
-    });
-  };
+  const handleOpenContextMenu =
+    (index: number) => (event: React.MouseEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      setState({
+        x: event.clientX - 4,
+        y: event.clientY - 4,
+        index,
+      });
+    };
 
   const handleCloseContextMenu = () => {
     setState(undefined);

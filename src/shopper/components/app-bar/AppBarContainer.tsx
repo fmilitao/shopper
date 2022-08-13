@@ -21,6 +21,7 @@ export const mapStateToProps = (state: RootState) => {
       googleSheetsEnabled: state.googleSheetsLoggedIn === true,
       sortMode: state.sortMode,
       categoryMode: state.categoryMode,
+      itemClick: state.itemClick,
     };
   }
 
@@ -29,6 +30,7 @@ export const mapStateToProps = (state: RootState) => {
     selectedList: undefined,
     sortMode: 'default' as const,
     categoryMode: 'text' as const,
+    itemClick: false,
   };
 };
 
@@ -45,6 +47,8 @@ const connector = connect(mapStateToProps, {
   setDefaultSort: () => actions.setDefaultSort(),
   setCategorySort: () => actions.setCategorySort(),
   setAlphabeticSort: () => actions.setAlphabeticSort(),
+  // item click
+  toggleItemClick: () => actions.toggleItemClick(),
   // category
   setTextCategoryMode: () => actions.setTextCategoryMode(),
   setHiddenCategoryMode: () => actions.setHiddenCategoryMode(),

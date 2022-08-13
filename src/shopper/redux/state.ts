@@ -3,6 +3,8 @@ import { ThunkAction, Action } from '@reduxjs/toolkit';
 const SORT_MODES = ['default', 'categories', 'alphabetic'] as const;
 export type SortMode = typeof SORT_MODES[number];
 
+export type ItemClickMode = boolean;
+
 const CATEGORY_MODES = ['text', 'color', 'hidden'] as const;
 export type CategoryMode = typeof CATEGORY_MODES[number];
 
@@ -97,6 +99,7 @@ export const GoogleSheetSchema = {
 export interface ShopperState {
   selectedList?: number;
   sortMode: SortMode;
+  itemClick: ItemClickMode;
   categoryMode: CategoryMode;
   categoryColorMapper?: {
     [category: string]: string;
@@ -123,6 +126,7 @@ export const ShopperStateSchema = {
       type: 'number',
     },
     sortMode: { type: 'string', enum: SORT_MODES },
+    itemClick: { type: 'boolean' },
     categoryMode: { type: 'string', enum: CATEGORY_MODES },
     categoryColorMapper: {
       type: 'object',

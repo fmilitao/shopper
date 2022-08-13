@@ -52,8 +52,10 @@ interface Props {
   googleSheetsEnabled: boolean;
   sortMode: SortMode;
   categoryMode: CategoryMode;
+  itemClick: boolean;
   deselectList: () => void;
   copyItemsToClipboard: () => void;
+  toggleItemClick: () => void;
   copyToClipboard: () => void;
   copyToGoogleSheet: () => void;
   importFromGoogleSheets: () => void;
@@ -88,6 +90,13 @@ export default function ButtonAppBar(props: Props) {
     {
       label: 'copy list items to clipboard',
       action: () => props.copyItemsToClipboard(),
+    },
+  ];
+
+  const itemListActions = [
+    {
+      label: `${props.itemClick ? 'disable' : 'enable'} item click`,
+      action: () => props.toggleItemClick(),
     },
   ];
 
@@ -128,6 +137,7 @@ export default function ButtonAppBar(props: Props) {
     actions.unshift(googleSheetsActions);
   }
   if (props.selectedList) {
+    actions.unshift(itemListActions);
     actions.unshift(itemActions);
   }
 
