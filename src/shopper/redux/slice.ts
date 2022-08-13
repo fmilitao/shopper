@@ -15,6 +15,7 @@ function loadOrDefault(): ShopperState {
     selectedList: undefined,
     sortMode: 'default',
     itemClick: false,
+    googleSheetActions: false,
     categoryMode: 'text',
     lists: [],
   };
@@ -47,6 +48,9 @@ export const shopperSlice = createSlice({
     // item click
     toggleItemClick: state => {
       state.itemClick = !state.itemClick;
+    },
+    toggleGoogleSheetActions: state => {
+      state.googleSheetActions = !state.googleSheetActions;
     },
     // category
     setTextCategoryMode: state => {

@@ -22,6 +22,7 @@ export const mapStateToProps = (state: RootState) => {
       sortMode: state.sortMode,
       categoryMode: state.categoryMode,
       itemClick: state.itemClick,
+      googleSheetActions: state.googleSheetActions,
     };
   }
 
@@ -31,6 +32,7 @@ export const mapStateToProps = (state: RootState) => {
     sortMode: 'default' as const,
     categoryMode: 'text' as const,
     itemClick: false,
+    googleSheetActions: false,
   };
 };
 
@@ -49,6 +51,7 @@ const connector = connect(mapStateToProps, {
   setAlphabeticSort: () => actions.setAlphabeticSort(),
   // item click
   toggleItemClick: () => actions.toggleItemClick(),
+  toggleGoogleSheetActions: () => actions.toggleGoogleSheetActions(),
   // category
   setTextCategoryMode: () => actions.setTextCategoryMode(),
   setHiddenCategoryMode: () => actions.setHiddenCategoryMode(),

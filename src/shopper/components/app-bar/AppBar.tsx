@@ -53,9 +53,11 @@ interface Props {
   sortMode: SortMode;
   categoryMode: CategoryMode;
   itemClick: boolean;
+  googleSheetActions: boolean;
   deselectList: () => void;
   copyItemsToClipboard: () => void;
   toggleItemClick: () => void;
+  toggleGoogleSheetActions: () => void;
   copyToClipboard: () => void;
   copyToGoogleSheet: () => void;
   importFromGoogleSheets: () => void;
@@ -93,10 +95,19 @@ export default function ButtonAppBar(props: Props) {
     },
   ];
 
-  const itemListActions = [
+  const itemClickToggle = [
     {
       label: `${props.itemClick ? 'disable' : 'enable'} item click`,
       action: () => props.toggleItemClick(),
+    },
+  ];
+
+  const googleSheetToggle = [
+    {
+      label: `${
+        props.googleSheetActions ? 'disable' : 'enable'
+      } google sheet actions`,
+      action: () => props.toggleGoogleSheetActions(),
     },
   ];
 
@@ -132,12 +143,12 @@ export default function ButtonAppBar(props: Props) {
     },
   ];
 
-  const actions = [defaultActions, contextActions];
-  if (props.googleSheetsEnabled) {
+  const actions = [googleSheetToggle, defaultActions, contextActions];
+  if (props.googleSheetsEnabled && props.googleSheetActions) {
     actions.unshift(googleSheetsActions);
   }
   if (props.selectedList) {
-    actions.unshift(itemListActions);
+    actions.unshift(itemClickToggle);
     actions.unshift(itemActions);
   }
 
@@ -220,7 +231,7 @@ export default function ButtonAppBar(props: Props) {
           >
             {title}
           </Typography>
-          <SheetControl isOnline={isOnline} />
+          {props.googleSheetActions && <SheetControl isOnline={isOnline} />}
 
           <div className={classes.rightButton}>
             {props.selectedList ? <AddItem /> : <AddList />}
