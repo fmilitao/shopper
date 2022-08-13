@@ -35,7 +35,7 @@
     "test": "react-scripts test --watchAll=false --verbose=true --setupFilesAfterEnv=./src/shopper/__test__/setupTests.ts",
     "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
-    "buildVersion": "echo \"export default 'commit: `git rev-parse --short HEAD` (`node -p 'new Date().toISOString()'`)';\" > src/version.ts"
+    "buildVersion": "echo \"export default 'commit: `git rev-parse --short HEAD` (`node -p 'new Date().toISOString()'`)';\" | tee src/version.ts"
   },
   "eslintConfig": {
     "extends": "react-app"
