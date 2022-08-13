@@ -6,7 +6,7 @@ Rewrite of [shopper-android](https://github.com/fmilitao/shopper-android) as a p
 
 ## Notes
 
-- Back button is to exit, use the arrow on top to go back to the list view.
+- Back button will only work after the first user interaction. You can always use the arrow on the top left to go back.
 
 <!--
 * ensure using ssh repo:
