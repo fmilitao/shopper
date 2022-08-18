@@ -64,6 +64,7 @@ interface Props {
   importFromClipboard: () => void;
   undoItemDeletion: () => void;
   undoListDeletion: () => void;
+  addItemsFromClipboard: () => void;
   // sort
   setDefaultSort: () => void;
   setCategorySort: () => void;
@@ -92,6 +93,10 @@ export default function ButtonAppBar(props: Props) {
     {
       label: 'copy list items to clipboard',
       action: () => props.copyItemsToClipboard(),
+    },
+    {
+      label: 'add items from clipboard',
+      action: () => props.addItemsFromClipboard(),
     },
   ];
 

@@ -5,6 +5,7 @@ import {
   importFromClipboard,
   importFromGoogleSheets,
   copyToGoogleSheet,
+  addItemsFromClipboard,
 } from './slice';
 import { save } from './localStorage';
 import { enqueueIfNeeded, dequeueIfNeeded, isShopperQueued } from '../history';
@@ -18,6 +19,7 @@ export const actions = {
   importFromClipboard,
   importFromGoogleSheets,
   copyToGoogleSheet,
+  addItemsFromClipboard,
 };
 
 // auto-save

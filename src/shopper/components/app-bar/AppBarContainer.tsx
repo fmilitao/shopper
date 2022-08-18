@@ -45,6 +45,7 @@ const connector = connect(mapStateToProps, {
   importFromGoogleSheets: () => actions.importFromGoogleSheets(),
   undoItemDeletion: () => actions.undoItemDeletion(),
   undoListDeletion: () => actions.undoListDeletion(),
+  addItemsFromClipboard: () => actions.addItemsFromClipboard(),
   // sort
   setDefaultSort: () => actions.setDefaultSort(),
   setCategorySort: () => actions.setCategorySort(),

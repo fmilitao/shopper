@@ -4,6 +4,7 @@ import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
 import { newListId, newItemId } from './id';
 import { serialize } from '../components/google-sheets/gsheets-serde';
+import { importText } from '../importer';
 import {
   batchClear,
   batchUpdate,
@@ -346,6 +347,44 @@ export const importFromGoogleSheets =
     } catch (error) {
       console.log(error);
       logger.error(`ERROR: ${error}`);
+    }
+  };
+
+export const addItemsFromClipboard =
+  (): AppThunk => async (dispatch, getState) => {
+    if (navigator?.clipboard?.readText) {
+      navigator.clipboard
+        .readText()
+        .then(value => {
+          const items = importText(value);
+          const state = getState();
+
+          const listIndex = state.selectedList;
+          if (
+            items.length > 0 &&
+            listIndex !== undefined &&
+            isInBounds(listIndex, state.lists)
+          ) {
+            const clonedState = JSON.parse(JSON.stringify(state));
+            const fullItems = items.map(({ name, comment }) => ({
+              id: newItemId(),
+              name,
+              comment,
+              enabled: true,
+            }));
+            clonedState.lists[listIndex].items.push(...fullItems);
+            dispatch(actions.updateState(clonedState));
+            logger.info(`Added ${items.length ?? 0} items from clipboard`);
+          } else {
+            logger.error('Failed to add items from clipboard');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          logger.error(`ERROR: ${error}`);
+        });
+    } else {
+      logger.error('ERROR: denied use of browser clipboard');
     }
   };
 
