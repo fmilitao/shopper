@@ -21,3 +21,7 @@ export function importText(
     })
     .filter(notNull);
 }
+
+export function exportText(items: { name: string; comment: string }[]): string {
+  return items.map(({ name, comment }) => `${name} ${comment}`).join('\n');
+}

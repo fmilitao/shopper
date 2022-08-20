@@ -208,6 +208,10 @@ export default function ButtonAppBar(props: Props) {
     window.addEventListener('popstate', () => {
       props.deselectList();
     });
+
+    // Never unmounted since AppBar is always visible.
+    // We do not care about changes on dependencies.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

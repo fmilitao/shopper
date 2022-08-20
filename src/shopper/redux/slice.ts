@@ -4,7 +4,7 @@ import { load, validate } from './localStorage';
 import { logger } from '../components/common/Notifier';
 import { newListId, newItemId } from './id';
 import { serialize } from '../components/google-sheets/gsheets-serde';
-import { importText } from '../importer';
+import { importText, exportText } from '../importer';
 import {
   batchClear,
   batchUpdate,
@@ -283,9 +283,7 @@ export const shopperSlice = createSlice({
       if (listIndex !== undefined && isInBounds(listIndex, state.lists)) {
         if (navigator?.clipboard?.writeText) {
           const items = state.lists[listIndex].items;
-          const text = items
-            .map(({ name, comment }) => `${name} ${comment}`)
-            .join('\n');
+          const text = exportText(items);
           navigator.clipboard.writeText(text);
           logger.info(`Copied ${items.length} items to clipboard`);
         } else {
