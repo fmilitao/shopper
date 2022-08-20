@@ -17,7 +17,7 @@ interface Props {
   isEdit: boolean;
   onCommit: (value: {
     name: string;
-    items: { name: string; comment: string }[];
+    items: { name: string; comment: string, enabled: boolean }[];
   }) => void;
 }
 
@@ -29,7 +29,7 @@ export default function (props: Props) {
   const [tmpValue, setTmpValue] = React.useState(props.value);
   const [includeClipboard, setIncludeClipboard] = React.useState<{
     includeClipboard: boolean;
-    items: { name: string; comment: string }[];
+    items: { name: string; comment: string, enabled: boolean }[];
   }>({
     includeClipboard: false,
     items: [],

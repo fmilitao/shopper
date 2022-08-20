@@ -10,7 +10,7 @@ const mapStateToProps = (state: RootState) => ({
 const connector = connect(mapStateToProps, {
   onCommit: (value: {
     name: string;
-    items: { name: string; comment: string }[];
+    items: { name: string; comment: string, enabled: boolean }[];
   }) => value && actions.addList(value),
 });
 

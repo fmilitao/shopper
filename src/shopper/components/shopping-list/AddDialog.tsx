@@ -5,7 +5,7 @@ interface Props {
   isOpen: boolean;
   onCommit: (value: {
     name: string;
-    items: { name: string; comment: string }[];
+    items: { name: string; comment: string, enabled: boolean }[];
   }) => void;
 }
 

@@ -68,18 +68,18 @@ export const shopperSlice = createSlice({
       state,
       action: PayloadAction<{
         name: string;
-        items: { name: string; comment: string }[];
+        items: { name: string; comment: string; enabled: boolean }[];
       }>
     ) => {
       const { name, items } = action.payload;
       state.lists.push({
         id: newListId(),
         name,
-        items: items.map(({ name, comment }) => ({
+        items: items.map(({ name, comment, enabled }) => ({
           id: newItemId(),
           name,
           comment,
-          enabled: true,
+          enabled,
         })),
       });
     },
@@ -364,11 +364,11 @@ export const addItemsFromClipboard =
             isInBounds(listIndex, state.lists)
           ) {
             const clonedState = JSON.parse(JSON.stringify(state));
-            const fullItems = items.map(({ name, comment }) => ({
+            const fullItems = items.map(({ name, comment, enabled }) => ({
               id: newItemId(),
               name,
               comment,
-              enabled: true,
+              enabled,
             }));
             clonedState.lists[listIndex].items.push(...fullItems);
             dispatch(actions.updateState(clonedState));
