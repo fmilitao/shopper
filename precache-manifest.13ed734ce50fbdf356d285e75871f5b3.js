@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "6b59d99b59933886eb4b604a7ec43441",
+    "revision": "f739a48f73e34459d6720ae31b80a3ea",
     "url": "/shopper/index.html"
   },
   {
-    "revision": "6e9311ca108f94a92824",
+    "revision": "6a56b02799da902c5562",
     "url": "/shopper/static/css/2.14f3cd7d.chunk.css"
   },
   {
-    "revision": "e1cb7278ef9ac8fc67ae",
+    "revision": "1d22807f6b28e9901b7e",
     "url": "/shopper/static/css/main.5ecd60fb.chunk.css"
   },
   {
-    "revision": "6e9311ca108f94a92824",
-    "url": "/shopper/static/js/2.c35c22e2.chunk.js"
+    "revision": "6a56b02799da902c5562",
+    "url": "/shopper/static/js/2.92893619.chunk.js"
   },
   {
     "revision": "8238b01ffd7b8130c1f1eb7126d02fd9",
-    "url": "/shopper/static/js/2.c35c22e2.chunk.js.LICENSE.txt"
+    "url": "/shopper/static/js/2.92893619.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "e1cb7278ef9ac8fc67ae",
-    "url": "/shopper/static/js/main.1fe694d5.chunk.js"
+    "revision": "1d22807f6b28e9901b7e",
+    "url": "/shopper/static/js/main.32009a23.chunk.js"
   },
   {
     "revision": "b06f78fb664fee8f53f5",
