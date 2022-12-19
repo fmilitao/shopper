@@ -49,12 +49,7 @@ export default function (props: Props) {
         onEnter={() => handleOpen()}
         onClose={() => handleClose(false)}
       >
-        <DialogTitle>{props.title}</DialogTitle>
-        <DialogContent>
-          <DialogContentText>{props.description}</DialogContentText>
-          {props.children}
-        </DialogContent>
-        <DialogActions>
+        <DialogActions style={{ background: '#eeeeee' }}>
           {props.another !== undefined && (
             <Button
               onClick={() => handleClose(true, false)}
@@ -78,6 +73,11 @@ export default function (props: Props) {
             {props.ok}
           </Button>
         </DialogActions>
+        <DialogTitle>{props.title}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>{props.description}</DialogContentText>
+          {props.children}
+        </DialogContent>
       </Dialog>
     </div>
   );
